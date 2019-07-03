@@ -11,6 +11,9 @@ log.txt
 *.sublime-workspace
 .vscode/
 npm-debug.log*
+package-lock.json
+environment.ts
+environment.prod.ts
 
 .idea/
 .ionic/
@@ -21,6 +24,9 @@ npm-debug.log*
 coverage/
 www/
 node_modules/
+electron/
+android/
+ios/
 tmp/
 temp/
 platforms/

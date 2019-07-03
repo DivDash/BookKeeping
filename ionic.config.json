@@ -1,5 +1,7 @@
 {
   "name": "BookKeeper",
-  "integrations": {},
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "angular"
 }
