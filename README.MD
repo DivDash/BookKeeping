@@ -14,24 +14,61 @@ You will need to install Angular and Ionic globally.
 npm i -g @angular/cli ionic
 ```
 
+For Android builds, you will require Android Studio and Cocoapods for IOS.
+
+// TODO: Environment
+
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
+After cloning the project locally, you will need to create a general ionic build.
+```
+ionic build
+```
+This will generate/update a www folder with all the files related to the project. After this, you can generate an application specific to a particular platform.
 
-Say what the step will be
+#### Browser
+
+The project can be served on localhost.
 
 ```
-Give the example
+ionic serve
 ```
 
-And repeat
+The browser uses the generated www file and tracks for any changes.
+
+#### Desktop
+
+In order to run the application using electron, you can add or copy (update) the generated build.
 
 ```
-until finished
+ionic cap add electron
+ionic cap copy // If already added
 ```
 
-End with an example of getting some data out of the system or using it for a little demo
+Then open the generated build.
 
+```
+ionic cap open electron
+```
+#### Mobile
+
+For Android you can use:
+```
+ionic cap add android
+ionic cap copy // If already added
+```
+
+For IOS:
+```
+ionic cap add ios
+ionic cap copy // If already added
+```
+
+And to open in Android Studio or XCode:
+```
+ionic cap open android
+ionic cap open ios
+```
 ## Running the tests
 
 Explain how to run the automated tests for this system
