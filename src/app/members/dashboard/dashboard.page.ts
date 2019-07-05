@@ -27,15 +27,15 @@ export class DashboardPage {
       this.chart = new Chart(htmlRef, {
         type: 'line',
         data: {
-          labels: [date, date, date, date, date],
+          labels: [date, date, date],
           datasets: [
             {
-              data: temp_max,
+              data: [temp_max, temp_max + 1, temp_max - 2],
               borderColor: '#3cba9f',
               fill: false
             },
             {
-              data: temp_min,
+              data: [temp_min, temp_min + 2, temp_min - 3],
               borderColor: '#ffcc00',
               fill: false
             }
