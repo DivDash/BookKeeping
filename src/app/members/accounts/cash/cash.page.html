@@ -2,15 +2,15 @@
 <!-- size-xs="12" size-sm="6" size-md="4" size-lg="3" -->
 <ion-grid class="table-style" *ngIf="cashAccounts" fixed>
   <ion-row class="header">
-    <ion-col size="4">Current Balance</ion-col>
     <ion-col size="8">Particulars</ion-col>
+    <ion-col size="4">Current Balance</ion-col>
   </ion-row>
   <ion-row class="body" *ngFor="let cashAccount of cashAccounts">
-    <ion-col size="4">
-      {{ cashAccount.currentBalance }}
-    </ion-col>
     <ion-col size="8">
       {{ cashAccount.particulars }}
+    </ion-col>
+    <ion-col size="4">
+      {{ cashAccount.currentBalance }}
     </ion-col>
   </ion-row>
 </ion-grid>

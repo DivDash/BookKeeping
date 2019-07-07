@@ -19,6 +19,10 @@ const routes: Routes = [
       {
         path: 'accounts',
         loadChildren: './accounts/accounts.module#AccountsPageModule'
+      },
+      {
+        path: 'journal-entries',
+        loadChildren: './journal-entries/journal-entries.module#JournalEntriesPageModule'
       }
     ]
   }
