@@ -7,5 +7,9 @@
 <ion-content>
   <!-- <div *ngIf="chart"> -->
     <canvas id="canvas">{{ chart }}</canvas>
+    <form #weatherForm="ngForm" (submit)="getWeather(city)">
+      <ion-input name="city" [(ngModel)]="city"></ion-input>
+      <ion-button type="submit">Check temperature</ion-button>
+    </form>
   <!-- </div> -->
 </ion-content>

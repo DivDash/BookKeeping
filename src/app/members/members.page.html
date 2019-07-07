@@ -9,7 +9,8 @@
       <ion-list>
         <ion-menu-toggle auto-hide="false" *ngFor="let page of pages">
           <ion-item [routerLink]="page.url"
-          (click)="gotoUrl(page.url)" [class.active-item]="router.url === '/members/'+page.url">
+          (click)="gotoUrl(page.url)" [class.active-item]="router.url.indexOf('/members/'+page.url) === 0">
+          <ion-icon slot="start" [name]="page.icon"></ion-icon>
             {{ page.title }}
           </ion-item>
         </ion-menu-toggle>

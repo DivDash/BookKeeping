@@ -1,0 +1,28 @@
+<ion-grid>
+<ion-row>
+<ion-col size="12">
+  <ion-item>
+    <ion-label position="floating">Bank Name</ion-label>
+    <ion-input required type="text" [value]="bankName"></ion-input>
+  </ion-item>
+</ion-col>
+<ion-col size="12">
+  <ion-item>
+    <ion-label position="floating">Account Holder</ion-label>
+    <ion-input required type="text" [value]="accountHolder"></ion-input>
+  </ion-item>
+</ion-col>
+<ion-col size="12">
+  <ion-item>
+    <ion-label position="floating">Current Balance</ion-label>
+    <ion-input disabled type="text" [value]="currentBalance"></ion-input>
+  </ion-item>
+</ion-col>
+<ion-col size="6">
+  <ion-button>Update</ion-button>
+</ion-col>
+<ion-col size="6">
+  <ion-button color="danger">Delete</ion-button>
+</ion-col>
+</ion-row>
+</ion-grid>

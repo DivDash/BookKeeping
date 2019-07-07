@@ -1,15 +1,23 @@
 import { Component, OnInit } from '@angular/core';
+import { DatabaseService } from 'src/app/services/database.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-accounts',
   templateUrl: './accounts.page.html',
   styleUrls: ['./accounts.page.scss'],
 })
-export class AccountsPage implements OnInit {
+export class AccountsPage {
 
-  constructor() { }
+  constructor(
+    private db: DatabaseService,
+    private router: Router
+  ) { }
 
-  ngOnInit() {
+  ionViewWillEnter() {
+    this.db.loadAccounts().then(() => {
+      this.router.navigateByUrl('/members/accounts/bank');
+    });
   }
 
 }
