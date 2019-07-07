@@ -31,7 +31,7 @@
     <ion-col size="4">Current Balance</ion-col>
   </ion-row>
   <ion-row class="body" *ngFor="let bankAccount of bankAccounts"
-  (click)="presentPopover($event, bankAccount)">
+  (click)="presentPopover(bankAccount)">
     <ion-col size="4">
       {{ bankAccount.bankName }}
     </ion-col>

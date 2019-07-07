@@ -51,4 +51,12 @@ export class DatabaseService {
     });
   }
 
+  // Takes bank account element as input and removes from array
+  // TODO: Updates the database
+  deleteAccount(bankAccount: BankAccount) {
+    this.bankAccounts.splice(
+      this.bankAccounts.indexOf(bankAccount), 1
+    );
+  }
+
 }

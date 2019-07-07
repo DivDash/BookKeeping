@@ -40,14 +40,11 @@ export class BankPage implements OnInit {
     return this.db.entryTypes;
   }
 
-  async presentPopover(e: any, bankAccount: BankAccount) {
+  async presentPopover(bankAccount: BankAccount) {
     const popover = await this.poc.create({
       component: EditComponent,
-      event: e,
       componentProps: {
-        bankName: bankAccount.bankName,
-        accountHolder: bankAccount.accountHolder,
-        currentBalance: bankAccount.currentBalance
+        bankAccount
       }
     });
     return await popover.present();
