@@ -11,11 +11,18 @@ export class MembersPage implements OnInit {
   pages = [
     {
       title: 'Dashboard',
-      url: 'dashboard'
+      url: 'dashboard',
+      icon: 'analytics'
     },
     {
       title: 'Accounts',
-      url: 'accounts'
+      url: 'accounts',
+      icon: 'contacts'
+    },
+    {
+      title: 'Journal Entries',
+      url: 'journal-entries',
+      icon: 'journal'
     }
   ];
 
@@ -31,7 +38,7 @@ export class MembersPage implements OnInit {
   }
 
   gotoUrl(url: string) {
-    this.router.navigateByUrl(`members/${url}`);
+    this.router.navigateByUrl(`/members/${url}`);
   }
 
 }

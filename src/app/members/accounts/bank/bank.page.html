@@ -1,0 +1,45 @@
+<form #bankAccountForm="ngForm" (ngSubmit)="addBankAccount(); bankAccountForm.reset();">
+<ion-row class="ion-margin">
+  <ion-col size="3" size-xs="12" size-sm="6" size-md="3">
+  <ion-item>
+    <ion-label position="floating">Bank Name</ion-label>
+    <ion-input [(ngModel)]="bankName" name="bankName" required type="text"></ion-input>
+  </ion-item>
+  </ion-col>
+  <ion-col size="3" size-xs="12" size-sm="6" size-md="3">
+  <ion-item>
+    <ion-label position="floating">Account Holder</ion-label>
+    <ion-input [(ngModel)]="accountHolder" name="accountHolder" required type="text"></ion-input>
+  </ion-item>
+  </ion-col>
+  <ion-col size="3" size-xs="12" size-sm="6" size-md="3">
+  <ion-item>
+    <ion-label position="floating">Current Balance</ion-label>
+    <ion-input [(ngModel)]="currentBalance" name="currentBalance" required type="number"></ion-input>
+  </ion-item>
+  </ion-col>
+  <ion-col size="3" size-xs="12" size-sm="6" size-md="3">
+    <ion-button [disabled]="!bankAccountForm.valid" type="submit">Add Bank Account</ion-button>
+  </ion-col>
+</ion-row>
+</form>
+<!-- size-xs="12" size-sm="6" size-md="4" size-lg="3" -->
+<ion-grid class="table-style" *ngIf="bankAccounts" fixed>
+  <ion-row class="header">
+    <ion-col size="4">Bank Name</ion-col>
+    <ion-col size="4">Account Holder</ion-col>
+    <ion-col size="4">Current Balance</ion-col>
+  </ion-row>
+  <ion-row class="body" *ngFor="let bankAccount of bankAccounts"
+  (click)="presentPopover(bankAccount)">
+    <ion-col size="4">
+      {{ bankAccount.bankName }}
+    </ion-col>
+    <ion-col size="4">
+      {{ bankAccount.accountHolder }}
+    </ion-col>
+    <ion-col size="4">
+      {{ bankAccount.currentBalance }}
+    </ion-col>
+  </ion-row>
+</ion-grid>

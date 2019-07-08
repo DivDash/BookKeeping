@@ -11,15 +11,22 @@ import { Chart } from 'chart.js';
 export class DashboardPage {
 
   chart;
+  city: string;
 
   constructor(private db: DatabaseService, private elementRef: ElementRef) { }
 
   ionViewDidEnter() {
-    this.db.getData().subscribe(resp => {
+    this.getWeather('Karachi');
+  }
+
+  getWeather(city: string) {
+    this.db.getData(city).subscribe(resp => {
       const main = resp['main'];
       const temp_max = main.temp_max;
       const temp_min = main.temp_min;
       let date = resp['dt'];
+
+      console.log(temp_max, temp_min, date);
 
       const jsdate = new Date(date * 1000);
       date = jsdate.toLocaleTimeString('en', { year: 'numeric', month: 'short', day: 'numeric' });

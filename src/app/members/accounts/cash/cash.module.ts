@@ -5,22 +5,12 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { AccountsPage } from './accounts.page';
+import { CashPage } from './cash.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: AccountsPage,
-    children: [
-      {
-        path: 'bank',
-        loadChildren: './bank/bank.module#BankPageModule'
-      },
-      {
-        path: 'cash',
-        loadChildren: './cash/cash.module#CashPageModule'
-      }
-    ]
+    component: CashPage
   }
 ];
 
@@ -31,6 +21,6 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [AccountsPage]
+  declarations: [CashPage]
 })
-export class AccountsPageModule {}
+export class CashPageModule {}
