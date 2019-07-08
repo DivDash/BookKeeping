@@ -53,10 +53,16 @@ export class DatabaseService {
 
   // Takes bank account element as input and removes from array
   // TODO: Updates the database
-  deleteAccount(bankAccount: BankAccount) {
+  deleteBankAccount(bankAccount: BankAccount) {
     this.bankAccounts.splice(
       this.bankAccounts.indexOf(bankAccount), 1
     );
   }
 
+  deleteCashAccount(cashAccount: CashAccount) {
+    this.cashAccounts.splice(
+      this.cashAccounts.indexOf(cashAccount), 1
+    );
+  }
+  
 }

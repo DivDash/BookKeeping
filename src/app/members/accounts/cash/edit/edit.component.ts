@@ -1,35 +1,33 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { BankAccount } from 'src/app/services/helper-classes';
+import { CashAccount } from 'src/app/services/helper-classes';
 import { PopoverController } from '@ionic/angular';
 import { DatabaseService } from 'src/app/services/database.service';
 import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
-  selector: 'bank-edit',
+  selector: 'cash-edit',
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.scss'],
 })
 export class EditComponent implements OnInit {
 
-  // Coming from bank accounts page
-  @Input() bankAccount: BankAccount;
+  // Coming from cash accounts page
+  @Input() cashAccount: CashAccount;
   // For local form usage
-  localBankAccount: BankAccount;
-
+  localCashAccount: CashAccount;
   constructor(
     private db: DatabaseService,
     private poc: PopoverController,
     private as: AlertService
   ) { }
-
+    
   ngOnInit() {
     // Creating a deep copy for local use
-    this.localBankAccount = JSON.parse(JSON.stringify(this.bankAccount));
+    this.localCashAccount = JSON.parse(JSON.stringify(this.cashAccount));
   }
 
   updateAccount() {
-    this.bankAccount.bankName = this.localBankAccount.bankName;
-    this.bankAccount.accountHolder = this.localBankAccount.accountHolder;
+    this.cashAccount.particulars = this.localCashAccount.particulars;
     this.poc.dismiss();
   }
 
@@ -38,15 +36,14 @@ export class EditComponent implements OnInit {
       'Are you sure you want to delete this account?',
       // Confirmation handler
       () => {
-        this.db.deleteBankAccount(this.bankAccount);
+        this.db.deleteCashAccount(this.cashAccount);
         this.poc.dismiss();
       }
     );
   }
 
   editFormChanged() {
-    return this.localBankAccount.bankName !== this.bankAccount.bankName
-        || this.localBankAccount.accountHolder !== this.bankAccount.accountHolder;
+    return this.localCashAccount.particulars !== this.cashAccount.particulars;
   }
 
 }

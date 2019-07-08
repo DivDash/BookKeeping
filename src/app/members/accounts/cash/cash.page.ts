@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { DatabaseService } from 'src/app/services/database.service';
-import { CashAccount, BankAccount } from 'src/app/services/helper-classes';
+import { CashAccount, EntryType } from 'src/app/services/helper-classes';
 import { PopoverController } from '@ionic/angular';
-import { EditComponent } from '../bank/edit/edit.component';
+import { EditComponent } from './edit/edit.component';
 
 @Component({
   selector: 'app-cash',
@@ -14,7 +14,7 @@ export class CashPage implements OnInit {
   // For from submission purposes only (new entries)
   particulars: string;
   currentBalance: number;
-  
+
   constructor(
     private db: DatabaseService,
     private poc: PopoverController

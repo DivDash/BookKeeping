@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { CashPage } from './cash.page';
+import { EditComponent } from './edit/edit.component'
 
 const routes: Routes = [
   {
@@ -21,6 +22,7 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [CashPage]
+  declarations: [CashPage, EditComponent],
+  entryComponents: [EditComponent]
 })
 export class CashPageModule {}
