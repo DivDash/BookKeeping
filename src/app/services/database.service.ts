@@ -10,6 +10,6 @@ export class DatabaseService {
   constructor(private http: HttpClient) { }
 
   getData() {
-    //return this.http.get(`http://api.openweathermap.org/data/2.5/weather?q=Berlin&APPID=${environment.weatherMapApi}`);
+    return this.http.get(`http://api.openweathermap.org/data/2.5/weather?q=Berlin&APPID=${environment.weatherMapApi}`);
   }
 }
