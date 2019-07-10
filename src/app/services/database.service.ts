@@ -51,6 +51,10 @@ export class DatabaseService {
         const ret = await Storage.get({ key: 'accounts' });
         if (ret.value) {
           const accounts = JSON.parse(ret.value);
+          accounts.bankkAccounts.array.forEach((bankAccount, index) => {
+            this.bankAccounts.push(new BankAccount(bankAccount.bankName, bankAccount.accountHolder, bankAccount.currentBalance));
+            this.bankAccounts[index].id = bankAccount.id;
+          });
           this.bankAccounts = accounts.bankAccounts as Array<BankAccount>;
           this.cashAccounts = accounts.cashAccounts as Array<CashAccount>;
           console.log(this.bankAccounts[0]);
