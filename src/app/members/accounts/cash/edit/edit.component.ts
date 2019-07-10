@@ -36,7 +36,7 @@ export class EditComponent implements OnInit {
       'Are you sure you want to delete this account?',
       // Confirmation handler
       () => {
-        this.db.deleteCashAccount(this.cashAccount);
+        this.db.deleteAccount(this.cashAccount);
         this.poc.dismiss();
       }
     );

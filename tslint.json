@@ -6,6 +6,7 @@
   "rules": {
     "array-type": false,
     "arrow-parens": false,
+    "curly": false,
     "deprecation": {
       "severity": "warn"
     },
@@ -70,6 +71,12 @@
     "no-output-rename": true,
     "use-life-cycle-interface": true,
     "use-pipe-transform-interface": true,
+    "variable-name": [
+      true,
+      "ban-keywords",
+      "check-format",
+      "allow-leading-underscore"
+    ],
     "one-variable-per-declaration": false,
     "component-class-suffix": [true, "Page", "Component"],
     "directive-class-suffix": true
