@@ -28,7 +28,7 @@ export class CashPage implements OnInit {
   }
 
   addCashAccount() {
-    this.db.cashAccounts.push(new CashAccount(this.particulars, this.currentBalance));
+    this.db.createAccount(new CashAccount(this.particulars, this.currentBalance));
   }
 
   editCashAccount() {

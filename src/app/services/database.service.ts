@@ -4,6 +4,7 @@ import { environment } from '../../environments/environment';
 import { BankAccount, CashAccount, EntryType, JournalEntry } from './helper-classes';
 
 import { Plugins } from '@capacitor/core';
+import { setIndex } from '@ionic-native/core/decorators/common';
 const { Storage } = Plugins;
 
 @Injectable({
@@ -46,18 +47,28 @@ export class DatabaseService {
       if (this.bankAccounts && this.cashAccounts)
         return reject(new Error('Accounts already loaded.'));
 
+      this.bankAccounts = [];
+      this.cashAccounts = [];
+
       // If not load from cache
       try {
         const ret = await Storage.get({ key: 'accounts' });
         if (ret.value) {
           const accounts = JSON.parse(ret.value);
-          accounts.bankkAccounts.array.forEach((bankAccount, index) => {
-            this.bankAccounts.push(new BankAccount(bankAccount.bankName, bankAccount.accountHolder, bankAccount.currentBalance));
-            this.bankAccounts[index].id = bankAccount.id;
+          accounts.bankAccounts.forEach((bankAccount, index) => {
+            
+              this.bankAccounts.push(new BankAccount(bankAccount.bankName, bankAccount.accountHolder, bankAccount.currentBalance));
+              this.bankAccounts[index].id = bankAccount.id;
+            
           });
-          this.bankAccounts = accounts.bankAccounts as Array<BankAccount>;
-          this.cashAccounts = accounts.cashAccounts as Array<CashAccount>;
-          console.log(this.bankAccounts[0]);
+          
+          accounts.cashAccounts.forEach((cashAccount, index) => {
+            
+            this.cashAccounts.push(new CashAccount(cashAccount.particulars, cashAccount.currentBalance));
+            this.cashAccounts[index].id = cashAccount.id;
+          
+          });
+
           return resolve(accounts);
         }
       } catch (err) {
@@ -154,6 +165,7 @@ export class DatabaseService {
       else if (account instanceof CashAccount)
         this.http.post('http://localhost:4001/cash/create-cash-account', account)
         .subscribe(resp => {
+          account.id = resp['_id'];
           resolve(resp);
         }, reject);
     });
