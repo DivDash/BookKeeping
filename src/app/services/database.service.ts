@@ -4,7 +4,6 @@ import { environment } from '../../environments/environment';
 import { BankAccount, CashAccount, EntryType, JournalEntry, Project } from './helper-classes';
 
 import { Plugins } from '@capacitor/core';
-import { setIndex } from '@ionic-native/core/decorators/common';
 const { Storage } = Plugins;
 
 @Injectable({
@@ -58,62 +57,27 @@ export class DatabaseService {
       this.bankAccounts = [];
       this.cashAccounts = [];
 
-<<<<<<< HEAD
-=======
-      // If not load from cache
-      try {
-        const ret = await Storage.get({ key: 'accounts' });
-        if (ret.value) {
-          const accounts = JSON.parse(ret.value);
-          // Load each individual account from cache
-          accounts.bankAccounts.forEach((bankAccount, index) => {
-            this.bankAccounts.push(new BankAccount(bankAccount.bankName, bankAccount.accountHolder, bankAccount.currentBalance));
-            this.bankAccounts[index].id = bankAccount.id;
-          });
-          accounts.cashAccounts.forEach((cashAccount, index) => {
-            this.cashAccounts.push(new CashAccount(cashAccount.particulars, cashAccount.currentBalance));
-            this.cashAccounts[index].id = cashAccount.id;
-          });
-          return resolve(accounts);
-        }
-      } catch (err) {
-        console.log(err);
-      }
-
->>>>>>> 47a06fd02ffb9dbc1654b48c70feef8e5135cda5
       // Load from the Internet
       // Resolve both bank and cash
       Promise.all([
       new Promise((res, rej) =>
       // Loading bank
       this.http.get('http://localhost:4001/bank/').subscribe(bankAccounts => {
-        console.log(bankAccounts);
-
-        // this.bankAccounts = bankAccounts as Array<BankAccount>;
-        // const ret = await Storage.get({ key: 'accounts' });
-        // const accounts = JSON.parse(ret.value);
-        bankAccounts.forEach((bankAccount, index) => {
+        bankAccounts['forEach']((bankAccount, index) => {
           this.bankAccounts.push(new BankAccount(bankAccount.bankName, bankAccount.accountHolder, bankAccount.currentBalance));
-          this.bankAccounts[index].id = bankAccount.id;
-          });
-
-        // return resolve(accounts);
-
-        res(this.bankAccounts);
+          this.bankAccounts[index].id = bankAccount._id;
+        });
+        return res(this.bankAccounts);
       }, rej)
       ),
       new Promise((res, rej) =>
       // Loading cash
       this.http.get('http://localhost:4001/cash/').subscribe(cashAccounts => {
-        // this.cashAccounts = cashAccounts as Array<CashAccount>;
-
-        cashAccounts.forEach((cashAccount, index) => {
+        cashAccounts['forEach']((cashAccount, index) => {
           this.cashAccounts.push(new CashAccount(cashAccount.particulars, cashAccount.currentBalance));
           this.cashAccounts[index].id = cashAccount.id;
         });
-
-
-        res(this.cashAccounts);
+        return res(this.cashAccounts);
       }, rej)
       )
       ]).then(arrayOfAccounts => {
@@ -125,52 +89,31 @@ export class DatabaseService {
             cashAccounts: arrayOfAccounts[1]
           })
         });
-      }).catch(reject);
+      }).catch(async rej => {
+        // If no net, load from cache
+        // TODO: If rej === no net
+        try {
+          const ret = await Storage.get({ key: 'accounts' });
+          if (ret.value) {
+            const accounts = JSON.parse(ret.value);
+            accounts.bankAccounts.forEach((bankAccount, index) => {
+                this.bankAccounts.push(new BankAccount(bankAccount.bankName, bankAccount.accountHolder, bankAccount.currentBalance));
+                this.bankAccounts[index].id = bankAccount.id;
+            });
 
-<<<<<<< HEAD
-      // If not, load from cache
-      try {
-        const ret = await Storage.get({ key: 'accounts' });
-        if (ret.value) {
-          const accounts = JSON.parse(ret.value);
-          accounts.bankAccounts.forEach((bankAccount, index) => {
-              this.bankAccounts.push(new BankAccount(bankAccount.bankName, bankAccount.accountHolder, bankAccount.currentBalance));
-              this.bankAccounts[index].id = bankAccount.id;
-          });
+            accounts.cashAccounts.forEach((cashAccount, index) => {
+              this.cashAccounts.push(new CashAccount(cashAccount.particulars, cashAccount.currentBalance));
+              this.cashAccounts[index].id = cashAccount.id;
+            });
 
-          accounts.cashAccounts.forEach((cashAccount, index) => {
-            this.cashAccounts.push(new CashAccount(cashAccount.particulars, cashAccount.currentBalance));
-            this.cashAccounts[index].id = cashAccount.id;
-          });
-
-          return resolve(accounts);
+            return resolve(accounts);
+          }
+        } catch (err) {
+          console.error(err);
+          return reject(err);
         }
-      } catch (err) {
-        console.log(err);
-      }
+      });
 
-      // Load bank accounts
-      // this.bankAccounts = [
-      //   new BankAccount('Meezan Bank', 'Misbah Khan', 10000),
-      //   new BankAccount('Summit Bank', 'DHL', 0),
-      //   new BankAccount('Summit Bank', 'Misbah Khan', 30000)
-      // ];
-      // // Load cash accounts
-      // this.cashAccounts = [
-      //   new CashAccount('Imran Ali', 200000),
-      //   new CashAccount('Misbah Khan', 10000)
-      // ];
-      // TODO: Proper loading of entry types
-      this.entryTypes = [
-        new EntryType('Assets'),
-        new EntryType('Liabilities'),
-        new EntryType('Expenses'),
-        new EntryType('Drawings'),
-        new EntryType('Capital'),
-        new EntryType('Revenue')
-      ];
-=======
->>>>>>> 47a06fd02ffb9dbc1654b48c70feef8e5135cda5
       // Return the loaded accounts in an object
       // resolve({
       //   bankAccounts: this.bankAccounts,
@@ -281,14 +224,7 @@ export class DatabaseService {
 
   // JOURNAL ENTRIES
   loadJournalEntries() {
-    // Load entries
-    this.journalEntries = [
-      new JournalEntry('Tiles', 'Askari V Masjid', 'Imran', 'Cash', 10000, 10000, 'Asset', new Date()),
-      // new JournalEntry('Tiles', 'DHL', 'Imran', 'Cash', 10000, 10000, 'Asset', new Date(), 'Under way'),
-      // new JournalEntry('Tiles', 'Askari V Masjid', 'Imran', 'Cash', 10000, 10000, 'Asset', new Date(), 'Under way'),
-      // new JournalEntry('Tiles', 'Askari V Masjid', 'Imran', 'Cash', 10000, 10000, 'Asset', new Date(), 'Under way'),
-    ];
-
+    // Load type of entries
     // TODO: Proper loading of entry types
     this.entryTypes = [
       new EntryType('Assets'),
@@ -298,6 +234,15 @@ export class DatabaseService {
       new EntryType('Capital'),
       new EntryType('Revenue')
     ];
+
+    // Load entries
+    this.journalEntries = [
+      new JournalEntry('Tiles', 'Askari V Masjid', 'Imran', 'Cash', 10000, 10000, 'Asset', new Date()),
+      // new JournalEntry('Tiles', 'DHL', 'Imran', 'Cash', 10000, 10000, 'Asset', new Date(), 'Under way'),
+      // new JournalEntry('Tiles', 'Askari V Masjid', 'Imran', 'Cash', 10000, 10000, 'Asset', new Date(), 'Under way'),
+      // new JournalEntry('Tiles', 'Askari V Masjid', 'Imran', 'Cash', 10000, 10000, 'Asset', new Date(), 'Under way'),
+    ];
+
   }
 
   addJournalEntry(journalEntry: JournalEntry) {

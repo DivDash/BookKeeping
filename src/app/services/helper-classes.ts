@@ -8,7 +8,7 @@ class MongoDB {
     }
 
     set id(id: string) {
-        this.id = id;
+        this._id = id;
     }
 }
 
