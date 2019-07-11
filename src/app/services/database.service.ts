@@ -113,12 +113,6 @@ export class DatabaseService {
           return reject(err);
         }
       });
-
-      // Return the loaded accounts in an object
-      // resolve({
-      //   bankAccounts: this.bankAccounts,
-      //   cashAccounts: this.cashAccounts
-      // });
     });
   }
 
@@ -138,7 +132,9 @@ export class DatabaseService {
         .subscribe(resp => {
           account.id = resp['_id'];
           resolve(resp);
-        }, reject);
+        }, error => {
+          
+        });
       else if (account instanceof CashAccount)
         this.http.post('http://localhost:4001/cash/create-cash-account', account)
         .subscribe(resp => {
@@ -146,7 +142,7 @@ export class DatabaseService {
           resolve(resp);
         }, reject);
 
-        // Save object to local cache
+      // Save object to local cache
       try {
         await Storage.set({
           key: 'accounts',
@@ -167,8 +163,6 @@ export class DatabaseService {
   // Then updates cache then online database
   deleteAccount(account: BankAccount | CashAccount) {
     return new Promise(async (resolve, reject) => {
-
-
       // Remove from local array
       if (account instanceof BankAccount)
         this.bankAccounts.splice(
@@ -215,9 +209,67 @@ export class DatabaseService {
 
   // PROJECTS
   loadProjects() {
+    return new Promise<any>(async (resolve, reject) => {
+
+      // Check if already loaded
+      if (this.projects)
+        return reject(new Error('Projects already loaded.'));
+
+      this.projects = [];
+
+      // Load from the Internet
+      // Loading bank
+      this.http.get('http://localhost:4001/projects/').subscribe(projects => {
+        this.projects = projects as Array<Project>;
+        // Save to local cache
+        Storage.set({
+          key: 'projects',
+          value: JSON.stringify(this.projects)
+        });
+      }, async error => {
+        // If no net, load from cache
+        // TODO: If error === no net
+        try {
+          const ret = await Storage.get({ key: 'projects' });
+          if (ret.value) {
+            this.projects = JSON.parse(ret.value);
+            return resolve(this.projects);
+          }
+        } catch (err) {
+          console.error(err);
+          return reject(err);
+        }
+      });
+    });
+
   }
 
   addProject(project: Project) {
+    return new Promise(async (resolve, reject) => {
+
+      this.projects.push(project);
+
+      // To internet
+      this.http.post('http://localhost:4001/bank/add-project', project)
+      .subscribe(resp => {
+        project.id = resp['_id'];
+        resolve(resp);
+      }, reject);
+
+      // Save object to local cache
+      try {
+        await Storage.set({
+          key: 'accounts',
+          value: JSON.stringify({
+            bankAccounts: this.bankAccounts,
+            cashAccounts: this.cashAccounts
+          })
+        });
+      } catch (err) {
+        reject(new Error('Error while adding account in local storage.'));
+        return;
+      }
+    });
   }
 
   // JOURNAL ENTRIES
