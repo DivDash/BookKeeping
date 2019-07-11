@@ -3,6 +3,24 @@
 class MongoDB {
     private _id: string;
 
+    randomString() {
+        // tslint:disable-next-line: no-bitwise
+        return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+    }
+
+    constructor() {
+        this._id = (
+            this.randomString()
+            + this.randomString()
+            + '-' + this.randomString()
+            + '-' + this.randomString()
+            + '-' + this.randomString()
+            + '-' + this.randomString()
+            + this.randomString()
+            + this.randomString()
+        );
+    }
+
     get id() {
         return this._id;
     }
