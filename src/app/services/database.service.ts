@@ -50,45 +50,38 @@ export class DatabaseService {
       this.bankAccounts = [];
       this.cashAccounts = [];
 
-      // If not load from cache
-      try {
-        const ret = await Storage.get({ key: 'accounts' });
-        if (ret.value) {
-          const accounts = JSON.parse(ret.value);
-          accounts.bankAccounts.forEach((bankAccount, index) => {
-            
-              this.bankAccounts.push(new BankAccount(bankAccount.bankName, bankAccount.accountHolder, bankAccount.currentBalance));
-              this.bankAccounts[index].id = bankAccount.id;
-            
-          });
-          
-          accounts.cashAccounts.forEach((cashAccount, index) => {
-            
-            this.cashAccounts.push(new CashAccount(cashAccount.particulars, cashAccount.currentBalance));
-            this.cashAccounts[index].id = cashAccount.id;
-          
-          });
-
-          return resolve(accounts);
-        }
-      } catch (err) {
-        console.log(err);
-      }
-
       // Load from the Internet
       // Resolve both bank and cash
       Promise.all([
       new Promise((res, rej) =>
       // Loading bank
       this.http.get('http://localhost:4001/bank/').subscribe(bankAccounts => {
-        this.bankAccounts = bankAccounts as Array<BankAccount>;
+        console.log(bankAccounts);
+
+        // this.bankAccounts = bankAccounts as Array<BankAccount>;
+        // const ret = await Storage.get({ key: 'accounts' });
+        // const accounts = JSON.parse(ret.value);
+        bankAccounts.forEach((bankAccount, index) => {
+          this.bankAccounts.push(new BankAccount(bankAccount.bankName, bankAccount.accountHolder, bankAccount.currentBalance));
+          this.bankAccounts[index].id = bankAccount.id;
+          });
+
+        // return resolve(accounts);
+
         res(this.bankAccounts);
       }, rej)
       ),
       new Promise((res, rej) =>
       // Loading cash
       this.http.get('http://localhost:4001/cash/').subscribe(cashAccounts => {
-        this.cashAccounts = cashAccounts as Array<CashAccount>;
+        // this.cashAccounts = cashAccounts as Array<CashAccount>;
+
+        cashAccounts.forEach((cashAccount, index) => {
+          this.cashAccounts.push(new CashAccount(cashAccount.particulars, cashAccount.currentBalance));
+          this.cashAccounts[index].id = cashAccount.id;
+        });
+
+
         res(this.cashAccounts);
       }, rej)
       )
@@ -102,6 +95,27 @@ export class DatabaseService {
           })
         });
       }).catch(reject);
+
+      // If not, load from cache
+      try {
+        const ret = await Storage.get({ key: 'accounts' });
+        if (ret.value) {
+          const accounts = JSON.parse(ret.value);
+          accounts.bankAccounts.forEach((bankAccount, index) => {
+              this.bankAccounts.push(new BankAccount(bankAccount.bankName, bankAccount.accountHolder, bankAccount.currentBalance));
+              this.bankAccounts[index].id = bankAccount.id;
+          });
+
+          accounts.cashAccounts.forEach((cashAccount, index) => {
+            this.cashAccounts.push(new CashAccount(cashAccount.particulars, cashAccount.currentBalance));
+            this.cashAccounts[index].id = cashAccount.id;
+          });
+
+          return resolve(accounts);
+        }
+      } catch (err) {
+        console.log(err);
+      }
 
       // Load bank accounts
       // this.bankAccounts = [
@@ -141,7 +155,21 @@ export class DatabaseService {
       else if (account instanceof CashAccount)
         this.cashAccounts.push(account);
 
-      // Save object to local cache
+      // To internet
+      if (account instanceof BankAccount)
+        this.http.post('http://localhost:4001/bank/create-bank-account', account)
+        .subscribe(resp => {
+          account.id = resp['_id'];
+          resolve(resp);
+        }, reject);
+      else if (account instanceof CashAccount)
+        this.http.post('http://localhost:4001/cash/create-cash-account', account)
+        .subscribe(resp => {
+          account.id = resp['_id'];
+          resolve(resp);
+        }, reject);
+
+        // Save object to local cache
       try {
         await Storage.set({
           key: 'accounts',
@@ -155,19 +183,6 @@ export class DatabaseService {
         return;
       }
 
-      // Finally to internet
-      if (account instanceof BankAccount)
-        this.http.post('http://localhost:4001/bank/create-bank-account', account)
-        .subscribe(resp => {
-          account.id = resp['_id'];
-          resolve(resp);
-        }, reject);
-      else if (account instanceof CashAccount)
-        this.http.post('http://localhost:4001/cash/create-cash-account', account)
-        .subscribe(resp => {
-          account.id = resp['_id'];
-          resolve(resp);
-        }, reject);
     });
   }
 
