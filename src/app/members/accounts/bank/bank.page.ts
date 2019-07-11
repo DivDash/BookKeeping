@@ -29,7 +29,7 @@ export class BankPage implements OnInit {
   }
 
   addBankAccount() {
-    this.db.createAccount(new BankAccount(this.bankName, this.accountHolder, this.currentBalance));
+    this.db.addAccount(new BankAccount(this.bankName, this.accountHolder, this.currentBalance));
   }
 
   editBankAccount() {

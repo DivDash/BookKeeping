@@ -15,9 +15,7 @@ export class AccountsPage {
   ) { }
 
   ionViewWillEnter() {
-    this.db.loadAccounts().then(() => {
-      this.router.navigateByUrl('/members/accounts/bank');
-    });
+    this.router.navigateByUrl('/members/accounts/bank');
   }
 
 }

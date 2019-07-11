@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { BankAccount, CashAccount, EntryType, JournalEntry } from './helper-classes';
+import { BankAccount, CashAccount, EntryType, JournalEntry, Project } from './helper-classes';
 
 import { Plugins } from '@capacitor/core';
 import { setIndex } from '@ionic-native/core/decorators/common';
@@ -12,11 +12,19 @@ const { Storage } = Plugins;
 })
 export class DatabaseService {
 
+  // ACCOUNTS
   bankAccounts: Array<BankAccount>;
   cashAccounts: Array<CashAccount>;
 
+
+  // PROJECTS
+  projects: Array<Project>;
+
+
+
   entryTypes: Array<EntryType>;
 
+  // JOURNAL ENTRIES
   journalEntries: Array<JournalEntry>;
 
   constructor(
@@ -50,6 +58,29 @@ export class DatabaseService {
       this.bankAccounts = [];
       this.cashAccounts = [];
 
+<<<<<<< HEAD
+=======
+      // If not load from cache
+      try {
+        const ret = await Storage.get({ key: 'accounts' });
+        if (ret.value) {
+          const accounts = JSON.parse(ret.value);
+          // Load each individual account from cache
+          accounts.bankAccounts.forEach((bankAccount, index) => {
+            this.bankAccounts.push(new BankAccount(bankAccount.bankName, bankAccount.accountHolder, bankAccount.currentBalance));
+            this.bankAccounts[index].id = bankAccount.id;
+          });
+          accounts.cashAccounts.forEach((cashAccount, index) => {
+            this.cashAccounts.push(new CashAccount(cashAccount.particulars, cashAccount.currentBalance));
+            this.cashAccounts[index].id = cashAccount.id;
+          });
+          return resolve(accounts);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+
+>>>>>>> 47a06fd02ffb9dbc1654b48c70feef8e5135cda5
       // Load from the Internet
       // Resolve both bank and cash
       Promise.all([
@@ -96,6 +127,7 @@ export class DatabaseService {
         });
       }).catch(reject);
 
+<<<<<<< HEAD
       // If not, load from cache
       try {
         const ret = await Storage.get({ key: 'accounts' });
@@ -137,6 +169,8 @@ export class DatabaseService {
         new EntryType('Capital'),
         new EntryType('Revenue')
       ];
+=======
+>>>>>>> 47a06fd02ffb9dbc1654b48c70feef8e5135cda5
       // Return the loaded accounts in an object
       // resolve({
       //   bankAccounts: this.bankAccounts,
@@ -147,7 +181,7 @@ export class DatabaseService {
 
   // Adds account to local object, cache then internet
   // Promise can be rejected at any stage
-  createAccount(account: BankAccount | CashAccount): Promise<any> {
+  addAccount(account: BankAccount | CashAccount): Promise<any> {
     return new Promise(async (resolve, reject) => {
       // Add to local array
       if (account instanceof BankAccount)
@@ -236,6 +270,15 @@ export class DatabaseService {
     });
   }
 
+  // PROJECTS
+  loadProjects() {
+    
+  }
+
+  addProject(project: Project) {
+    
+  }
+
   // JOURNAL ENTRIES
   loadJournalEntries() {
     // Load entries
@@ -245,6 +288,20 @@ export class DatabaseService {
       // new JournalEntry('Tiles', 'Askari V Masjid', 'Imran', 'Cash', 10000, 10000, 'Asset', new Date(), 'Under way'),
       // new JournalEntry('Tiles', 'Askari V Masjid', 'Imran', 'Cash', 10000, 10000, 'Asset', new Date(), 'Under way'),
     ];
+
+    // TODO: Proper loading of entry types
+    this.entryTypes = [
+      new EntryType('Assets'),
+      new EntryType('Liabilities'),
+      new EntryType('Expenses'),
+      new EntryType('Drawings'),
+      new EntryType('Capital'),
+      new EntryType('Revenue')
+    ];
+  }
+
+  addJournalEntry(journalEntry: JournalEntry) {
+
   }
 
 }

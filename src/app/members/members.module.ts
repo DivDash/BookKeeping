@@ -21,6 +21,10 @@ const routes: Routes = [
         loadChildren: './accounts/accounts.module#AccountsPageModule'
       },
       {
+        path: 'projects',
+        loadChildren: './projects/projects.module#ProjectsPageModule'
+      },
+      {
         path: 'journal-entries',
         loadChildren: './journal-entries/journal-entries.module#JournalEntriesPageModule'
       }
