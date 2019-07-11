@@ -215,11 +215,9 @@ export class DatabaseService {
 
   // PROJECTS
   loadProjects() {
-    
   }
 
   addProject(project: Project) {
-    
   }
 
   // JOURNAL ENTRIES
