@@ -58,29 +58,6 @@ export class DatabaseService {
       this.bankAccounts = [];
       this.cashAccounts = [];
 
-<<<<<<< HEAD
-=======
-      // If not load from cache
-      try {
-        const ret = await Storage.get({ key: 'accounts' });
-        if (ret.value) {
-          const accounts = JSON.parse(ret.value);
-          // Load each individual account from cache
-          accounts.bankAccounts.forEach((bankAccount, index) => {
-            this.bankAccounts.push(new BankAccount(bankAccount.bankName, bankAccount.accountHolder, bankAccount.currentBalance));
-            this.bankAccounts[index].id = bankAccount.id;
-          });
-          accounts.cashAccounts.forEach((cashAccount, index) => {
-            this.cashAccounts.push(new CashAccount(cashAccount.particulars, cashAccount.currentBalance));
-            this.cashAccounts[index].id = cashAccount.id;
-          });
-          return resolve(accounts);
-        }
-      } catch (err) {
-        console.log(err);
-      }
-
->>>>>>> 47a06fd02ffb9dbc1654b48c70feef8e5135cda5
       // Load from the Internet
       // Resolve both bank and cash
       Promise.all([
@@ -92,7 +69,7 @@ export class DatabaseService {
         // this.bankAccounts = bankAccounts as Array<BankAccount>;
         // const ret = await Storage.get({ key: 'accounts' });
         // const accounts = JSON.parse(ret.value);
-        bankAccounts.forEach((bankAccount, index) => {
+        bankAccounts['forEach']((bankAccount, index) => {
           this.bankAccounts.push(new BankAccount(bankAccount.bankName, bankAccount.accountHolder, bankAccount.currentBalance));
           this.bankAccounts[index].id = bankAccount.id;
           });
@@ -107,7 +84,7 @@ export class DatabaseService {
       this.http.get('http://localhost:4001/cash/').subscribe(cashAccounts => {
         // this.cashAccounts = cashAccounts as Array<CashAccount>;
 
-        cashAccounts.forEach((cashAccount, index) => {
+        cashAccounts['forEach']((cashAccount, index) => {
           this.cashAccounts.push(new CashAccount(cashAccount.particulars, cashAccount.currentBalance));
           this.cashAccounts[index].id = cashAccount.id;
         });
@@ -127,7 +104,6 @@ export class DatabaseService {
         });
       }).catch(reject);
 
-<<<<<<< HEAD
       // If not, load from cache
       try {
         const ret = await Storage.get({ key: 'accounts' });
@@ -169,8 +145,6 @@ export class DatabaseService {
         new EntryType('Capital'),
         new EntryType('Revenue')
       ];
-=======
->>>>>>> 47a06fd02ffb9dbc1654b48c70feef8e5135cda5
       // Return the loaded accounts in an object
       // resolve({
       //   bankAccounts: this.bankAccounts,
@@ -272,11 +246,9 @@ export class DatabaseService {
 
   // PROJECTS
   loadProjects() {
-    
   }
 
   addProject(project: Project) {
-    
   }
 
   // JOURNAL ENTRIES
