@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { DatabaseService } from '../services/database.service';
 
 @Component({
   selector: 'app-members',
@@ -20,6 +21,11 @@ export class MembersPage implements OnInit {
       icon: 'contacts'
     },
     {
+      title: 'Projects',
+      url: 'projects',
+      icon: 'today'
+    },
+    {
       title: 'Journal Entries',
       url: 'journal-entries',
       icon: 'journal'
@@ -27,14 +33,22 @@ export class MembersPage implements OnInit {
   ];
 
   constructor(
-    public router: Router
+    public router: Router,
+    private db: DatabaseService
   ) {
-    if (router.url === '/members') {
-      router.navigateByUrl('/members/dashboard');
-    }
+    // Load all data
+    this.db.loadAccounts();
+    this.db.loadProjects();
+    this.db.loadJournalEntries();
   }
 
   ngOnInit() {
+  }
+
+  ionViewWillEnter() {
+    if (this.router.url === '/members') {
+      this.router.navigateByUrl('/members/dashboard');
+    }
   }
 
   gotoUrl(url: string) {

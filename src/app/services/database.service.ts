@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { BankAccount, CashAccount, EntryType, JournalEntry } from './helper-classes';
+import { BankAccount, CashAccount, EntryType, JournalEntry, Project } from './helper-classes';
 
 import { Plugins } from '@capacitor/core';
 import { setIndex } from '@ionic-native/core/decorators/common';
@@ -12,11 +12,19 @@ const { Storage } = Plugins;
 })
 export class DatabaseService {
 
+  // ACCOUNTS
   bankAccounts: Array<BankAccount>;
   cashAccounts: Array<CashAccount>;
 
+
+  // PROJECTS
+  projects: Array<Project>;
+
+
+
   entryTypes: Array<EntryType>;
 
+  // JOURNAL ENTRIES
   journalEntries: Array<JournalEntry>;
 
   constructor(
@@ -55,20 +63,15 @@ export class DatabaseService {
         const ret = await Storage.get({ key: 'accounts' });
         if (ret.value) {
           const accounts = JSON.parse(ret.value);
+          // Load each individual account from cache
           accounts.bankAccounts.forEach((bankAccount, index) => {
-            
-              this.bankAccounts.push(new BankAccount(bankAccount.bankName, bankAccount.accountHolder, bankAccount.currentBalance));
-              this.bankAccounts[index].id = bankAccount.id;
-            
+            this.bankAccounts.push(new BankAccount(bankAccount.bankName, bankAccount.accountHolder, bankAccount.currentBalance));
+            this.bankAccounts[index].id = bankAccount.id;
           });
-          
           accounts.cashAccounts.forEach((cashAccount, index) => {
-            
             this.cashAccounts.push(new CashAccount(cashAccount.particulars, cashAccount.currentBalance));
             this.cashAccounts[index].id = cashAccount.id;
-          
           });
-
           return resolve(accounts);
         }
       } catch (err) {
@@ -103,26 +106,6 @@ export class DatabaseService {
         });
       }).catch(reject);
 
-      // Load bank accounts
-      // this.bankAccounts = [
-      //   new BankAccount('Meezan Bank', 'Misbah Khan', 10000),
-      //   new BankAccount('Summit Bank', 'DHL', 0),
-      //   new BankAccount('Summit Bank', 'Misbah Khan', 30000)
-      // ];
-      // // Load cash accounts
-      // this.cashAccounts = [
-      //   new CashAccount('Imran Ali', 200000),
-      //   new CashAccount('Misbah Khan', 10000)
-      // ];
-      // TODO: Proper loading of entry types
-      this.entryTypes = [
-        new EntryType('Assets'),
-        new EntryType('Liabilities'),
-        new EntryType('Expenses'),
-        new EntryType('Drawings'),
-        new EntryType('Capital'),
-        new EntryType('Revenue')
-      ];
       // Return the loaded accounts in an object
       // resolve({
       //   bankAccounts: this.bankAccounts,
@@ -133,7 +116,7 @@ export class DatabaseService {
 
   // Adds account to local object, cache then internet
   // Promise can be rejected at any stage
-  createAccount(account: BankAccount | CashAccount): Promise<any> {
+  addAccount(account: BankAccount | CashAccount): Promise<any> {
     return new Promise(async (resolve, reject) => {
       // Add to local array
       if (account instanceof BankAccount)
@@ -221,6 +204,15 @@ export class DatabaseService {
     });
   }
 
+  // PROJECTS
+  loadProjects() {
+    
+  }
+
+  addProject(project: Project) {
+    
+  }
+
   // JOURNAL ENTRIES
   loadJournalEntries() {
     // Load entries
@@ -230,6 +222,20 @@ export class DatabaseService {
       // new JournalEntry('Tiles', 'Askari V Masjid', 'Imran', 'Cash', 10000, 10000, 'Asset', new Date(), 'Under way'),
       // new JournalEntry('Tiles', 'Askari V Masjid', 'Imran', 'Cash', 10000, 10000, 'Asset', new Date(), 'Under way'),
     ];
+
+    // TODO: Proper loading of entry types
+    this.entryTypes = [
+      new EntryType('Assets'),
+      new EntryType('Liabilities'),
+      new EntryType('Expenses'),
+      new EntryType('Drawings'),
+      new EntryType('Capital'),
+      new EntryType('Revenue')
+    ];
+  }
+
+  addJournalEntry(journalEntry: JournalEntry) {
+
   }
 
 }

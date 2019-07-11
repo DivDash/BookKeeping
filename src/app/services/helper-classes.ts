@@ -1,16 +1,22 @@
-class Account {
-    currentBalance: number;
+// Every class will inherit from MongoDB
+// For default properties like id
+class MongoDB {
     private _id: string;
-    constructor(currentBalance: number) {
-        this.currentBalance = currentBalance;
-    }
 
     get id() {
         return this._id;
     }
 
     set id(id: string) {
-        this._id = id;
+        this.id = id;
+    }
+}
+
+class Account extends MongoDB {
+    currentBalance: number;
+    constructor(currentBalance: number) {
+        super();
+        this.currentBalance = currentBalance;
     }
 }
 export class BankAccount extends Account {
@@ -31,16 +37,17 @@ export class CashAccount extends Account {
     }
 }
 
-export class EntryType {
+export class EntryType extends MongoDB {
     value: string;
     visible: boolean;
     constructor(value: string, visible = true) {
+        super();
         this.value = value;
         this.visible = visible;
     }
 }
 
-export class JournalEntry {
+export class JournalEntry extends MongoDB {
     particulars: string;
     project: string;
     receivingAccount: string;
@@ -55,6 +62,7 @@ export class JournalEntry {
         sendingAccount: string, creditedAmount: number, debitedAmount: number,
         typeOfEntry: string, date: Date
     ) {
+        super();
         this.particulars = particulars;
         this.project = project;
         this.receivingAccount = receivingAccount;
@@ -66,12 +74,12 @@ export class JournalEntry {
     }
 }
 
-export class Project {
+export class Project extends MongoDB {
     name: string;
     client: string;
     accountReceivable: number;
-    unearnedRevenue: string;
-    revenue: string;
+    unearnedRevenue: number;
+    revenue: number;
     creditedAmount: number;
     debitedAmount: number;
     date: Date;
@@ -79,9 +87,10 @@ export class Project {
 
     constructor(
         name: string, client: string, accountReceivable: number,
-        unearnedRevenue: string, revenue: string, creditedAmount: number,
+        unearnedRevenue: number, revenue: number, creditedAmount: number,
         debitedAmount: number, date: Date, status: string
     ) {
+        super();
         this.name = name;
         this.client = client;
         this.accountReceivable = accountReceivable;

@@ -11,7 +11,8 @@ const routes: Routes = [
   {
     path: '**',
     redirectTo: ''
-  }
+  },
+  { path: 'projects', loadChildren: './members/projects/projects.module#ProjectsPageModule' }
 ];
 
 @NgModule({
