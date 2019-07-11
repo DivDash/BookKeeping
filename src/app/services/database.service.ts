@@ -75,7 +75,7 @@ export class DatabaseService {
       this.http.get('http://localhost:4001/cash/').subscribe(cashAccounts => {
         cashAccounts['forEach']((cashAccount, index) => {
           this.cashAccounts.push(new CashAccount(cashAccount.particulars, cashAccount.currentBalance));
-          this.cashAccounts[index].id = cashAccount.id;
+          this.cashAccounts[index].id = cashAccount._id;
         });
         return res(this.cashAccounts);
       }, rej)
@@ -129,33 +129,72 @@ export class DatabaseService {
       // To internet
       if (account instanceof BankAccount)
         this.http.post('http://localhost:4001/bank/create-bank-account', account)
-        .subscribe(resp => {
-          account.id = resp['_id'];
+        .subscribe(async resp => {
           resolve(resp);
-        }, error => {
-          
+          // Save object to local cache
+          try {
+            await Storage.set({
+              key: 'accounts',
+              value: JSON.stringify({
+                bankAccounts: this.bankAccounts,
+                cashAccounts: this.cashAccounts
+              })
+            });
+          } catch (err) {
+            reject(new Error('Error while adding account in local storage.'));
+            return;
+          }
+        }, async error => {
+          // Save object to local cache
+          // TODO: If error == no net
+          console.log(error);
+          try {
+            await Storage.set({
+              key: 'accounts',
+              value: JSON.stringify({
+                bankAccounts: this.bankAccounts,
+                cashAccounts: this.cashAccounts
+              })
+            });
+          } catch (err) {
+            reject(new Error('Error while adding account in local storage.'));
+            return;
+          }
         });
       else if (account instanceof CashAccount)
         this.http.post('http://localhost:4001/cash/create-cash-account', account)
-        .subscribe(resp => {
-          account.id = resp['_id'];
+        .subscribe(async resp => {
           resolve(resp);
-        }, reject);
-
-      // Save object to local cache
-      try {
-        await Storage.set({
-          key: 'accounts',
-          value: JSON.stringify({
-            bankAccounts: this.bankAccounts,
-            cashAccounts: this.cashAccounts
-          })
+          // Save object to local cache
+          try {
+            await Storage.set({
+              key: 'accounts',
+              value: JSON.stringify({
+                bankAccounts: this.bankAccounts,
+                cashAccounts: this.cashAccounts
+              })
+            });
+          } catch (err) {
+            reject(new Error('Error while adding account in local storage.'));
+            return;
+          }
+        }, async error => {
+          // Save object to local cache
+          // TODO: If error == no net
+          console.log(error);
+          try {
+            await Storage.set({
+              key: 'accounts',
+              value: JSON.stringify({
+                bankAccounts: this.bankAccounts,
+                cashAccounts: this.cashAccounts
+              })
+            });
+          } catch (err) {
+            reject(new Error('Error while adding account in local storage.'));
+            return;
+          }
         });
-      } catch (err) {
-        reject(new Error('Error while adding account in local storage.'));
-        return;
-      }
-
     });
   }
 
@@ -188,11 +227,8 @@ export class DatabaseService {
       }
 
       // Finally from internet - will depend if account was created
-      // If account does not have id, it was not created in the database
-      // Thus no further action required
-      if (!account.id)
-        return resolve();
-      // Else
+      // TODO: Handle error if no internet
+      // Also depends on whether internet was available when object was created
       if (account instanceof BankAccount)
         this.http.delete(`http://localhost:4001/bank/delete-bank-account/${account.id}`)
         .subscribe(() => {
@@ -250,25 +286,33 @@ export class DatabaseService {
       this.projects.push(project);
 
       // To internet
-      this.http.post('http://localhost:4001/bank/add-project', project)
-      .subscribe(resp => {
-        project.id = resp['_id'];
+      this.http.post('http://localhost:4001/projects/add-project', project)
+      .subscribe(async resp => {
         resolve(resp);
-      }, reject);
+        // Save object to local cache
+        try {
+          await Storage.set({
+            key: 'projects',
+            value: JSON.stringify(this.projects)
+          });
+        } catch (err) {
+          reject(new Error('Error while adding project in local storage.'));
+          return;
+        }
+      }, async error => {
+        // TODO: if error === not connected
+        // Save object to local cache
+        try {
+          await Storage.set({
+            key: 'projects',
+            value: JSON.stringify(this.projects)
+          });
+        } catch (err) {
+          reject(new Error('Error while adding project in local storage.'));
+          return;
+        }
+      });
 
-      // Save object to local cache
-      try {
-        await Storage.set({
-          key: 'accounts',
-          value: JSON.stringify({
-            bankAccounts: this.bankAccounts,
-            cashAccounts: this.cashAccounts
-          })
-        });
-      } catch (err) {
-        reject(new Error('Error while adding account in local storage.'));
-        return;
-      }
     });
   }
 
