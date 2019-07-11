@@ -254,7 +254,6 @@ export class DatabaseService {
       this.projects = [];
 
       // Load from the Internet
-      // Loading bank
       this.http.get('http://localhost:4001/projects/').subscribe(projects => {
         this.projects = projects as Array<Project>;
         // Save to local cache
@@ -265,6 +264,7 @@ export class DatabaseService {
       }, async error => {
         // If no net, load from cache
         // TODO: If error === no net
+        console.log(error);
         try {
           const ret = await Storage.get({ key: 'projects' });
           if (ret.value) {
@@ -272,7 +272,7 @@ export class DatabaseService {
             return resolve(this.projects);
           }
         } catch (err) {
-          console.error(err);
+          console.log(err);
           return reject(err);
         }
       });
@@ -302,6 +302,7 @@ export class DatabaseService {
       }, async error => {
         // TODO: if error === not connected
         // Save object to local cache
+        console.log(error);
         try {
           await Storage.set({
             key: 'projects',
@@ -312,22 +313,55 @@ export class DatabaseService {
           return;
         }
       });
-
     });
   }
 
   // JOURNAL ENTRIES
   loadJournalEntries() {
-    // Load type of entries
-    // TODO: Proper loading of entry types
-    this.entryTypes = [
-      new EntryType('Assets'),
-      new EntryType('Liabilities'),
-      new EntryType('Expenses'),
-      new EntryType('Drawings'),
-      new EntryType('Capital'),
-      new EntryType('Revenue')
-    ];
+
+    return new Promise((resolve, reject) => {
+
+      // Check if already loaded
+      if (this.journalEntries)
+        return reject(new Error('Journal entries have already loaded.'));
+
+      // Load type of entries
+      // TODO: Proper loading of entry types
+      this.entryTypes = [
+        new EntryType('Assets'),
+        new EntryType('Liabilities'),
+        new EntryType('Expenses'),
+        new EntryType('Drawings'),
+        new EntryType('Capital'),
+        new EntryType('Revenue')
+      ];
+
+      this.entryTypes = [];
+
+      // Load from the Internet
+      this.http.get('http://localhost:4001/journal-entries/').subscribe(journalEntries => {
+        this.journalEntries = journalEntries as Array<JournalEntry>;
+        // Save to local cache
+        Storage.set({
+          key: 'journal-entries',
+          value: JSON.stringify(this.journalEntries)
+        });
+      }, async error => {
+        // If no net, load from cache
+        // TODO: If error === no net
+        console.log(error);
+        try {
+          const ret = await Storage.get({ key: 'journal-entries' });
+          if (ret.value) {
+            this.journalEntries = JSON.parse(ret.value);
+            return resolve(this.journalEntries);
+          }
+        } catch (err) {
+          console.log(err);
+          return reject(err);
+        }
+      });
+    });
 
     // Load entries
     this.journalEntries = [
@@ -340,7 +374,39 @@ export class DatabaseService {
   }
 
   addJournalEntry(journalEntry: JournalEntry) {
+    return new Promise(async (resolve, reject) => {
 
+      this.journalEntries.push(journalEntry);
+
+      // To internet
+      this.http.post('http://localhost:4001/journal-entries//create-journal-entry-account', journalEntry)
+      .subscribe(async resp => {
+        resolve(resp);
+        // Save object to local cache
+        try {
+          await Storage.set({
+            key: 'journal-entries',
+            value: JSON.stringify(this.journalEntries)
+          });
+        } catch (err) {
+          reject(new Error('Error while adding project in local storage.'));
+          return;
+        }
+      }, async error => {
+        // TODO: if error === not connected
+        // Save object to local cache
+        console.log(error);
+        try {
+          await Storage.set({
+            key: 'journal-entries',
+            value: JSON.stringify(this.journalEntries)
+          });
+        } catch (err) {
+          reject(new Error('Error while adding project in local storage.'));
+          return;
+        }
+      });
+    });
   }
 
 }
