@@ -243,6 +243,16 @@ export class DatabaseService {
     });
   }
 
+  getAccountById(accountId: string) {
+    let account: BankAccount | CashAccount;
+    // Search in bank
+    account = this.bankAccounts.find(bankAccount => bankAccount.id === accountId);
+    // If not in bank, search in cash
+    if (!account)
+      account = this.cashAccounts.find(cashACcount => cashACcount.id === accountId);
+    return account;
+  }
+
   // PROJECTS
   loadProjects() {
     return new Promise<any>(async (resolve, reject) => {
@@ -316,6 +326,10 @@ export class DatabaseService {
     });
   }
 
+  getProjectById(projectId: string) {
+    return this.projects.find(project => project.id === projectId);
+  }
+
   // JOURNAL ENTRIES
   loadJournalEntries() {
 
@@ -336,7 +350,7 @@ export class DatabaseService {
         new EntryType('Revenue')
       ];
 
-      this.entryTypes = [];
+      this.journalEntries = [];
 
       // Load from the Internet
       this.http.get('http://localhost:4001/journal-entries/').subscribe(journalEntries => {
@@ -407,6 +421,10 @@ export class DatabaseService {
         }
       });
     });
+  }
+
+  getJournalEntry(journalEntryId: string) {
+    return this.journalEntries.find(journalEntry => journalEntry.id === journalEntryId);
   }
 
 }

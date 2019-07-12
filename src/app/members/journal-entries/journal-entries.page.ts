@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { JournalEntry, BankAccount, CashAccount } from 'src/app/services/helper-classes';
+import { JournalEntry, BankAccount, CashAccount, Project } from 'src/app/services/helper-classes';
 import { DatabaseService } from 'src/app/services/database.service';
 
 @Component({
@@ -33,6 +33,14 @@ export class JournalEntriesPage implements OnInit {
         this.typeOfEntry, new Date()
       )
     );
+  }
+
+  getProject(projectId: string) {
+    return this.db.getProjectById(projectId);
+  }
+
+  getAccount(accountId: string) {
+    return this.db.getAccountById(accountId);
   }
 
   get journalEntries() {

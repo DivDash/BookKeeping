@@ -3,22 +3,17 @@
 class MongoDB {
     private _id: string;
 
-    randomString() {
-        // tslint:disable-next-line: no-bitwise
-        return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+    constructor() {
+        this._id = this.objectId();
     }
 
-    constructor() {
-        this._id = (
-            this.randomString()
-            + this.randomString()
-            + '-' + this.randomString()
-            + '-' + this.randomString()
-            + '-' + this.randomString()
-            + '-' + this.randomString()
-            + this.randomString()
-            + this.randomString()
-        );
+    objectId() {
+        return this.hex(Date.now() / 1000) +
+            ' '.repeat(16).replace(/./g, () => this.hex(Math.random() * 16));
+    }
+
+    hex(value) {
+        return Math.floor(value).toString(16);
     }
 
     get id() {
