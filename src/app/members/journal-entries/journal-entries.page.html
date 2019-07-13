@@ -11,12 +11,12 @@
 </ion-header>
 
 <ion-content>
-  <form #journalForm="ngForm" (ngSubmit)="addJournalEntry(); journalForm.reset();">
+  <form #journalForm="ngForm" (ngSubmit)="addJournalEntry();"> <!-- TODO: Readd journalForm.reset();"> -->
   <ion-row class="ion-margin">
     <ion-col size="3" size-xs="12" size-sm="6" size-md="3">
     <ion-item>
       <ion-label>Project</ion-label>
-      <ion-select name="project" [(ngModel)]="project" placeholder="Select Project">
+      <ion-select name="project" [(ngModel)]="this.project" placeholder="Select Project">
         <ion-select-option *ngFor="let project of projects" [value]="project.id">{{project.name}}</ion-select-option>
       </ion-select>
     </ion-item>
@@ -26,9 +26,9 @@
       <ion-label>Sending Account</ion-label>
       <ion-select name="sendingAccount" [(ngModel)]="this.sendingAccount" placeholder="Sending Account">
         <ion-select-option disabled>Bank Accounts</ion-select-option>
-        <ion-select-option *ngFor="let bankAccount of accounts.bankAccounts" [value]="bankAccount.id">{{bankAccount.accountHolder}} ({{bankAccount.bankName}})</ion-select-option>
+        <ion-select-option *ngFor="let bankAccount of accounts.bankAccounts" [value]="bankAccount.id">{{bankAccount | accountOwner}}</ion-select-option>
         <ion-select-option disabled>Cash Accounts</ion-select-option>
-        <ion-select-option *ngFor="let cashAccount of accounts.cashAccounts" [value]="cashAccount.id">{{cashAccount.particulars}}</ion-select-option>
+        <ion-select-option *ngFor="let cashAccount of accounts.cashAccounts" [value]="cashAccount.id">{{cashAccount | accountOwner}}</ion-select-option>
       </ion-select>
     </ion-item>
     </ion-col>
@@ -37,17 +37,24 @@
       <ion-label>Receiving Account</ion-label>
       <ion-select name="receivingAccount" [(ngModel)]="this.receivingAccount" placeholder="Receiving Account">
         <ion-select-option disabled>Bank Accounts</ion-select-option>
-        <ion-select-option *ngFor="let bankAccount of accounts.bankAccounts" [value]="bankAccount.id">{{bankAccount.accountHolder}} ({{bankAccount.bankName}})</ion-select-option>
+        <ion-select-option *ngFor="let bankAccount of accounts.bankAccounts" [value]="bankAccount.id">{{bankAccount | accountOwner}}</ion-select-option>
         <ion-select-option disabled>Cash Accounts</ion-select-option>
-        <ion-select-option *ngFor="let cashAccount of accounts.cashAccounts" [value]="cashAccount.id">{{cashAccount.particulars}}</ion-select-option>
+        <ion-select-option *ngFor="let cashAccount of accounts.cashAccounts" [value]="cashAccount.id">{{cashAccount | accountOwner}}</ion-select-option>
       </ion-select>
+    </ion-item>
+    </ion-col>
+    <ion-col size="3" size-xs="12" size-sm="6" size-md="3">
+    <ion-item>
+      <ion-label>Transferred Amount</ion-label>
+      <ion-input name="transferredAmount" [(ngModel)]="this.transferredAmount"
+      type="number" placeholder="Transferred Amount"></ion-input>
     </ion-item>
     </ion-col>
     <ion-col size="3" size-xs="12" size-sm="6" size-md="3">
     <ion-item>
       <ion-label>Entry Type</ion-label>
       <ion-select name="typeOfEntry" [(ngModel)]="typeOfEntry" placeholder="Select Entry Type">
-        <ion-select-option *ngFor="let entryType of entryTypes" value="entryType.id">{{entryType.value}}</ion-select-option>
+        <ion-select-option *ngFor="let entryType of entryTypes" [value]="entryType.id">{{entryType.value}}</ion-select-option>
       </ion-select>
     </ion-item>
     </ion-col>
@@ -64,7 +71,7 @@
   </form>
   <!-- size-xs="12" size-sm="6" size-md="4" size-lg="3" -->
   <ion-grid class="table-style" *ngIf="journalEntries" fixed>
-    <ion-row class="header">`
+    <ion-row class="header">
       <ion-col size="1">Date</ion-col>
       <ion-col size="1">Project</ion-col>
       <ion-col size="2">Sending Account</ion-col>
@@ -74,12 +81,18 @@
     </ion-row>
     <ion-row class="body" *ngFor="let journalEntry of journalEntries">
     <!-- (click)="presentPopover(bankAccount)" -->
-      <ion-col size="1">{{journalEntry.date}}</ion-col>
+      <ion-col size="1">{{journalEntry.date | date}}</ion-col>
       <!-- TODO: Convert to actual accounts and project -->
-      <ion-col size="1">{{journalEntry.project}}</ion-col>
-      <ion-col size="2">{{journalEntry.sendingAccount}}</ion-col>
-      <ion-col size="2">{{journalEntry.receivingAccount}}</ion-col>
-      <ion-col size="3">{{journalEntry.creditedAmount}}</ion-col>
+      <ion-col size="1">{{
+        journalEntry.project
+      }}</ion-col>
+      <ion-col size="2">{{
+          journalEntry.sendingAccount
+      }}</ion-col>
+      <ion-col size="2">{{
+          journalEntry.receivingAccount
+      }}</ion-col>
+      <ion-col size="3">{{journalEntry.transferredAmount}}</ion-col>
       <ion-col size="3">{{journalEntry.particulars}}</ion-col>
     </ion-row>
   </ion-grid>

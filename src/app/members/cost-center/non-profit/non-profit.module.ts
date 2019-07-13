@@ -5,14 +5,13 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { JournalEntriesPage } from './journal-entries.page';
-import { AccountOwnerPipe } from 'src/app/pipes/account-owner.pipe';
+import { NonProfitPage } from './non-profit.page';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 
 const routes: Routes = [
   {
     path: '',
-    component: JournalEntriesPage
+    component: NonProfitPage
   }
 ];
 
@@ -24,6 +23,6 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     PipesModule
   ],
-  declarations: [JournalEntriesPage]
+  declarations: [NonProfitPage]
 })
-export class JournalEntriesPageModule {}
+export class NonProfitPageModule {}

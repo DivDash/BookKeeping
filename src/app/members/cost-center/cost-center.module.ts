@@ -5,12 +5,22 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ProjectsPage } from './projects.page';
+import { CostCenterPage } from './cost-center.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: ProjectsPage
+    component: CostCenterPage,
+    children: [
+      {
+        path: 'projects',
+        loadChildren: './projects/projects.module#ProjectsPageModule'
+      },
+      {
+        path: 'non-profit',
+        loadChildren: './non-profit/non-profit.module#NonProfitPageModule'
+      }
+    ]
   }
 ];
 
@@ -21,6 +31,6 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [ProjectsPage]
+  declarations: [CostCenterPage]
 })
-export class ProjectsPageModule {}
+export class CostCenterPageModule {}

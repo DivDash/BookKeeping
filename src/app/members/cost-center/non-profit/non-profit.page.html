@@ -1,0 +1,36 @@
+<ion-content>
+    <form #nonProfitForm="ngForm" (ngSubmit)="addNonProfit(); nonProfitForm.reset();">
+      <ion-row class="ion-margin">
+        <ion-col size="3" size-xs="12" size-sm="6" size-md="3">
+        <ion-item>
+          <ion-label position="floating">Name</ion-label>
+          <ion-input [(ngModel)]="name" name="name" required type="text"></ion-input>
+        </ion-item>
+        </ion-col>
+        <ion-col size="3" size-xs="12" size-sm="6" size-md="3">
+        <ion-item>
+          <ion-label position="floating">Particulars</ion-label>
+          <ion-input [(ngModel)]="particulars" name="particulars" required type="text"></ion-input>
+        </ion-item>
+        </ion-col>
+        <ion-col size="3" size-xs="12" size-sm="6" size-md="3">
+          <ion-button expand="full" [disabled]="!nonProfitForm.valid" type="submit">Add Non Profit</ion-button>
+        </ion-col>
+      </ion-row>
+      </form>
+      <!-- size-xs="12" size-sm="6" size-md="4" size-lg="3" -->
+      <ion-grid class="table-style" *ngIf="nonProfits" fixed>
+        <ion-row class="header">
+          <ion-col size="3">Name</ion-col>
+          <ion-col size="3">Expenses</ion-col>
+          <ion-col size="6">Particulars</ion-col>
+        </ion-row>
+        <ion-row class="body" *ngFor="let nonProfit of nonProfits">
+          <!-- (click)="presentPopover(bankAccount)" -->
+          <ion-col size="3">{{ nonProfit.name }}</ion-col>
+          <ion-col size="3">{{ nonProfit.expenses }}</ion-col>
+          <ion-col size="6">{{ nonProfit.particulars }}</ion-col>
+        </ion-row>
+      </ion-grid>
+  </ion-content>
+  

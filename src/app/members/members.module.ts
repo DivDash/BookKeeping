@@ -21,8 +21,8 @@ const routes: Routes = [
         loadChildren: './accounts/accounts.module#AccountsPageModule'
       },
       {
-        path: 'projects',
-        loadChildren: './projects/projects.module#ProjectsPageModule'
+        path: 'cost-center',
+        loadChildren: './cost-center/cost-center.module#CostCenterPageModule'
       },
       {
         path: 'journal-entries',

@@ -1,39 +1,46 @@
 <form #cashAccountForm="ngForm" (ngSubmit)="addCashAccount(); cashAccountForm.reset();">
   <ion-row class="ion-margin">
-    <ion-col size="4" size-xs="12" size-sm="6" size-md="4">
+    <ion-col size="3" size-xs="12" size-sm="6" size-md="3">
+    <ion-item>
+      <ion-label position="floating">Account Holder</ion-label>
+      <ion-input [(ngModel)]="accountHolder" name="accountHolder" required type="text"></ion-input>
+    </ion-item>
+    </ion-col>
+    <ion-col size="3" size-xs="12" size-sm="6" size-md="3">
+    <ion-item>
+      <ion-label position="floating">Current Balance</ion-label>
+      <ion-input [(ngModel)]="currentBalance" name="currentBalance" required type="number"></ion-input>
+    </ion-item>
+    </ion-col>
+    <ion-col size="3" size-xs="12" size-sm="6" size-md="3">
     <ion-item>
       <ion-label position="floating">Particulars</ion-label>
       <ion-input [(ngModel)]="particulars" name="particulars" required type="text"></ion-input>
     </ion-item>
     </ion-col>
-    <ion-col size="4" size-xs="12" size-sm="6" size-md="4">
-    <ion-item>
-      <ion-label position="floating">Current Balance</ion-label>
-      <ion-input [(ngModel)]="currentBalance" name="currentBalance" required type="text"></ion-input>
-    </ion-item>
-    </ion-col>
-    <!-- <ion-col size="3" size-xs="0" size-sm="0" size-md="3">
-      
-    </ion-col> -->
-    <ion-col size="4" size-xs="12" size-sm="12" size-md="4">
+    <ion-col size="3" size-xs="12" size-sm="12" size-md="3">
       <ion-button expand="full" [disabled]="!cashAccountForm.valid" type="submit">Add Cash Account</ion-button>
     </ion-col>
   </ion-row>
   </form>
 <!-->ion-button >Add Cash Account</ion-button>
-<!-- size-xs="12" size-sm="6" size-md="4" size-lg="3" -->
+<!-- size-xs="12" size-sm="6" size-md="3" size-lg="3" -->
 <ion-grid class="table-style" *ngIf="cashAccounts" fixed>
   <ion-row class="header">
-    <ion-col size="6">Particulars</ion-col>
-    <ion-col size="6">Current Balance</ion-col>
+    <ion-col size="4">Account Holder</ion-col>
+    <ion-col size="4">Current Balance</ion-col>
+    <ion-col size="4">Particulars</ion-col>
   </ion-row>
   <ion-row class="body" *ngFor="let cashAccount of cashAccounts"
   (click)="presentPopover(cashAccount)">
-    <ion-col size="6">
-      {{ cashAccount.particulars }}
+    <ion-col size="4">
+      {{ cashAccount.accountHolder }}
     </ion-col>
-    <ion-col size="6">
+    <ion-col size="4">
       {{ cashAccount.currentBalance }}
+    </ion-col>
+    <ion-col size="4">
+      {{ cashAccount.particulars }}
     </ion-col>
   </ion-row>
 </ion-grid>

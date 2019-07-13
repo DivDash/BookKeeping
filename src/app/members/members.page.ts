@@ -18,11 +18,11 @@ export class MembersPage implements OnInit {
     {
       title: 'Accounts',
       url: 'accounts',
-      icon: 'contacts'
+      icon: 'wallet'
     },
     {
-      title: 'Projects',
-      url: 'projects',
+      title: 'Cost Center',
+      url: 'cost-center',
       icon: 'today'
     },
     {
@@ -38,7 +38,7 @@ export class MembersPage implements OnInit {
   ) {
     // Load all data
     this.db.loadAccounts();
-    this.db.loadProjects();
+    this.db.loadCostCenter();
     this.db.loadJournalEntries();
   }
 

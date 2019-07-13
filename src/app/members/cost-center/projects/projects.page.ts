@@ -10,7 +10,7 @@ import { DatabaseService } from 'src/app/services/database.service';
 export class ProjectsPage implements OnInit {
 
   name: string;
-  client: string;
+  clientAccountId: string;
   accountReceivable: number;
 
   constructor(
@@ -21,14 +21,21 @@ export class ProjectsPage implements OnInit {
   }
 
   addProject() {
-    this.db.addProject(
-      new Project(this.name, this.client, this.accountReceivable,
-        this.accountReceivable, 0, 0, 0, new Date(), 'Under Construction')
+    this.db.addCostCenter(
+      new Project(this.name, this.clientAccountId, this.accountReceivable, new Date(), 'Under Construction')
     );
+  }
+
+  getAccountById(accountId: string) {
+    return this.db.getAccountById(accountId);
   }
 
   get projects() {
     return this.db.projects;
+  }
+
+  get accounts() {
+    return this.db.accounts;
   }
 
 }

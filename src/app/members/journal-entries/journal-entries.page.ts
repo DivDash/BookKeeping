@@ -13,8 +13,7 @@ export class JournalEntriesPage implements OnInit {
   project: string; // Project ID
   receivingAccount: string; // Account ID
   sendingAccount: string; // Account ID
-  creditedAmount: number;
-  debitedAmount: number;
+  transferredAmount: number;
   typeOfEntry: string;
 
   constructor(
@@ -26,20 +25,25 @@ export class JournalEntriesPage implements OnInit {
   }
 
   addJournalEntry() {
-    this.db.addJournalEntry(
-      new JournalEntry(
-        this.particulars, this.project, this.receivingAccount,
-        this.sendingAccount, this.creditedAmount, this.debitedAmount,
-        this.typeOfEntry, new Date()
-      )
-    );
+    console.log(new JournalEntry(
+      this.particulars, this.project, this.receivingAccount,
+      this.sendingAccount, this.transferredAmount,
+      this.typeOfEntry, new Date()
+    ));
+    // this.db.addJournalEntry(
+    //   new JournalEntry(
+    //     this.particulars, this.project, this.receivingAccount,
+    //     this.sendingAccount, this.transferredAmount,
+    //     this.typeOfEntry, new Date()
+    //   )
+    // );
   }
 
-  getProject(projectId: string) {
-    return this.db.getProjectById(projectId);
+  getCostCenterById(projectId: string) {
+    return this.db.getCostCenterById(projectId);
   }
 
-  getAccount(accountId: string) {
+  getAccountById(accountId: string) {
     return this.db.getAccountById(accountId);
   }
 

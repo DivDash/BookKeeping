@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { BankAccount, CashAccount, EntryType, JournalEntry, Project } from './helper-classes';
+import { BankAccount, CashAccount, EntryType, JournalEntry, Project, NonProfit } from './helper-classes';
 
 import { Plugins } from '@capacitor/core';
 const { Storage } = Plugins;
@@ -16,10 +16,9 @@ export class DatabaseService {
   cashAccounts: Array<CashAccount>;
 
 
-  // PROJECTS
+  // COST CENTER
   projects: Array<Project>;
-
-
+  nonProfits: Array<NonProfit>;
 
   entryTypes: Array<EntryType>;
 
@@ -47,8 +46,7 @@ export class DatabaseService {
     bankAccounts: Array<BankAccount>,
     cashAccounts: Array<CashAccount>
   }> {
-    // TODO: Check if already loaded, if not load from cache, if not in cache then from net, if no net then reject
-    return new Promise<any>(async (resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
 
       // Check if already loaded
       if (this.bankAccounts && this.cashAccounts)
@@ -74,7 +72,7 @@ export class DatabaseService {
       // Loading cash
       this.http.get('http://localhost:4001/cash/').subscribe(cashAccounts => {
         cashAccounts['forEach']((cashAccount, index) => {
-          this.cashAccounts.push(new CashAccount(cashAccount.particulars, cashAccount.currentBalance));
+          this.cashAccounts.push(new CashAccount(cashAccount.accountHolder, cashAccount.currentBalance, cashAccount.particulars));
           this.cashAccounts[index].id = cashAccount._id;
         });
         return res(this.cashAccounts);
@@ -98,12 +96,12 @@ export class DatabaseService {
             const accounts = JSON.parse(ret.value);
             accounts.bankAccounts.forEach((bankAccount, index) => {
                 this.bankAccounts.push(new BankAccount(bankAccount.bankName, bankAccount.accountHolder, bankAccount.currentBalance));
-                this.bankAccounts[index].id = bankAccount.id;
+                this.bankAccounts[index].id = bankAccount._id;
             });
 
             accounts.cashAccounts.forEach((cashAccount, index) => {
-              this.cashAccounts.push(new CashAccount(cashAccount.particulars, cashAccount.currentBalance));
-              this.cashAccounts[index].id = cashAccount.id;
+              this.cashAccounts.push(new CashAccount(cashAccount.accountHolder, cashAccount.currentBalance, cashAccount.particulars));
+              this.cashAccounts[index].id = cashAccount._id;
             });
 
             return resolve(accounts);
@@ -135,10 +133,7 @@ export class DatabaseService {
           try {
             await Storage.set({
               key: 'accounts',
-              value: JSON.stringify({
-                bankAccounts: this.bankAccounts,
-                cashAccounts: this.cashAccounts
-              })
+              value: JSON.stringify(this.accounts)
             });
           } catch (err) {
             reject(new Error('Error while adding account in local storage.'));
@@ -151,10 +146,7 @@ export class DatabaseService {
           try {
             await Storage.set({
               key: 'accounts',
-              value: JSON.stringify({
-                bankAccounts: this.bankAccounts,
-                cashAccounts: this.cashAccounts
-              })
+              value: JSON.stringify(this.accounts)
             });
           } catch (err) {
             reject(new Error('Error while adding account in local storage.'));
@@ -169,10 +161,7 @@ export class DatabaseService {
           try {
             await Storage.set({
               key: 'accounts',
-              value: JSON.stringify({
-                bankAccounts: this.bankAccounts,
-                cashAccounts: this.cashAccounts
-              })
+              value: JSON.stringify(this.accounts)
             });
           } catch (err) {
             reject(new Error('Error while adding account in local storage.'));
@@ -185,10 +174,7 @@ export class DatabaseService {
           try {
             await Storage.set({
               key: 'accounts',
-              value: JSON.stringify({
-                bankAccounts: this.bankAccounts,
-                cashAccounts: this.cashAccounts
-              })
+              value: JSON.stringify(this.accounts)
             });
           } catch (err) {
             reject(new Error('Error while adding account in local storage.'));
@@ -216,10 +202,7 @@ export class DatabaseService {
       try {
         await Storage.set({
           key: 'accounts',
-          value: JSON.stringify({
-            bankAccounts: this.bankAccounts,
-            cashAccounts: this.cashAccounts
-          })
+          value: JSON.stringify(this.accounts)
         });
       } catch (err) {
         reject(new Error('Error while deleting account from local storage.'));
@@ -243,6 +226,13 @@ export class DatabaseService {
     });
   }
 
+  get accounts() {
+    return {
+      bankAccounts: this.bankAccounts,
+      cashAccounts: this.cashAccounts
+    };
+  }
+
   getAccountById(accountId: string) {
     let account: BankAccount | CashAccount;
     // Search in bank
@@ -254,80 +244,166 @@ export class DatabaseService {
   }
 
   // PROJECTS
-  loadProjects() {
-    return new Promise<any>(async (resolve, reject) => {
+  loadCostCenter(): Promise<{
+    projects: Array<Project>,
+    nonProfit: Array<NonProfit>
+  }> {
+    return new Promise(async (resolve, reject) => {
 
       // Check if already loaded
-      if (this.projects)
-        return reject(new Error('Projects already loaded.'));
+      if (this.projects && this.nonProfits)
+        return reject(new Error('Accounts already loaded.'));
 
       this.projects = [];
+      this.nonProfits = [];
 
       // Load from the Internet
+      // Resolve both projects and non-profit
+      Promise.all([
+      new Promise((res, rej) =>
+      // Loading project
       this.http.get('http://localhost:4001/projects/').subscribe(projects => {
-        this.projects = projects as Array<Project>;
-        // Save to local cache
-        Storage.set({
-          key: 'projects',
-          value: JSON.stringify(this.projects)
+        projects['forEach']((project, index) => {
+          this.projects.push(new Project(project.name, project.clientAccountId,
+          project.accountReceivable, project.date, project.status));
+          this.projects[index].id = project._id;
+          this.projects[index].expenses = project.expenses;
+          this.projects[index].unearnedRevenue = project.unearnedRevenue;
+          this.projects[index].revenue = project.revenue;
         });
-      }, async error => {
+        return res(this.projects);
+      }, rej)
+      ),
+      new Promise((res, rej) =>
+      // Loading non-profit
+      this.http.get('http://localhost:4001/non-profit/').subscribe(nonProfits => {
+        nonProfits['forEach']((nonProfit, index) => {
+          this.nonProfits.push(new NonProfit(nonProfit.name, nonProfit.particulars));
+          this.nonProfits[index].id = nonProfit._id;
+          this.nonProfits[index].expenses = nonProfit.expenses;
+        });
+        return res(this.nonProfits);
+      }, rej)
+      )
+      ]).then(arrayOfAccounts => {
+        // Store locally
+        Storage.set({
+          key: 'cost-center',
+          value: JSON.stringify({
+            projects: arrayOfAccounts[0],
+            nonProfits: arrayOfAccounts[1]
+          })
+        });
+      }).catch(async rej => {
         // If no net, load from cache
-        // TODO: If error === no net
-        console.log(error);
+        // TODO: If rej === no net
         try {
-          const ret = await Storage.get({ key: 'projects' });
+          const ret = await Storage.get({ key: 'cost-center' });
           if (ret.value) {
-            this.projects = JSON.parse(ret.value);
-            return resolve(this.projects);
+            const costCenter = JSON.parse(ret.value);
+            costCenter.projects.forEach((project, index) => {
+                this.projects.push(new Project(project.name, project.clientAccountId,
+                project.accountReceivable, project.date, project.status));
+                this.projects[index].id = project._id;
+            });
+
+            costCenter.nonProfits.forEach((nonProfit, index) => {
+              this.nonProfits.push(new NonProfit(nonProfit.name, nonProfit.particulars));
+              this.nonProfits[index].id = nonProfit._id;
+              this.nonProfits[index].expenses = nonProfit.expenses;
+            });
+
+            return resolve(costCenter);
           }
         } catch (err) {
-          console.log(err);
+          console.error(err);
           return reject(err);
         }
       });
     });
-
   }
 
-  addProject(project: Project) {
+  addCostCenter(costCenter: Project | NonProfit) {
     return new Promise(async (resolve, reject) => {
-
-      this.projects.push(project);
+      // Add to local array
+      if (costCenter instanceof Project)
+        this.projects.push(costCenter);
+      else if (costCenter instanceof NonProfit)
+        this.nonProfits.push(costCenter);
 
       // To internet
-      this.http.post('http://localhost:4001/projects/add-project', project)
-      .subscribe(async resp => {
-        resolve(resp);
-        // Save object to local cache
-        try {
-          await Storage.set({
-            key: 'projects',
-            value: JSON.stringify(this.projects)
-          });
-        } catch (err) {
-          reject(new Error('Error while adding project in local storage.'));
-          return;
-        }
-      }, async error => {
-        // TODO: if error === not connected
-        // Save object to local cache
-        console.log(error);
-        try {
-          await Storage.set({
-            key: 'projects',
-            value: JSON.stringify(this.projects)
-          });
-        } catch (err) {
-          reject(new Error('Error while adding project in local storage.'));
-          return;
-        }
-      });
+      if (costCenter instanceof Project)
+        this.http.post('http://localhost:4001/projects/add-project', costCenter)
+        .subscribe(async resp => {
+          resolve(resp);
+          // Save object to local cache
+          try {
+            await Storage.set({
+              key: 'cost-center',
+              value: JSON.stringify(this.costCenter)
+            });
+          } catch (err) {
+            reject(new Error('Error while adding cost center in local storage.'));
+            return;
+          }
+        }, async error => {
+          // Save object to local cache
+          // TODO: If error == no net
+          console.log(error);
+          try {
+            await Storage.set({
+              key: 'cost-center',
+              value: JSON.stringify(this.costCenter)
+            });
+          } catch (err) {
+            reject(new Error('Error while adding cost center in local storage.'));
+            return;
+          }
+        });
+      else if (costCenter instanceof NonProfit)
+        this.http.post('http://localhost:4001/non-profit/add-non-profit', costCenter)
+        .subscribe(async resp => {
+          resolve(resp);
+          // Save object to local cache
+          try {
+            await Storage.set({
+              key: 'cost-center',
+              value: JSON.stringify(this.costCenter)
+            });
+          } catch (err) {
+            reject(new Error('Error while adding cost center in local storage.'));
+            return;
+          }
+        }, async error => {
+          // Save object to local cache
+          // TODO: If error == no net
+          console.log(error);
+          try {
+            await Storage.set({
+              key: 'cost-center',
+              value: JSON.stringify(this.costCenter)
+            });
+          } catch (err) {
+            reject(new Error('Error while adding cost center in local storage.'));
+            return;
+          }
+        });
     });
   }
 
-  getProjectById(projectId: string) {
-    return this.projects.find(project => project.id === projectId);
+  get costCenter() {
+    return {
+      projects: this.projects,
+      nonProfits: this.nonProfits
+    };
+  }
+
+  getCostCenterById(costCenterId: string) {
+    let costCenter: Project | NonProfit;
+    costCenter = this.projects.find(project => project.id === costCenterId);
+    if (!costCenter)
+      costCenter = this.nonProfits.find(nonProfit => nonProfit.id === costCenterId);
+    return costCenter;
   }
 
   // JOURNAL ENTRIES
@@ -376,15 +452,6 @@ export class DatabaseService {
         }
       });
     });
-
-    // Load entries
-    this.journalEntries = [
-      new JournalEntry('Tiles', 'Askari V Masjid', 'Imran', 'Cash', 10000, 10000, 'Asset', new Date()),
-      // new JournalEntry('Tiles', 'DHL', 'Imran', 'Cash', 10000, 10000, 'Asset', new Date(), 'Under way'),
-      // new JournalEntry('Tiles', 'Askari V Masjid', 'Imran', 'Cash', 10000, 10000, 'Asset', new Date(), 'Under way'),
-      // new JournalEntry('Tiles', 'Askari V Masjid', 'Imran', 'Cash', 10000, 10000, 'Asset', new Date(), 'Under way'),
-    ];
-
   }
 
   addJournalEntry(journalEntry: JournalEntry) {

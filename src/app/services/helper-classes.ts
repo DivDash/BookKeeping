@@ -2,6 +2,8 @@
 // For default properties like id
 class MongoDB {
     private _id: string;
+    // tslint:disable-next-line: variable-name
+    private __v;
 
     constructor() {
         this._id = this.objectId();
@@ -27,25 +29,25 @@ class MongoDB {
 
 class Account extends MongoDB {
     currentBalance: number;
-    constructor(currentBalance: number) {
+    accountHolder: string;
+    constructor(accountHolder: string, currentBalance: number) {
         super();
+        this.accountHolder = accountHolder;
         this.currentBalance = currentBalance;
     }
 }
 export class BankAccount extends Account {
     bankName: string;
-    accountHolder: string;
     constructor(bankName: string, accountHolder: string, currentBalance: number) {
-        super(currentBalance);
+        super(accountHolder, currentBalance);
         this.bankName = bankName;
-        this.accountHolder = accountHolder;
     }
 }
 
 export class CashAccount extends Account {
     particulars: string;
-    constructor(particulars: string, currentBalance: number) {
-        super(currentBalance);
+    constructor(accountHolder: string, currentBalance: number, particulars: string) {
+        super(accountHolder, currentBalance);
         this.particulars = particulars;
     }
 }
@@ -60,59 +62,67 @@ export class EntryType extends MongoDB {
     }
 }
 
-export class JournalEntry extends MongoDB {
-    particulars: string;
-    project: string;
-    receivingAccount: string;
-    sendingAccount: string;
-    creditedAmount: number;
-    debitedAmount: number;
-    typeOfEntry: string;
-    date: Date;
-
-    constructor(
-        particulars: string, project: string, receivingAccount: string,
-        sendingAccount: string, creditedAmount: number, debitedAmount: number,
-        typeOfEntry: string, date: Date
-    ) {
+class CostCenter extends MongoDB {
+    name: string;
+    expenses: number;
+    constructor(name: string, expenses: number) {
         super();
-        this.particulars = particulars;
-        this.project = project;
-        this.receivingAccount = receivingAccount;
-        this.sendingAccount = sendingAccount;
-        this.creditedAmount = creditedAmount;
-        this.debitedAmount = debitedAmount;
-        this.typeOfEntry = typeOfEntry;
-        this.date = date;
+        this.name = name;
+        this.expenses = expenses;
     }
 }
 
-export class Project extends MongoDB {
-    name: string;
-    client: string;
-    accountReceivable: number;
+export class NonProfit extends CostCenter {
+    particulars: string;
+    constructor(name: string, particulars: string) {
+        super(name, 0);
+        this.particulars = particulars;
+    }
+}
+
+export class Project extends CostCenter {
+    clientAccountId: string;
     unearnedRevenue: number;
     revenue: number;
-    creditedAmount: number;
-    debitedAmount: number;
     date: Date;
     status: string;
 
     constructor(
-        name: string, client: string, accountReceivable: number,
-        unearnedRevenue: number, revenue: number, creditedAmount: number,
-        debitedAmount: number, date: Date, status: string
+        name: string, clientAccountId: string, accountReceivable: number, date: Date, status: string
     ) {
-        super();
+        super(name, 0);
         this.name = name;
-        this.client = client;
-        this.accountReceivable = accountReceivable;
-        this.unearnedRevenue = unearnedRevenue;
-        this.revenue = revenue;
-        this.creditedAmount = creditedAmount;
-        this.debitedAmount = debitedAmount;
+        this.clientAccountId = clientAccountId;
+        this.unearnedRevenue = accountReceivable;
+        this.revenue = 0;
+        this.expenses = 0;
         this.date = date;
         this.status = status;
     }
 
+}
+
+export class JournalEntry extends MongoDB {
+    particulars: string;
+    projectId: string;
+    receivingAccountId: string;
+    sendingAccountId: string;
+    transferredAmount: number;
+    typeOfEntry: string;
+    date: Date;
+
+    constructor(
+        particulars: string, projectId: string, receivingAccountId: string,
+        sendingAccountId: string, transferredAmount: number,
+        typeOfEntry: string, date: Date
+    ) {
+        super();
+        this.particulars = particulars;
+        this.projectId = projectId;
+        this.receivingAccountId = receivingAccountId;
+        this.sendingAccountId = sendingAccountId;
+        this.transferredAmount = transferredAmount;
+        this.typeOfEntry = typeOfEntry;
+        this.date = date;
+    }
 }

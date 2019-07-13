@@ -1,15 +1,3 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>
-      <ion-icon name="today"></ion-icon>
-      Projects
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
   <form #projectForm="ngForm" (ngSubmit)="addProject(); projectForm.reset();">
     <ion-row class="ion-margin">
@@ -21,8 +9,13 @@
       </ion-col>
       <ion-col size="3" size-xs="12" size-sm="6" size-md="3">
       <ion-item>
-        <ion-label position="floating">Client</ion-label>
-        <ion-input [(ngModel)]="client" name="client" required type="text"></ion-input>
+        <ion-label>Client Account</ion-label>
+        <ion-select name="clientAccount" [(ngModel)]="this.clientAccountId" placeholder="Client Account">
+          <ion-select-option disabled>Bank Accounts</ion-select-option>
+          <ion-select-option *ngFor="let bankAccount of accounts.bankAccounts" [value]="bankAccount.id">{{bankAccount | accountOwner}}</ion-select-option>
+          <ion-select-option disabled>Cash Accounts</ion-select-option>
+          <ion-select-option *ngFor="let cashAccount of accounts.cashAccounts" [value]="cashAccount.id">{{cashAccount | accountOwner}}</ion-select-option>
+        </ion-select>
       </ion-item>
       </ion-col>
       <ion-col size="3" size-xs="12" size-sm="6" size-md="3">
@@ -50,10 +43,10 @@
       <ion-row class="body" *ngFor="let project of projects">
         <!-- (click)="presentPopover(bankAccount)" -->
         <ion-col size="2">{{ project.name }}</ion-col>
-        <ion-col size="2">{{ project.client }}</ion-col>
+        <ion-col size="2">{{ getAccountById(project.clientAccountId) | accountOwner }}</ion-col>
         <ion-col size="2">{{ project.unearnedRevenue }}</ion-col>
         <ion-col size="2">{{ project.revenue }}</ion-col>
-        <ion-col size="2">{{ project.creditedAmount }}</ion-col>
+        <ion-col size="2">{{ project.expenses }}</ion-col>
         <ion-col size="1">{{ project.date | date }}</ion-col>
         <ion-col size="1">{{ project.status }}</ion-col>
       </ion-row>

@@ -12,6 +12,7 @@ import { EditComponent } from './edit/edit.component';
 export class CashPage implements OnInit {
 
   // For from submission purposes only (new entries)
+  accountHolder: string;
   particulars: string;
   currentBalance: number;
 
@@ -28,7 +29,7 @@ export class CashPage implements OnInit {
   }
 
   addCashAccount() {
-    this.db.addAccount(new CashAccount(this.particulars, this.currentBalance));
+    this.db.addAccount(new CashAccount(this.accountHolder, this.currentBalance, this.particulars));
   }
 
   editCashAccount() {

@@ -12,7 +12,7 @@ const routes: Routes = [
     path: '**',
     redirectTo: ''
   },
-  { path: 'projects', loadChildren: './members/projects/projects.module#ProjectsPageModule' }
+  { path: 'non-profit', loadChildren: './members/cost-center/non-profit/non-profit.module#NonProfitPageModule' }
 ];
 
 @NgModule({
