@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AccountOwnerPipe } from './account-owner.pipe';
+import { CostcenterOwnerPipe } from './costcenter-owner.pipe';
 
 
 
 @NgModule({
-  declarations: [AccountOwnerPipe],
+  declarations: [AccountOwnerPipe, CostcenterOwnerPipe],
   imports: [
     CommonModule
   ],
