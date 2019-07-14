@@ -45,12 +45,6 @@ export class MembersPage implements OnInit {
   ngOnInit() {
   }
 
-  ionViewWillEnter() {
-    if (this.router.url === '/members') {
-      this.router.navigateByUrl('/members/dashboard');
-    }
-  }
-
   gotoUrl(url: string) {
     this.router.navigateByUrl(`/members/${url}`);
   }

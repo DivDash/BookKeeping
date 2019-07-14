@@ -455,14 +455,14 @@ export class DatabaseService {
   }
 
   addJournalEntry(journalEntry: JournalEntry) {
-    return new Promise(async (resolve, reject) => {
+    return new Promise<JournalEntry>(async (resolve, reject) => {
 
       this.journalEntries.push(journalEntry);
 
       // To internet
-      this.http.post('http://localhost:4001/journal-entries//create-journal-entry-account', journalEntry)
+      this.http.post('http://localhost:4001/journal-entries/create-journal-entry-account', journalEntry)
       .subscribe(async resp => {
-        resolve(resp);
+        resolve(resp as JournalEntry);
         // Save object to local cache
         try {
           await Storage.set({

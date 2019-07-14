@@ -104,7 +104,7 @@ export class Project extends CostCenter {
 
 export class JournalEntry extends MongoDB {
     particulars: string;
-    projectId: string;
+    costCenterId: string;
     receivingAccountId: string;
     sendingAccountId: string;
     transferredAmount: number;
@@ -112,13 +112,13 @@ export class JournalEntry extends MongoDB {
     date: Date;
 
     constructor(
-        particulars: string, projectId: string, receivingAccountId: string,
+        particulars: string, costCenterId: string, receivingAccountId: string,
         sendingAccountId: string, transferredAmount: number,
         typeOfEntry: string, date: Date
     ) {
         super();
         this.particulars = particulars;
-        this.projectId = projectId;
+        this.costCenterId = costCenterId;
         this.receivingAccountId = receivingAccountId;
         this.sendingAccountId = sendingAccountId;
         this.transferredAmount = transferredAmount;

@@ -10,6 +10,11 @@ import { CostCenterPage } from './cost-center.page';
 const routes: Routes = [
   {
     path: '',
+    pathMatch: 'full',
+    redirectTo: 'projects'
+  },
+  {
+    path: '',
     component: CostCenterPage,
     children: [
       {

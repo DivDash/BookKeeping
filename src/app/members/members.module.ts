@@ -10,6 +10,11 @@ import { MembersPage } from './members.page';
 const routes: Routes = [
   {
     path: '',
+    pathMatch: 'full',
+    redirectTo: 'dashboard'
+  },
+  {
+    path: '',
     component: MembersPage,
     children: [
       {

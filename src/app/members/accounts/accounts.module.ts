@@ -10,6 +10,11 @@ import { AccountsPage } from './accounts.page';
 const routes: Routes = [
   {
     path: '',
+    pathMatch: 'full',
+    redirectTo: 'bank'
+  },
+  {
+    path: '',
     component: AccountsPage,
     children: [
       {

@@ -11,20 +11,23 @@
 </ion-header>
 
 <ion-content>
-  <form #journalForm="ngForm" (ngSubmit)="addJournalEntry();"> <!-- TODO: Readd journalForm.reset();"> -->
+  <form #journalForm="ngForm" (ngSubmit)="addJournalEntry(); journalForm.reset();">
   <ion-row class="ion-margin">
     <ion-col size="3" size-xs="12" size-sm="6" size-md="3">
     <ion-item>
-      <ion-label>Project</ion-label>
-      <ion-select name="project" [(ngModel)]="this.project" placeholder="Select Project">
-        <ion-select-option *ngFor="let project of projects" [value]="project.id">{{project.name}}</ion-select-option>
+      <ion-label>Cost Center</ion-label>
+      <ion-select name="project" [(ngModel)]="this.costCenterId" placeholder="Select Cost Center">
+        <ion-select-option disabled>Projects</ion-select-option>
+        <ion-select-option *ngFor="let project of costCenter.projects" [value]="project.id">{{project | costcenterOwner}}</ion-select-option>
+        <ion-select-option disabled>Cost Center</ion-select-option>
+        <ion-select-option *ngFor="let nonProfit of costCenter.nonProfits" [value]="nonProfit.id">{{nonProfit | costcenterOwner}}</ion-select-option>
       </ion-select>
     </ion-item>
     </ion-col>
     <ion-col size="3" size-xs="12" size-sm="6" size-md="3">
     <ion-item>
       <ion-label>Sending Account</ion-label>
-      <ion-select name="sendingAccount" [(ngModel)]="this.sendingAccount" placeholder="Sending Account">
+      <ion-select name="sendingAccount" [(ngModel)]="this.sendingAccountId" placeholder="Sending Account">
         <ion-select-option disabled>Bank Accounts</ion-select-option>
         <ion-select-option *ngFor="let bankAccount of accounts.bankAccounts" [value]="bankAccount.id">{{bankAccount | accountOwner}}</ion-select-option>
         <ion-select-option disabled>Cash Accounts</ion-select-option>
@@ -35,7 +38,7 @@
     <ion-col size="3" size-xs="12" size-sm="6" size-md="3">
     <ion-item>
       <ion-label>Receiving Account</ion-label>
-      <ion-select name="receivingAccount" [(ngModel)]="this.receivingAccount" placeholder="Receiving Account">
+      <ion-select name="receivingAccount" [(ngModel)]="this.receivingAccountId" placeholder="Receiving Account">
         <ion-select-option disabled>Bank Accounts</ion-select-option>
         <ion-select-option *ngFor="let bankAccount of accounts.bankAccounts" [value]="bankAccount.id">{{bankAccount | accountOwner}}</ion-select-option>
         <ion-select-option disabled>Cash Accounts</ion-select-option>
@@ -45,9 +48,9 @@
     </ion-col>
     <ion-col size="3" size-xs="12" size-sm="6" size-md="3">
     <ion-item>
-      <ion-label>Transferred Amount</ion-label>
+      <ion-label position="floating">Transferred Amount</ion-label>
       <ion-input name="transferredAmount" [(ngModel)]="this.transferredAmount"
-      type="number" placeholder="Transferred Amount"></ion-input>
+      type="number"></ion-input>
     </ion-item>
     </ion-col>
     <ion-col size="3" size-xs="12" size-sm="6" size-md="3">
@@ -73,7 +76,7 @@
   <ion-grid class="table-style" *ngIf="journalEntries" fixed>
     <ion-row class="header">
       <ion-col size="1">Date</ion-col>
-      <ion-col size="1">Project</ion-col>
+      <ion-col size="1">Cost Center</ion-col>
       <ion-col size="2">Sending Account</ion-col>
       <ion-col size="2">Receiving Account</ion-col>
       <ion-col size="3">Transferred Amount</ion-col>
@@ -84,13 +87,13 @@
       <ion-col size="1">{{journalEntry.date | date}}</ion-col>
       <!-- TODO: Convert to actual accounts and project -->
       <ion-col size="1">{{
-        journalEntry.project
+        getCostCenterById(journalEntry.costCenterId) | costcenterOwner
       }}</ion-col>
       <ion-col size="2">{{
-          journalEntry.sendingAccount
+          getAccountById(journalEntry.sendingAccountId) | accountOwner
       }}</ion-col>
       <ion-col size="2">{{
-          journalEntry.receivingAccount
+          getAccountById(journalEntry.receivingAccountId) | accountOwner
       }}</ion-col>
       <ion-col size="3">{{journalEntry.transferredAmount}}</ion-col>
       <ion-col size="3">{{journalEntry.particulars}}</ion-col>

@@ -11,8 +11,7 @@ const routes: Routes = [
   {
     path: '**',
     redirectTo: ''
-  },
-  { path: 'non-profit', loadChildren: './members/cost-center/non-profit/non-profit.module#NonProfitPageModule' }
+  }
 ];
 
 @NgModule({

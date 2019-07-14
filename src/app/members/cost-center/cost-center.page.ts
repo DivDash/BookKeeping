@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cost-center',
@@ -9,11 +8,9 @@ import { Router } from '@angular/router';
 export class CostCenterPage implements OnInit {
 
   constructor(
-    private router: Router
   ) { }
 
   ngOnInit() {
-    this.router.navigateByUrl('/members/cost-center/projects');
   }
 
 }

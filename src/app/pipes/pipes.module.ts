@@ -10,6 +10,6 @@ import { CostcenterOwnerPipe } from './costcenter-owner.pipe';
   imports: [
     CommonModule
   ],
-  exports: [AccountOwnerPipe]
+  exports: [AccountOwnerPipe, CostcenterOwnerPipe]
 })
 export class PipesModule { }

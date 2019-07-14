@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { JournalEntry, BankAccount, CashAccount, Project } from 'src/app/services/helper-classes';
+import { JournalEntry, BankAccount, CashAccount, Project, NonProfit } from 'src/app/services/helper-classes';
 import { DatabaseService } from 'src/app/services/database.service';
 
 @Component({
@@ -10,9 +10,9 @@ import { DatabaseService } from 'src/app/services/database.service';
 export class JournalEntriesPage implements OnInit {
 
   particulars: string;
-  project: string; // Project ID
-  receivingAccount: string; // Account ID
-  sendingAccount: string; // Account ID
+  costCenterId: string; // Project ID
+  receivingAccountId: string; // Account ID
+  sendingAccountId: string; // Account ID
   transferredAmount: number;
   typeOfEntry: string;
 
@@ -24,19 +24,38 @@ export class JournalEntriesPage implements OnInit {
   ngOnInit() {
   }
 
-  addJournalEntry() {
-    console.log(new JournalEntry(
-      this.particulars, this.project, this.receivingAccount,
-      this.sendingAccount, this.transferredAmount,
+  async addJournalEntry() {
+    // TODO: Show loading screen
+    // ENTRY
+    const journalEntry = await this.db.addJournalEntry(new JournalEntry(
+      this.particulars, this.costCenterId, this.receivingAccountId,
+      this.sendingAccountId, this.transferredAmount,
       this.typeOfEntry, new Date()
     ));
-    // this.db.addJournalEntry(
-    //   new JournalEntry(
-    //     this.particulars, this.project, this.receivingAccount,
-    //     this.sendingAccount, this.transferredAmount,
-    //     this.typeOfEntry, new Date()
-    //   )
-    // );
+    // MATHEMATICAL CHANGES
+    // The three places for change
+    const sendingAccount = this.getAccountById(journalEntry.sendingAccountId);
+    const receivingAccount = this.getAccountById(journalEntry.receivingAccountId);
+    const costCenter = this.getCostCenterById(journalEntry.costCenterId);
+    // Subtract from sending account
+    sendingAccount.currentBalance -= journalEntry.transferredAmount;
+    // Add to receiving account
+    receivingAccount.currentBalance += journalEntry.transferredAmount;
+    // If cost center is project
+    if (costCenter instanceof Project) {
+      // If money is sent from client
+      if (sendingAccount.id === costCenter.clientAccountId) {
+        // Transfer from unearned to revenue
+        costCenter.unearnedRevenue -= journalEntry.transferredAmount;
+        costCenter.revenue += journalEntry.transferredAmount;
+      } else { // Else spent by self
+        // Add to expenses
+        costCenter.expenses += journalEntry.transferredAmount;
+      }
+    } else if (costCenter instanceof NonProfit) {
+      // Else spent on non profit, add to expenses
+      costCenter.expenses += journalEntry.transferredAmount;
+    }
   }
 
   getCostCenterById(projectId: string) {
@@ -51,8 +70,8 @@ export class JournalEntriesPage implements OnInit {
     return this.db.journalEntries;
   }
 
-  get projects() {
-    return this.db.projects;
+  get costCenter() {
+    return this.db.costCenter;
   }
 
   get accounts(): {
