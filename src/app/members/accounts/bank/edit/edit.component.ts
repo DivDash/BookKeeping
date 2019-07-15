@@ -28,8 +28,9 @@ export class EditComponent implements OnInit {
   }
 
   updateAccount() {
-    this.bankAccount.bankName = this.localBankAccount.bankName;
     this.bankAccount.accountHolder = this.localBankAccount.accountHolder;
+    this.bankAccount.bankName = this.localBankAccount.bankName;
+    this.db.updateAccount(this.bankAccount).then(console.log);
     this.poc.dismiss();
   }
 

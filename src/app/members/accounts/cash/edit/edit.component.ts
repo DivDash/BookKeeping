@@ -27,7 +27,9 @@ export class EditComponent implements OnInit {
   }
 
   updateAccount() {
+    this.cashAccount.accountHolder = this.localCashAccount.accountHolder;
     this.cashAccount.particulars = this.localCashAccount.particulars;
+    this.db.updateAccount(this.cashAccount);
     this.poc.dismiss();
   }
 

@@ -56,6 +56,10 @@ export class JournalEntriesPage implements OnInit {
       // Else spent on non profit, add to expenses
       costCenter.expenses += journalEntry.transferredAmount;
     }
+    // Update on server and cache
+    this.db.updateAccount(sendingAccount);
+    this.db.updateAccount(receivingAccount);
+    this.db.updateCostCenter(costCenter);
   }
 
   getCostCenterById(projectId: string) {

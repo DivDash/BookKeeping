@@ -184,6 +184,64 @@ export class DatabaseService {
     });
   }
 
+  updateAccount(account: BankAccount | CashAccount) {
+    return new Promise<BankAccount | CashAccount>((resolve, reject) => {
+      // If bank accounts
+      if (account instanceof BankAccount) {
+        // Update online
+        this.http.put(`http://localhost:4001/bank/update-bank-account/${account.id}`,
+        account).subscribe(async resp => {
+          try {
+            await Storage.set({
+              key: 'accounts',
+              value: JSON.stringify(this.accounts)
+            });
+            resolve(account);
+          } catch (err) {
+            reject(new Error('Error while updating bank account'));
+          }
+        }, async error => {
+          console.log(error);
+          try {
+            await Storage.set({
+              key: 'accounts',
+              value: JSON.stringify(this.accounts)
+            });
+            resolve(account);
+          } catch (err) {
+            reject(new Error('Error while updating bank account'));
+          }
+        });
+      } else if (account instanceof CashAccount) {
+        // Else cash accounts
+        // Update online
+        this.http.put(`http://localhost:4001/cash/update-cash-account/${account.id}`,
+        account).subscribe(async resp => {
+          try {
+            await Storage.set({
+              key: 'accounts',
+              value: JSON.stringify(this.accounts)
+            });
+            resolve(account);
+          } catch (err) {
+            reject(new Error('Error while updating cash account'));
+          }
+        }, async error => {
+          console.log(error);
+          try {
+            await Storage.set({
+              key: 'accounts',
+              value: JSON.stringify(this.accounts)
+            });
+            resolve(account);
+          } catch (err) {
+            reject(new Error('Error while updating cash account'));
+          }
+        });
+      }
+    });
+  }
+
   // Takes bank account element as input and removes from array
   // Then updates cache then online database
   deleteAccount(account: BankAccount | CashAccount) {
@@ -388,6 +446,64 @@ export class DatabaseService {
             return;
           }
         });
+    });
+  }
+
+  updateCostCenter(costCenter: Project | NonProfit) {
+    return new Promise<Project | NonProfit>((resolve, reject) => {
+      // Project
+      if (costCenter instanceof Project) {
+        // Update online
+        this.http.put(`http://localhost:4001/projects/update-project/${costCenter.id}`,
+        costCenter).subscribe(async resp => {
+          try {
+            await Storage.set({
+              key: 'cost-center',
+              value: JSON.stringify(this.costCenter)
+            });
+            resolve(costCenter);
+          } catch (err) {
+            reject(new Error('Error while updating project'));
+          }
+        }, async error => {
+          console.log(error);
+          try {
+            await Storage.set({
+              key: 'cost-center',
+              value: JSON.stringify(this.costCenter)
+            });
+            resolve(costCenter);
+          } catch (err) {
+            reject(new Error('Error while updating project'));
+          }
+        });
+      } else if (costCenter instanceof NonProfit) {
+        // Else non profit
+        // Update online
+        this.http.put(`http://localhost:4001/non-profit/update-non-profit/${costCenter.id}`,
+        costCenter).subscribe(async resp => {
+          try {
+            await Storage.set({
+              key: 'cost-center',
+              value: JSON.stringify(this.costCenter)
+            });
+            resolve(costCenter);
+          } catch (err) {
+            reject(new Error('Error while updating non profit'));
+          }
+        }, async error => {
+          console.log(error);
+          try {
+            await Storage.set({
+              key: 'cost-center',
+              value: JSON.stringify(this.costCenter)
+            });
+            resolve(costCenter);
+          } catch (err) {
+            reject(new Error('Error while updating non profit'));
+          }
+        });
+      }
     });
   }
 
