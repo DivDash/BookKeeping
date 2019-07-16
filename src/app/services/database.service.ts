@@ -507,6 +507,48 @@ export class DatabaseService {
     });
   }
 
+  // Takes Cost Center element as input and removes from array
+  // Then updates cache then online database
+  deleteCostCenter(costCenter: Project | NonProfit) {
+    return new Promise(async (resolve, reject) => {
+      // Remove from local array
+      if (costCenter instanceof Project)
+        this.projects.splice(
+          this.projects.indexOf(costCenter), 1
+        );
+      else if (costCenter instanceof NonProfit)
+        this.nonProfits.splice(
+          this.nonProfits.indexOf(costCenter), 1
+        );
+
+      // Update cache
+      try {
+        await Storage.set({
+          key: 'cost-center',
+          value: JSON.stringify(this.costCenter)
+        });
+      } catch (err) {
+        reject(new Error('Error while deleting Cost-Center from local storage.'));
+        return;
+      }
+
+      // Finally from internet - will depend if cost-center was created
+      // TODO: Handle error if no internet
+      // Also depends on whether internet was available when object was created
+      if (costCenter instanceof Project)
+        this.http.delete(`http://localhost:4001/projects/delete-project/${costCenter.id}`)
+        .subscribe(() => {
+          resolve();
+        });
+      else if (costCenter instanceof NonProfit)
+      this.http.delete(`http://localhost:4001/non-profit/delete-non-profit/${costCenter.id}`)
+      .subscribe(() => {
+        resolve();
+      });
+
+    });
+  }
+
   get costCenter() {
     return {
       projects: this.projects,

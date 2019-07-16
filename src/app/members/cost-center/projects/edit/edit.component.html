@@ -1,0 +1,30 @@
+<form #editForm="ngForm" (ngSubmit)="updateProject()">
+  <ion-grid>
+  <ion-row>
+  <ion-col size="12">
+    <ion-item>
+      <ion-label position="floating">Project Name</ion-label>
+      <ion-input required type="text" [(ngModel)]="localProject.name" name="name"></ion-input>
+    </ion-item>
+  </ion-col>
+  <ion-col size="12">
+    <ion-item>
+      <ion-label position="floating">Client</ion-label>
+      <ion-input disabled type="text" [(ngModel)]="this.db.getAccountById(this.project.clientAccountId).accountHolder" name="Client"></ion-input>
+    </ion-item>
+  </ion-col>
+  <ion-col size="12">
+    <ion-item>
+      <ion-label position="floating">Unearned Revenue</ion-label>
+      <ion-input required type="text" [(ngModel)]="localProject.unearnedRevenue" name="unearnedRevenue"></ion-input>
+    </ion-item>
+  </ion-col>
+  <ion-col size="6">
+    <ion-button type="submit" [disabled]="editForm.invalid || !editFormChanged()" expand="full">Update</ion-button>
+  </ion-col>
+  <ion-col size="6">
+    <ion-button  expand="full" (click)="deleteProject()" color="danger">Delete</ion-button>
+  </ion-col>
+  </ion-row>
+  </ion-grid>
+  </form>

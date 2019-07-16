@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { NonProfitPage } from './non-profit.page';
 import { PipesModule } from 'src/app/pipes/pipes.module';
+import { EditComponent } from './edit/edit.component';
 
 const routes: Routes = [
   {
@@ -23,6 +24,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     PipesModule
   ],
-  declarations: [NonProfitPage]
+  declarations: [NonProfitPage, EditComponent],
+  entryComponents: [EditComponent]
 })
 export class NonProfitPageModule {}

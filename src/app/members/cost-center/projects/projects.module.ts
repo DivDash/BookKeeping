@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { ProjectsPage } from './projects.page';
 import { PipesModule } from 'src/app/pipes/pipes.module';
+import { EditComponent } from './edit/edit.component';
 
 const routes: Routes = [
   {
@@ -23,6 +24,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     PipesModule
   ],
-  declarations: [ProjectsPage]
+  declarations: [ProjectsPage, EditComponent],
+  entryComponents: [EditComponent]
 })
 export class ProjectsPageModule {}

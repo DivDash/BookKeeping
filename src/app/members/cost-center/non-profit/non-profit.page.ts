@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { NonProfit, EntryType } from 'src/app/services/helper-classes';
 import { DatabaseService } from 'src/app/services/database.service';
-import { NonProfit } from 'src/app/services/helper-classes';
+import { PopoverController } from '@ionic/angular';
+import { EditComponent } from './edit/edit.component';
 
 @Component({
   selector: 'app-non-profit',
@@ -13,7 +15,8 @@ export class NonProfitPage implements OnInit {
   particulars: string;
 
   constructor(
-    private db: DatabaseService
+    private db: DatabaseService,
+    private poc: PopoverController
   ) {}
 
   ngOnInit() {
@@ -25,8 +28,32 @@ export class NonProfitPage implements OnInit {
     );
   }
 
+  getAccountById(accountId: string) {
+    return this.db.getAccountById(accountId);
+  }
+
+  get accounts() {
+    return this.db.accounts;
+  }
+
+  get entryTypes() {
+    return this.db.entryTypes;
+  }
+
   get nonProfits() {
     return this.db.nonProfits;
+  }
+
+  async presentPopover(nonProfit: NonProfit) {
+    // console.log(nonProfit);
+    const popover = await this.poc.create({
+      component: EditComponent,
+      componentProps: {
+        nonProfit
+      }
+    });
+
+    return await popover.present();
   }
 
 }

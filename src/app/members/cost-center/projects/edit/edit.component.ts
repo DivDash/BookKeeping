@@ -1,20 +1,21 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { CashAccount } from 'src/app/services/helper-classes';
+import { Project } from 'src/app/services/helper-classes';
 import { PopoverController } from '@ionic/angular';
 import { DatabaseService } from 'src/app/services/database.service';
 import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
-  selector: 'cash-edit',
+  selector: 'project-edit',
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.scss'],
 })
 export class EditComponent implements OnInit {
 
-  // Coming from cash accounts page
-  @Input() cashAccount: CashAccount;
+  // Coming from project page
+  @Input() project: Project;
   // For local form usage
-  localCashAccount: CashAccount;
+  localProject: Project;
+
   constructor(
     private db: DatabaseService,
     private poc: PopoverController,
@@ -23,30 +24,30 @@ export class EditComponent implements OnInit {
 
   ngOnInit() {
     // Creating a deep copy for local use
-    this.localCashAccount = JSON.parse(JSON.stringify(this.cashAccount));
+    this.localProject = JSON.parse(JSON.stringify(this.project));
   }
 
-  updateAccount() {
-    this.cashAccount.accountHolder = this.localCashAccount.accountHolder;
-    this.cashAccount.particulars = this.localCashAccount.particulars;
-    this.db.updateAccount(this.cashAccount);
+  updateProject() {
+    this.project.name = this.localProject.name;
+    this.project.unearnedRevenue = this.localProject.unearnedRevenue;
+    this.db.updateCostCenter(this.project).then(console.log);
     this.poc.dismiss();
   }
 
-  deleteAccount() {
+  deleteProject() {
     this.as.confirmation(
-      'Are you sure you want to delete this account?',
+      'Are you sure you want to delete this Project?',
       // Confirmation handler
       () => {
-        this.db.deleteAccount(this.cashAccount);
+        this.db.deleteCostCenter(this.project);
         this.poc.dismiss();
       }
     );
   }
 
   editFormChanged() {
-    return this.localCashAccount.particulars !== this.cashAccount.particulars
-        || this.localCashAccount.accountHolder !== this.cashAccount.accountHolder ;
+    return this.localProject.name !== this.project.name
+        || this.localProject.unearnedRevenue !== this.project.unearnedRevenue;
   }
 
 }

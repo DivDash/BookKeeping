@@ -40,8 +40,8 @@
         <ion-col size="1">Date</ion-col>
         <ion-col size="1">Status</ion-col>
       </ion-row>
-      <ion-row class="body" *ngFor="let project of projects">
-        <!-- (click)="presentPopover(bankAccount)" -->
+      <ion-row class="body" *ngFor="let project of projects"
+        (click)="presentPopover(project)">
         <ion-col size="2">{{ project.name }}</ion-col>
         <ion-col size="2">{{ getAccountById(project.clientAccountId) | accountOwner }}</ion-col>
         <ion-col size="2">{{ project.unearnedRevenue }}</ion-col>

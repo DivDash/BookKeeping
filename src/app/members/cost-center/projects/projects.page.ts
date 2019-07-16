@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Project } from 'src/app/services/helper-classes';
+import { Project, EntryType } from 'src/app/services/helper-classes';
 import { DatabaseService } from 'src/app/services/database.service';
-
+import { PopoverController } from '@ionic/angular';
+import { EditComponent } from './edit/edit.component';
 @Component({
   selector: 'app-projects',
   templateUrl: './projects.page.html',
@@ -14,7 +15,8 @@ export class ProjectsPage implements OnInit {
   accountReceivable: number;
 
   constructor(
-    private db: DatabaseService
+    private db: DatabaseService,
+    private poc: PopoverController
   ) {}
 
   ngOnInit() {
@@ -36,6 +38,20 @@ export class ProjectsPage implements OnInit {
 
   get accounts() {
     return this.db.accounts;
+  }
+
+  get entryTypes() {
+    return this.db.entryTypes;
+  }
+
+  async presentPopover(project: Project) {
+    const popover = await this.poc.create({
+      component: EditComponent,
+      componentProps: {
+        project
+      }
+    });
+    return await popover.present();
   }
 
 }

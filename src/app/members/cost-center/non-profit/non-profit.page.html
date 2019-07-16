@@ -25,8 +25,8 @@
           <ion-col size="3">Expenses</ion-col>
           <ion-col size="6">Particulars</ion-col>
         </ion-row>
-        <ion-row class="body" *ngFor="let nonProfit of nonProfits">
-          <!-- (click)="presentPopover(bankAccount)" -->
+        <ion-row class="body" *ngFor="let nonProfit of nonProfits"
+          (click)="presentPopover(nonProfit)">
           <ion-col size="3">{{ nonProfit.name }}</ion-col>
           <ion-col size="3">{{ nonProfit.expenses }}</ion-col>
           <ion-col size="6">{{ nonProfit.particulars }}</ion-col>

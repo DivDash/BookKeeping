@@ -1,0 +1,24 @@
+<form #editForm="ngForm" (ngSubmit)="updateNonProfit()">
+  <ion-grid>
+  <ion-row>
+  <ion-col size="12">
+    <ion-item>
+      <ion-label position="floating">Name</ion-label>
+      <ion-input required type="text" [(ngModel)]="localNonProfit.name" name="name"></ion-input>
+    </ion-item>
+  </ion-col>
+  <ion-col size="12">
+    <ion-item>
+      <ion-label position="floating">Particulars</ion-label>
+      <ion-input required type="text" [(ngModel)]="localNonProfit.particulars" name="particulars"></ion-input>
+    </ion-item>
+  </ion-col>
+  <ion-col size="6">
+    <ion-button type="submit" [disabled]="editForm.invalid || !editFormChanged()" expand="full">Update</ion-button>
+  </ion-col>
+  <ion-col size="6">
+    <ion-button  expand="full" (click)="deleteNonProfit()" color="danger">Delete</ion-button>
+  </ion-col>
+  </ion-row>
+  </ion-grid>
+  </form>
