@@ -22,7 +22,7 @@ export class EditComponent implements OnInit {
     private poc: PopoverController,
     private as: AlertService,
   ) {
-    setTimeout(() => (console.log(this.nonProfit)), 5000);
+    // setTimeout(() => (console.log(this.nonProfit)), 5000);
   }
 
   ngOnInit() {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { BankAccount, CashAccount, EntryType, JournalEntry, Project, NonProfit } from './helper-classes';
+import { BankAccount, CashAccount, EntryType, JournalEntry, Project, NonProfit, User } from './helper-classes';
 
 import { Plugins } from '@capacitor/core';
 const { Storage } = Plugins;
@@ -24,6 +24,9 @@ export class DatabaseService {
 
   // JOURNAL ENTRIES
   journalEntries: Array<JournalEntry>;
+
+  // USERs
+  users: Array<User>;
 
   constructor(
     private http: HttpClient
@@ -650,6 +653,82 @@ export class DatabaseService {
 
   getJournalEntry(journalEntryId: string) {
     return this.journalEntries.find(journalEntry => journalEntry.id === journalEntryId);
+  }
+
+  register(user: User) {
+    return new Promise<User>(async (resolve, reject) => {
+
+      // this.users.push(user);
+
+      // To internet
+      this.http.post('http://localhost:4001/user-management/sign-up', user)
+      .subscribe(async resp => {
+        resolve(resp as User);
+        // Save object to local cache
+        try {
+          await Storage.set({
+            key: 'users',
+            value: JSON.stringify(this.users)
+          });
+        } catch (err) {
+          reject(new Error('Error while adding user in local storage.'));
+          return;
+        }
+      }, async error => {
+        // TODO: if error === not connected
+        // Save object to local cache
+        console.log(error);
+        try {
+          await Storage.set({
+            key: 'users',
+            value: JSON.stringify(this.users)
+          });
+        } catch (err) {
+          reject(new Error('Error while adding project in local storage.'));
+          return;
+        }
+      });
+    });
+  }
+
+  login(user: User) {
+    return new Promise<User>(async (resolve, reject) => {
+
+      this.users.push(user);
+
+      // To internet
+      this.http.post('http://localhost:4001/user-management/sign-up/', user)
+      .subscribe(async resp => {
+        resolve(resp as User);
+        // Save object to local cache
+        try {
+          await Storage.set({
+            key: 'users',
+            value: JSON.stringify(this.users)
+          });
+        } catch (err) {
+          reject(new Error('Error while adding user in local storage.'));
+          return;
+        }
+      }, async error => {
+        // TODO: if error === not connected
+        // Save object to local cache
+        console.log(error);
+        try {
+          await Storage.set({
+            key: 'users',
+            value: JSON.stringify(this.users)
+          });
+        } catch (err) {
+          reject(new Error('Error while adding project in local storage.'));
+          return;
+        }
+      });
+    });
+  }
+
+  getUser(userEmail: string) {
+    return this.users.find(user => user.email === userEmail);
   }
 
 }

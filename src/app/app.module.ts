@@ -12,6 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { ChartsModule } from 'ng2-charts';
 import { PipesModule } from './pipes/pipes.module';
+import { IonicStorageModule } from '@ionic/storage';
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,7 +23,8 @@ import { PipesModule } from './pipes/pipes.module';
     AppRoutingModule,
     HttpClientModule,
     ChartsModule,
-    PipesModule
+    PipesModule,
+    IonicStorageModule.forRoot()
   ],
   providers: [
     StatusBar,
