@@ -12,6 +12,11 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { ChartsModule } from 'ng2-charts';
 import { PipesModule } from './pipes/pipes.module';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { environment } from '../environments/environment';
+
+// TODO: Change for server
+const config: SocketIoConfig = { url: environment.serverUrl, options: {} };
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,7 +27,8 @@ import { PipesModule } from './pipes/pipes.module';
     AppRoutingModule,
     HttpClientModule,
     ChartsModule,
-    PipesModule
+    PipesModule,
+    SocketIoModule.forRoot(config)
   ],
   providers: [
     StatusBar,

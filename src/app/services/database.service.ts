@@ -4,6 +4,7 @@ import { environment } from '../../environments/environment';
 import { BankAccount, CashAccount, EntryType, JournalEntry, Project, NonProfit } from './helper-classes';
 
 import { Plugins } from '@capacitor/core';
+import { ServerService } from './server.service';
 const { Storage } = Plugins;
 
 @Injectable({
@@ -26,7 +27,8 @@ export class DatabaseService {
   journalEntries: Array<JournalEntry>;
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private server: ServerService
   ) { }
 
   // DASHBOARD
@@ -60,7 +62,7 @@ export class DatabaseService {
       Promise.all([
       new Promise((res, rej) =>
       // Loading bank
-      this.http.get('http://localhost:4001/bank/').subscribe(bankAccounts => {
+      this.server.getLiveCollection('bank').subscribe(bankAccounts => {
         bankAccounts['forEach']((bankAccount, index) => {
           this.bankAccounts.push(new BankAccount(bankAccount.bankName, bankAccount.accountHolder, bankAccount.currentBalance));
           this.bankAccounts[index].id = bankAccount._id;
@@ -70,7 +72,8 @@ export class DatabaseService {
       ),
       new Promise((res, rej) =>
       // Loading cash
-      this.http.get('http://localhost:4001/cash/').subscribe(cashAccounts => {
+      this.server.getLiveCollection('cash').subscribe(cashAccounts => {
+        console.log(cashAccounts);
         cashAccounts['forEach']((cashAccount, index) => {
           this.cashAccounts.push(new CashAccount(cashAccount.accountHolder, cashAccount.currentBalance, cashAccount.particulars));
           this.cashAccounts[index].id = cashAccount._id;
@@ -320,7 +323,7 @@ export class DatabaseService {
       Promise.all([
       new Promise((res, rej) =>
       // Loading project
-      this.http.get('http://localhost:4001/projects/').subscribe(projects => {
+      this.server.getLiveCollection('projects').subscribe(projects => {
         projects['forEach']((project, index) => {
           this.projects.push(new Project(project.name, project.clientAccountId,
           project.accountReceivable, project.date, project.status));
@@ -334,7 +337,7 @@ export class DatabaseService {
       ),
       new Promise((res, rej) =>
       // Loading non-profit
-      this.http.get('http://localhost:4001/non-profit/').subscribe(nonProfits => {
+      this.server.getLiveCollection('non-profit').subscribe(nonProfits => {
         nonProfits['forEach']((nonProfit, index) => {
           this.nonProfits.push(new NonProfit(nonProfit.name, nonProfit.particulars));
           this.nonProfits[index].id = nonProfit._id;
@@ -587,7 +590,7 @@ export class DatabaseService {
       this.journalEntries = [];
 
       // Load from the Internet
-      this.http.get('http://localhost:4001/journal-entries/').subscribe(journalEntries => {
+      this.server.getLiveCollection('journal-entries').subscribe(journalEntries => {
         this.journalEntries = journalEntries as Array<JournalEntry>;
         // Save to local cache
         Storage.set({
