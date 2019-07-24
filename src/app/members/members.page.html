@@ -8,6 +8,7 @@
         </ion-title>
       </ion-toolbar>
     </ion-header>
+    
     <ion-content>
       <ion-list>
         <ion-menu-toggle auto-hide="false" *ngFor="let page of pages">
@@ -17,6 +18,16 @@
             {{ page.title }}
           </ion-item>
         </ion-menu-toggle>
+        
+        <ion-item (click)="logout()" >
+          <ion-icon slot="start" name="log-out"></ion-icon>
+            Sign Out
+        </ion-item>
+
+        <!-- <ion-button (click)="logout()">
+            <ion-icon slot="icon-only" name="log-out"></ion-icon>
+        </ion-button> -->
+
       </ion-list>
     </ion-content>
   </ion-menu>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DatabaseService } from '../services/database.service';
+import { AuthenticationService } from '../services/authentication.service';
 
 @Component({
   selector: 'app-members',
@@ -30,11 +31,18 @@ export class MembersPage implements OnInit {
       url: 'journal-entries',
       icon: 'journal'
     }
+    // ,
+    // {
+    //   title: 'Sign Out',
+    //   icon: 'log-out',
+    //   url: 'member.page/logout();'
+    // }
   ];
 
   constructor(
     public router: Router,
-    private db: DatabaseService
+    private db: DatabaseService,
+    private authService: AuthenticationService
   ) {
     // Load all data
     this.db.loadAccounts();
@@ -43,6 +51,10 @@ export class MembersPage implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  logout() {
+    this.authService.logout();
   }
 
   gotoUrl(url: string) {

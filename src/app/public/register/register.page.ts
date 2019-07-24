@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { DatabaseService } from 'src/app/services/database.service';
 import { User } from 'src/app/services/helper-classes';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
   styleUrls: ['./register.page.scss'],
 })
+
 export class RegisterPage implements OnInit {
 
   email: string;
@@ -16,17 +17,23 @@ export class RegisterPage implements OnInit {
   date: Date;
   role: string;
 
-  constructor(
-    private db: DatabaseService,
+  model: any = { };
 
-  ) { }
+  constructor(
+    private au: AuthenticationService,
+
+  ) {
+    // tslint:disable-next-line: new-parens
+    this.date = new Date;
+  }
 
   ngOnInit() {
   }
 
   register() {
-    this.db.register(new User(this.email, this.username, this.passwordOne, this.passwordTwo, this.date, this.role));
+    this.au.register(new User(this.email, this.username, this.passwordOne, this.passwordTwo, this.date, this.role));
   }
 
 
 }
+

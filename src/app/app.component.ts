@@ -30,13 +30,12 @@ export class AppComponent implements OnInit {
 
       this.authService.authenticationState.subscribe(state => {
         console.log('Auth Changed: ', state);
-        
+
         if (state) {
-          this.router.navigate(['members', 'dashboard']);
+          this.router.navigate(['members']);
         } else {
           this.router.navigate(['login']);
         }
-
 
       });
     });

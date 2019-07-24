@@ -2,7 +2,6 @@ import { Component, OnInit, ElementRef } from '@angular/core';
 import { DatabaseService } from 'src/app/services/database.service';
 
 import { Chart } from 'chart.js';
-import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,14 +13,10 @@ export class DashboardPage {
   chart;
   city: string;
 
-  constructor(private db: DatabaseService, private elementRef: ElementRef, private authService: AuthenticationService) { }
+  constructor(private db: DatabaseService, private elementRef: ElementRef) { }
 
   ionViewDidEnter() {
     this.getWeather('Karachi');
-  }
-
-  logout() {
-    this.authService.logout();
   }
 
   getWeather(city: string) {

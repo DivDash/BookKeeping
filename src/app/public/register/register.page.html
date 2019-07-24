@@ -5,26 +5,86 @@
   </ion-header>
   
   <ion-content padding>
+
+<!-- 
+
+    <div class="container">
+        <div class="row">
+          <div class="col-6">
+            <div class="jumbotron">
+              <h2>Angular 6 Form validation</h2>
+              <form name="form" (ngSubmit)="f.form.valid && register()" #f="ngForm" novalidate>
+                
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="text" class="form-control" [(ngModel)]="model.email" #email="ngModel" [ngClass]="{'is-invalid':f.submitted && email.invalid}" name="email" required email />
+                    <div *ngIf="f.submitted && email.invalid" class="invalid-feedback">
+                      <div *ngIf="email.errors">Email Name is required</div>
+                      <div *ngIf="email.errors.email">Email must be a valid email Address</div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                  <label for="firstName">First Name</label>
+                  <input type="text" class="form-control" [(ngModel)]="model.firstName" #firstName="ngModel" [ngClass]="{'is-invalid':f.submitted && firstName.invalid}" name="firstName" required />
+                  <div class="invalid-feedback">
+                    <div>First Name is required</div>
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                  <label for="lastName">Last Name</label>
+                  <input type="text" class="form-control" [(ngModel)]="model.lastName" #lastName="ngModel" [ngClass]="{'is-invalid':f.submitted && lastName.invalid}" name="lastName" required />
+                  <div class="invalid-feedback">
+                    <div>Last Name is required</div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="password">Password</label>
+                  <input type="password" class="form-control" [(ngModel)]="model.password" #password="ngModel" [ngClass]="{'is-invalid':f.submitted && password.invalid}" name="password" required minlength="6" />
+                  <div *ngIf="f.submitted && password.invalid" class="invalid-feedback">
+                    <div *ngIf="password.errors.required">Password Name is required</div>
+                    <div *ngIf="password.errors.minlength">Password must be at least 6 characters</div>
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                  <button class="btn btn-primary">Register</button>
+                </div>
+              
+            </form>
+            </div>
+          </div>
+        </div>
+      </div>
+ -->
+
+
+
+
+
+
     <ion-list>
         <ion-item>
             <ion-label position="floating">Email</ion-label>
-            <ion-input type="email" [(ngModel)]="email"></ion-input>
+            <ion-input required type="email" [(ngModel)]="email"></ion-input>
         </ion-item>
            <ion-item>
                 <ion-label position="floating">Username</ion-label>
-                <ion-input type="text" [(ngModel)]="username"></ion-input>
+                <ion-input required type="text" [(ngModel)]="username"></ion-input>
         </ion-item>
         <ion-item>
             <ion-label position="floating">Password</ion-label>
-            <ion-input type="password" [(ngModel)]="passwordOne"></ion-input>
+            <ion-input required type="password" [(ngModel)]="passwordOne"></ion-input>
         </ion-item>
         <ion-item>
             <ion-label position="floating">Comfirm Password</ion-label>
-            <ion-input type="password" [(ngModel)]="passwordTwo"></ion-input>
+            <ion-input required type="password" [(ngModel)]="passwordTwo"></ion-input>
         </ion-item>
         <ion-item>
             <ion-label position="floating">Role</ion-label>
-            <ion-input type="text" [(ngModel)]="role"></ion-input>
+            <ion-input required type="text" [(ngModel)]="role"></ion-input>
         </ion-item>
 
     </ion-list>
