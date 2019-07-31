@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { DatabaseService } from '../../../services/database.service';
-import { BankAccount, EntryType } from 'src/app/services/helper-classes';
+import { BankAccount } from 'src/app/services/helper-classes';
 import { PopoverController } from '@ionic/angular';
 import { EditComponent } from './edit/edit.component';
+
 
 @Component({
   selector: 'app-bank',
@@ -48,6 +49,10 @@ export class BankPage implements OnInit {
       }
     });
     return await popover.present();
+  }
+
+  trackById(item: object, index: number) {
+    return item['id'];
   }
 
 }

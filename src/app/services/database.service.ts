@@ -63,8 +63,9 @@ export class DatabaseService {
       new Promise((res, rej) =>
       // Loading bank
       this.server.getLiveCollection('bank').subscribe(bankAccounts => {
-        bankAccounts['forEach']((bankAccount, index) => {
-          this.bankAccounts.push(new BankAccount(bankAccount.bankName, bankAccount.accountHolder, bankAccount.currentBalance));
+        this.bankAccounts.length = bankAccounts.length;
+        bankAccounts.forEach((bankAccount, index) => {
+          this.bankAccounts[index] = new BankAccount(bankAccount.bankName, bankAccount.accountHolder, bankAccount.currentBalance);
           this.bankAccounts[index].id = bankAccount._id;
         });
         return res(this.bankAccounts);
@@ -73,9 +74,9 @@ export class DatabaseService {
       new Promise((res, rej) =>
       // Loading cash
       this.server.getLiveCollection('cash').subscribe(cashAccounts => {
-        console.log(cashAccounts);
-        cashAccounts['forEach']((cashAccount, index) => {
-          this.cashAccounts.push(new CashAccount(cashAccount.accountHolder, cashAccount.currentBalance, cashAccount.particulars));
+        this.cashAccounts.length = cashAccounts.length;
+        cashAccounts.forEach((cashAccount, index) => {
+          this.cashAccounts[index] = new CashAccount(cashAccount.accountHolder, cashAccount.currentBalance, cashAccount.particulars);
           this.cashAccounts[index].id = cashAccount._id;
         });
         return res(this.cashAccounts);
@@ -98,12 +99,12 @@ export class DatabaseService {
           if (ret.value) {
             const accounts = JSON.parse(ret.value);
             accounts.bankAccounts.forEach((bankAccount, index) => {
-                this.bankAccounts.push(new BankAccount(bankAccount.bankName, bankAccount.accountHolder, bankAccount.currentBalance));
+                this.bankAccounts[index] = new BankAccount(bankAccount.bankName, bankAccount.accountHolder, bankAccount.currentBalance);
                 this.bankAccounts[index].id = bankAccount._id;
             });
 
             accounts.cashAccounts.forEach((cashAccount, index) => {
-              this.cashAccounts.push(new CashAccount(cashAccount.accountHolder, cashAccount.currentBalance, cashAccount.particulars));
+              this.cashAccounts[index] = new CashAccount(cashAccount.accountHolder, cashAccount.currentBalance, cashAccount.particulars);
               this.cashAccounts[index].id = cashAccount._id;
             });
 
@@ -324,9 +325,10 @@ export class DatabaseService {
       new Promise((res, rej) =>
       // Loading project
       this.server.getLiveCollection('projects').subscribe(projects => {
-        projects['forEach']((project, index) => {
-          this.projects.push(new Project(project.name, project.clientAccountId,
-          project.accountReceivable, project.date, project.status));
+        this.projects.length = projects.length;
+        projects.forEach((project, index) => {
+          this.projects[index] = new Project(project.name, project.clientAccountId,
+          project.accountReceivable, project.date, project.status);
           this.projects[index].id = project._id;
           this.projects[index].expenses = project.expenses;
           this.projects[index].unearnedRevenue = project.unearnedRevenue;
@@ -338,8 +340,9 @@ export class DatabaseService {
       new Promise((res, rej) =>
       // Loading non-profit
       this.server.getLiveCollection('non-profit').subscribe(nonProfits => {
-        nonProfits['forEach']((nonProfit, index) => {
-          this.nonProfits.push(new NonProfit(nonProfit.name, nonProfit.particulars));
+        this.nonProfits.length = nonProfits.length;
+        nonProfits.forEach((nonProfit, index) => {
+          this.nonProfits[index] = new NonProfit(nonProfit.name, nonProfit.particulars);
           this.nonProfits[index].id = nonProfit._id;
           this.nonProfits[index].expenses = nonProfit.expenses;
         });
@@ -363,13 +366,13 @@ export class DatabaseService {
           if (ret.value) {
             const costCenter = JSON.parse(ret.value);
             costCenter.projects.forEach((project, index) => {
-                this.projects.push(new Project(project.name, project.clientAccountId,
-                project.accountReceivable, project.date, project.status));
+                this.projects[index] = new Project(project.name, project.clientAccountId,
+                project.accountReceivable, project.date, project.status);
                 this.projects[index].id = project._id;
             });
 
             costCenter.nonProfits.forEach((nonProfit, index) => {
-              this.nonProfits.push(new NonProfit(nonProfit.name, nonProfit.particulars));
+              this.nonProfits[index] = new NonProfit(nonProfit.name, nonProfit.particulars);
               this.nonProfits[index].id = nonProfit._id;
               this.nonProfits[index].expenses = nonProfit.expenses;
             });

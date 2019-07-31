@@ -30,7 +30,7 @@
     <ion-col size="4">Account Holder</ion-col>
     <ion-col size="4">Current Balance</ion-col>
   </ion-row>
-  <ion-row class="body" *ngFor="let bankAccount of bankAccounts"
+  <ion-row class="body" *ngFor="let bankAccount of bankAccounts; trackBy: trackById"
   (click)="presentPopover(bankAccount)">
     <ion-col size="4">
       {{ bankAccount.bankName }}
