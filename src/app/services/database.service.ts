@@ -618,6 +618,29 @@ export class DatabaseService {
           return reject(err);
         }
       });
+
+      this.server.getLiveCollection('vouchers').subscribe(vouchers => {
+        this.vouchers = vouchers as Array<Voucher>;
+        // Save to local cache
+        Storage.set({
+          key: 'vouchers',
+          value: JSON.stringify(this.vouchers)
+        });
+      }, async error => {
+        // If no net, load from cache
+        // TODO: If error === no net
+        console.log(error);
+        try {
+          const ret = await Storage.get({ key: 'vouchers' });
+          if (ret.value) {
+            this.vouchers = JSON.parse(ret.value);
+            return resolve(this.vouchers);
+          }
+        } catch (err) {
+          console.log(err);
+          return reject(err);
+        }
+      });
     });
   }
 

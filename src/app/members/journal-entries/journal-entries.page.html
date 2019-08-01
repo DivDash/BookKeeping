@@ -128,8 +128,8 @@
     <ion-row class="header">
       <ion-col size="1">Date</ion-col>
       <ion-col size="1">Cost Center</ion-col>
-      <ion-col size="2">Sending Account</ion-col>
-      <ion-col size="2">Receiving Account</ion-col>
+      <ion-col size="2">Debit Account</ion-col>
+      <ion-col size="2">Credit Account</ion-col>
       <ion-col size="3">Transferred Amount</ion-col>
       <ion-col size="3">Particulars</ion-col>
     </ion-row>
@@ -141,12 +141,12 @@
         getCostCenterById(journalEntry.costCenterId) | costcenterOwner
       }}</ion-col>
       <ion-col size="2">{{
-          getAccountById(journalEntry.sendingAccountId) | accountOwner
+          getAccountById(journalEntry.debitAccountId) | accountOwner
       }}</ion-col>
       <ion-col size="2">{{
-          getAccountById(journalEntry.receivingAccountId) | accountOwner
+          getAccountById(journalEntry.creditAccountId) | accountOwner
       }}</ion-col>
-      <ion-col size="3">{{journalEntry.transferredAmount}}</ion-col>
+      <ion-col size="3">{{journalEntry.amount}}</ion-col>
       <ion-col size="3">{{journalEntry.particulars}}</ion-col>
     </ion-row>
   </ion-grid>
