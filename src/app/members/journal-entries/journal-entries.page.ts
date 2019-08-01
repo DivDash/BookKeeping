@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { JournalEntry, BankAccount, CashAccount, Project, NonProfit } from 'src/app/services/helper-classes';
+import { JournalEntry, BankAccount, CashAccount, Project, NonProfit, Voucher } from 'src/app/services/helper-classes';
 import { DatabaseService } from 'src/app/services/database.service';
-import { FormGroup, FormBuilder, Validators, FormControl, FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 
 @Component({
   selector: 'app-journal-entries',
@@ -11,13 +11,6 @@ import { FormGroup, FormBuilder, Validators, FormControl, FormArray } from '@ang
 export class JournalEntriesPage implements OnInit {
 
   journalForm: FormGroup;
-
-  particulars: string;
-  costCenterId: string; // Project ID
-  receivingAccountId: string; // Account ID
-  sendingAccountId: string; // Account ID
-  transferredAmount: number;
-  typeOfEntry: string;
 
   constructor(
     private fb: FormBuilder,
@@ -37,9 +30,7 @@ export class JournalEntriesPage implements OnInit {
     return this.fb.group({
       costCenter: ['', Validators.required],
       account: ['', Validators.required],
-      amount: ['', Validators.required],
-      entryType: ['', Validators.required],
-      particulars: ['']
+      amount: ['', Validators.required]
     });
   }
 
@@ -60,42 +51,56 @@ export class JournalEntriesPage implements OnInit {
     this.credit.removeAt(index);
   }
 
-  async addJournalEntry() {
+  addJournalEntries() {
+    const journalEntryIds = [];
+    this.credit.value.forEach(async credit => {
+      const journalEntryId = await this.addJournalEntry(
+        this.debit.get('costCenter').value, this.debit.get('account').value,
+        credit.account, credit.amount, credit.entryType, credit.particulars,
+      );
+      journalEntryIds.push(journalEntryId);
+    });
+    this.db.addVoucher(new Voucher(journalEntryIds));
+  }
+
+  // After breaking down into individual entries
+  // Transferred amount = creditAmount[i]
+  async addJournalEntry(costCenterId: string, debitAccountId: string, creditAccountId: string,
+                        amount: number, entryType: string, particulars: string) {
     // TODO: Show loading screen
     // ENTRY
     const journalEntry = await this.db.addJournalEntry(new JournalEntry(
-      this.particulars, this.costCenterId, this.receivingAccountId,
-      this.sendingAccountId, this.transferredAmount,
-      this.typeOfEntry, new Date()
+      costCenterId, debitAccountId, creditAccountId, amount, entryType, particulars
     ));
     // MATHEMATICAL CHANGES
     // The three places for change
-    const sendingAccount = this.getAccountById(journalEntry.sendingAccountId);
-    const receivingAccount = this.getAccountById(journalEntry.receivingAccountId);
+    const sendingAccount = this.getAccountById(journalEntry.debitAccountId);
+    const receivingAccount = this.getAccountById(journalEntry.creditAccountId);
     const costCenter = this.getCostCenterById(journalEntry.costCenterId);
     // Subtract from sending account
-    sendingAccount.currentBalance -= journalEntry.transferredAmount;
+    sendingAccount.currentBalance -= journalEntry.amount;
     // Add to receiving account
-    receivingAccount.currentBalance += journalEntry.transferredAmount;
+    receivingAccount.currentBalance += journalEntry.amount;
     // If cost center is project
     if (costCenter instanceof Project) {
       // If money is sent from client
       if (sendingAccount.id === costCenter.clientAccountId) {
         // Transfer from unearned to revenue
-        costCenter.unearnedRevenue -= journalEntry.transferredAmount;
-        costCenter.revenue += journalEntry.transferredAmount;
+        costCenter.unearnedRevenue -= journalEntry.amount;
+        costCenter.revenue += journalEntry.amount;
       } else { // Else spent by self
         // Add to expenses
-        costCenter.expenses += journalEntry.transferredAmount;
+        costCenter.expenses += journalEntry.amount;
       }
     } else if (costCenter instanceof NonProfit) {
       // Else spent on non profit, add to expenses
-      costCenter.expenses += journalEntry.transferredAmount;
+      costCenter.expenses += journalEntry.amount;
     }
     // Update on server and cache
-    this.db.updateAccount(sendingAccount);
-    this.db.updateAccount(receivingAccount);
-    this.db.updateCostCenter(costCenter);
+    await this.db.updateAccount(sendingAccount);
+    await this.db.updateAccount(receivingAccount);
+    await this.db.updateCostCenter(costCenter);
+    return journalEntry.id;
   }
 
   getCostCenterById(projectId: string) {

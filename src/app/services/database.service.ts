@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { BankAccount, CashAccount, EntryType, JournalEntry, Project, NonProfit } from './helper-classes';
+import { BankAccount, CashAccount, EntryType, JournalEntry, Project, NonProfit, Voucher } from './helper-classes';
 
 import { Plugins } from '@capacitor/core';
 import { ServerService } from './server.service';
@@ -25,6 +25,7 @@ export class DatabaseService {
 
   // JOURNAL ENTRIES
   journalEntries: Array<JournalEntry>;
+  vouchers: Array<Voucher>;
 
   constructor(
     private http: HttpClient,
@@ -591,6 +592,8 @@ export class DatabaseService {
       ];
 
       this.journalEntries = [];
+      // Also vouchers - almost same things
+      this.vouchers = [];
 
       // Load from the Internet
       this.server.getLiveCollection('journal-entries').subscribe(journalEntries => {
@@ -656,6 +659,41 @@ export class DatabaseService {
 
   getJournalEntry(journalEntryId: string) {
     return this.journalEntries.find(journalEntry => journalEntry.id === journalEntryId);
+  }
+
+  addVoucher(voucher: Voucher) {
+    return new Promise<JournalEntry>(async (resolve, reject) => {
+      this.vouchers.push(voucher);
+
+      // To internet
+      this.http.post('http://localhost:4001/vouchers/create-voucher', voucher)
+      .subscribe(async resp => {
+        resolve(resp as JournalEntry);
+        // Save object to local cache
+        try {
+          await Storage.set({
+            key: 'vouchers',
+            value: JSON.stringify(this.vouchers)
+          });
+        } catch (err) {
+          reject(new Error('Error while adding voucher in local storage.'));
+          return;
+        }
+      }, async error => {
+        // TODO: if error === not connected
+        // Save object to local cache
+        console.log(error);
+        try {
+          await Storage.set({
+            key: 'vouchers',
+            value: JSON.stringify(this.vouchers)
+          });
+        } catch (err) {
+          reject(new Error('Error while adding voucher in local storage.'));
+          return;
+        }
+      });
+    });
   }
 
 }

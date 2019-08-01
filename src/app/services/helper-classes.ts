@@ -103,26 +103,48 @@ export class Project extends CostCenter {
 }
 
 export class JournalEntry extends MongoDB {
-    particulars: string;
     costCenterId: string;
-    receivingAccountId: string;
-    sendingAccountId: string;
-    transferredAmount: number;
+    debitAccountId: string;
+    creditAccountId: string;
+    amount: number;
     typeOfEntry: string;
+    particulars: string;
     date: Date;
 
     constructor(
-        particulars: string, costCenterId: string, receivingAccountId: string,
-        sendingAccountId: string, transferredAmount: number,
-        typeOfEntry: string, date: Date
+        costCenterId: string, debitAccountId: string, creditAccountId: string,
+        amount: number, typeOfEntry: string, particulars: string
     ) {
         super();
-        this.particulars = particulars;
         this.costCenterId = costCenterId;
-        this.receivingAccountId = receivingAccountId;
-        this.sendingAccountId = sendingAccountId;
-        this.transferredAmount = transferredAmount;
+        this.debitAccountId = debitAccountId;
+        this.creditAccountId = creditAccountId;
+        this.amount = amount;
         this.typeOfEntry = typeOfEntry;
-        this.date = date;
+        this.particulars = particulars;
+        this.date = new Date();
+    }
+}
+
+export class Voucher extends MongoDB {
+
+    number: string;
+    journalEntryIds: string[];
+
+    constructor(journalEntryIds: string[]) {
+        super();
+        this.number = this.generateId(6);
+        this.journalEntryIds = journalEntryIds;
+        console.log(this.number);
+    }
+
+    dec2hex(dec: number) {
+        return ('0' + dec.toString(16)).substr(-2);
+    }
+
+    generateId(len: number) {
+        const arr = new Uint8Array((len || 40) / 2);
+        window.crypto.getRandomValues(arr);
+        return Array.from(arr, this.dec2hex).join('');
     }
 }
