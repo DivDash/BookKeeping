@@ -4,11 +4,8 @@ import { environment } from '../../environments/environment';
 import { BankAccount, CashAccount, EntryType, JournalEntry, Project, NonProfit, User } from './helper-classes';
 
 import { Plugins } from '@capacitor/core';
-<<<<<<< HEAD
 import { ServerService } from './server.service';
-=======
 
->>>>>>> Authentication
 const { Storage } = Plugins;
 
 @Injectable({
