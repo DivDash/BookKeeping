@@ -50,5 +50,9 @@ export class CashPage implements OnInit {
     return await popover.present();
   }
 
+  trackById(item: object, index: number) {
+    return item['id'];
+  }
+
 }
 

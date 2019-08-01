@@ -31,7 +31,7 @@
     <ion-col size="4">Current Balance</ion-col>
     <ion-col size="4">Particulars</ion-col>
   </ion-row>
-  <ion-row class="body" *ngFor="let cashAccount of cashAccounts"
+  <ion-row class="body" *ngFor="let cashAccount of cashAccounts; trackBy: trackById"
   (click)="presentPopover(cashAccount)">
     <ion-col size="4">
       {{ cashAccount.accountHolder }}
