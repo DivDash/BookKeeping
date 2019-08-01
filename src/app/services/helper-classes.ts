@@ -126,3 +126,27 @@ export class JournalEntry extends MongoDB {
         this.date = date;
     }
 }
+
+
+export class User extends MongoDB {
+    email: string;
+    username: string;
+    passwordOne: string;
+    passwordTwo: string;
+    date: Date;
+    role: string;
+
+    constructor(
+        email: string, username: string,
+        passwordOne: string, passwordTwo: string,
+        date: Date, role: string
+    ) {
+        super();
+        this.email = email;
+        this.username = username;
+        this.passwordOne = passwordOne;
+        this.passwordTwo = passwordTwo;
+        this.date = date;
+        this.role = role;
+    }
+}

@@ -1,10 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { BankAccount, CashAccount, EntryType, JournalEntry, Project, NonProfit } from './helper-classes';
+import { BankAccount, CashAccount, EntryType, JournalEntry, Project, NonProfit, User } from './helper-classes';
 
 import { Plugins } from '@capacitor/core';
+<<<<<<< HEAD
 import { ServerService } from './server.service';
+=======
+
+>>>>>>> Authentication
 const { Storage } = Plugins;
 
 @Injectable({
@@ -25,6 +29,9 @@ export class DatabaseService {
 
   // JOURNAL ENTRIES
   journalEntries: Array<JournalEntry>;
+
+  // USERs
+  users: Array<User>;
 
   constructor(
     private http: HttpClient,
@@ -656,6 +663,10 @@ export class DatabaseService {
 
   getJournalEntry(journalEntryId: string) {
     return this.journalEntries.find(journalEntry => journalEntry.id === journalEntryId);
+  }
+
+  getUser(userEmail: string) {
+    return this.users.find(user => user.email === userEmail);
   }
 
 }
