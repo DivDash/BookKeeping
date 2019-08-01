@@ -11,12 +11,12 @@
 </ion-header>
 
 <ion-content>
-  <form #journalForm="ngForm" (ngSubmit)="addJournalEntry(); journalForm.reset();">
-  <ion-row class="ion-margin">
-    <ion-col size="3" size-xs="12" size-sm="6" size-md="3">
+  <form [formGroup]="journalForm" (ngSubmit)="addJournalEntry(); journalForm.reset();">
+  <ion-row formGroupName="debit" class="ion-margin">
+    <ion-col size="3" size-xs="12" size-sm="4" size-md="3">
     <ion-item>
-      <ion-label>Cost Center</ion-label>
-      <ion-select name="project" [(ngModel)]="this.costCenterId" placeholder="Select Cost Center">
+      <ion-label position="floating">Cost Center</ion-label>
+      <ion-select formControlName="costCenter" placeholder="Select Cost Center">
         <ion-select-option disabled>Projects</ion-select-option>
         <ion-select-option *ngFor="let project of costCenter.projects" [value]="project.id">{{project | costcenterOwner}}</ion-select-option>
         <ion-select-option disabled>Cost Center</ion-select-option>
@@ -24,53 +24,118 @@
       </ion-select>
     </ion-item>
     </ion-col>
-    <ion-col size="3" size-xs="12" size-sm="6" size-md="3">
-    <ion-item>
-      <ion-label>Sending Account</ion-label>
-      <ion-select name="sendingAccount" [(ngModel)]="this.sendingAccountId" placeholder="Sending Account">
-        <ion-select-option disabled>Bank Accounts</ion-select-option>
-        <ion-select-option *ngFor="let bankAccount of accounts.bankAccounts" [value]="bankAccount.id">{{bankAccount | accountOwner}}</ion-select-option>
-        <ion-select-option disabled>Cash Accounts</ion-select-option>
-        <ion-select-option *ngFor="let cashAccount of accounts.cashAccounts" [value]="cashAccount.id">{{cashAccount | accountOwner}}</ion-select-option>
-      </ion-select>
-    </ion-item>
+    <ion-col size="2" size-xs="12" size-sm="4" size-md="2">
+      <ion-item>
+        <ion-label position="floating">Debit Account</ion-label>
+        <ion-select formControlName="account" placeholder="Debit Account">
+          <ion-select-option disabled>Bank Accounts</ion-select-option>
+          <ion-select-option *ngFor="let bankAccount of accounts.bankAccounts" [value]="bankAccount.id">{{bankAccount | accountOwner}}</ion-select-option>
+          <ion-select-option disabled>Cash Accounts</ion-select-option>
+          <ion-select-option *ngFor="let cashAccount of accounts.cashAccounts" [value]="cashAccount.id">{{cashAccount | accountOwner}}</ion-select-option>
+        </ion-select>
+      </ion-item>
     </ion-col>
-    <ion-col size="3" size-xs="12" size-sm="6" size-md="3">
-    <ion-item>
-      <ion-label>Receiving Account</ion-label>
-      <ion-select name="receivingAccount" [(ngModel)]="this.receivingAccountId" placeholder="Receiving Account">
-        <ion-select-option disabled>Bank Accounts</ion-select-option>
-        <ion-select-option *ngFor="let bankAccount of accounts.bankAccounts" [value]="bankAccount.id">{{bankAccount | accountOwner}}</ion-select-option>
-        <ion-select-option disabled>Cash Accounts</ion-select-option>
-        <ion-select-option *ngFor="let cashAccount of accounts.cashAccounts" [value]="cashAccount.id">{{cashAccount | accountOwner}}</ion-select-option>
-      </ion-select>
-    </ion-item>
+    <ion-col size="2" size-xs="12" size-sm="4" size-md="2">
+      <ion-item>
+        <ion-label position="floating">Amount</ion-label>
+        <ion-input formControlName="amount" placeholder="Enter Amount" type="number"></ion-input>
+      </ion-item>
     </ion-col>
-    <ion-col size="3" size-xs="12" size-sm="6" size-md="3">
+    <ion-col size="2" size-xs="12" size-sm="6" size-md="2">
     <ion-item>
-      <ion-label position="floating">Transferred Amount</ion-label>
-      <ion-input name="transferredAmount" [(ngModel)]="this.transferredAmount"
-      type="number"></ion-input>
-    </ion-item>
-    </ion-col>
-    <ion-col size="3" size-xs="12" size-sm="6" size-md="3">
-    <ion-item>
-      <ion-label>Entry Type</ion-label>
-      <ion-select name="typeOfEntry" [(ngModel)]="typeOfEntry" placeholder="Select Entry Type">
+      <ion-label position="floating">Entry Type</ion-label>
+      <ion-select formControlName="entryType" placeholder="Select Entry Type">
         <ion-select-option *ngFor="let entryType of entryTypes" [value]="entryType.id">{{entryType.value}}</ion-select-option>
       </ion-select>
     </ion-item>
     </ion-col>
     <ion-col size="3" size-xs="12" size-sm="6" size-md="3">
     <ion-item>
-      <ion-label>Particulars</ion-label>
-      <ion-input name="particulars" [(ngModel)]="particulars" type="text" placeholder="Narration"></ion-input>
+      <ion-label position="floating">Particulars</ion-label>
+      <ion-input name="particulars" type="text" placeholder="Narration"></ion-input>
+    </ion-item>
+    </ion-col>
+  </ion-row>
+  <!-- Credit -->
+  <div formArrayName="credit">
+  <ion-row class="ion-margin" *ngFor="let creditField of credit.controls; let i = index" [formGroupName]="i">
+    <ion-col size="3" size-xs="12" size-sm="4" size-md="3">
+      <ion-item>
+        <ion-label position="floating">Credit Account <span *ngIf="i > 0">({{i+1}})</span></ion-label>
+        <ion-select formControlName="account" placeholder="Credit Account">
+          <ion-select-option disabled>Bank Accounts</ion-select-option>
+          <ion-select-option *ngFor="let bankAccount of accounts.bankAccounts" [value]="bankAccount.id">{{bankAccount | accountOwner}}</ion-select-option>
+          <ion-select-option disabled>Cash Accounts</ion-select-option>
+          <ion-select-option *ngFor="let cashAccount of accounts.cashAccounts" [value]="cashAccount.id">{{cashAccount | accountOwner}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-col>
+    <ion-col size="2" size-xs="12" size-sm="4" size-md="2">
+      <ion-item>
+        <ion-label position="floating">Amount</ion-label>
+        <ion-input formControlName="amount" placeholder="Enter Amount" type="number"></ion-input>
+      </ion-item>
+    </ion-col>
+    <ion-col size="2" size-xs="12" size-sm="4" size-md="2">
+    <ion-item>
+      <ion-label position="floating">Entry Type</ion-label>
+      <ion-select formControlName="entryType" placeholder="Select Entry Type">
+        <ion-select-option *ngFor="let entryType of entryTypes" [value]="entryType.id">{{entryType.value}}</ion-select-option>
+      </ion-select>
     </ion-item>
     </ion-col>
     <ion-col size="3" size-xs="12" size-sm="6" size-md="3">
-      <ion-button expand="full" [disabled]="!journalForm.valid" type="submit">Add Journal Entry</ion-button>
+    <ion-item>
+      <ion-label position="floating">Particulars</ion-label>
+      <ion-input name="particulars" type="text" placeholder="Narration"></ion-input>
+    </ion-item>
+    </ion-col>
+    <ion-col size="2" size-xs="12" size-sm="6" size-md="2">
+      <p class="ion-text-center">
+        <ion-icon name="add-circle" size="large" class="ion-padding-end" color="success" (click)="addCreditField()"></ion-icon>
+        <ion-icon *ngIf="i > 0" size="large" color="danger" name="remove-circle" (click)="removeCreditField(i)"></ion-icon>
+      </p>
     </ion-col>
   </ion-row>
+  <ion-row>
+    <ion-col size="3" size-xs="12" size-sm="6" size-md="3">
+      <ion-item class="ion-text-center">
+        <ion-label>
+          <p *ngIf="balanced; else notBalanced">
+            <ion-icon name="checkmark-circle" color="success"></ion-icon>
+            Balanced
+          </p>
+          <ng-template #notBalanced>
+            <p>
+              <ion-icon name="close-circle" color="danger"></ion-icon>
+              Not Balanced
+            </p>
+          </ng-template>
+        </ion-label>
+      </ion-item>
+    </ion-col>
+    <ion-col size="2" size-xs="12" size-sm="6" size-md="2">
+      <ion-item class="ion-text-center">
+        <ion-label>
+          Credit: {{ creditAmount }}
+        </ion-label>
+      </ion-item>
+    </ion-col>
+    <ion-col size="2" size-xs="12" size-sm="6" size-md="2">
+      <ion-item class="ion-text-center">
+        <ion-label>
+          Debit: {{ debitAmount }}
+        </ion-label>
+      </ion-item>
+    </ion-col>
+    <ion-col size="3" size-xs="12" size-sm="6" size-md="3">
+      <ion-button expand="block" [disabled]="!journalForm.valid || !balanced" type="submit">Add Journal Entry</ion-button>
+    </ion-col>
+    <ion-col size="2" size-xs="12" size-sm="6" size-md="2">
+      <ion-button expand="block" color="danger" [disabled]="journalForm.pristine" (click)="journalForm.reset()">Clear All</ion-button>
+    </ion-col>
+  </ion-row>
+  </div>
   </form>
   <!-- size-xs="12" size-sm="6" size-md="4" size-lg="3" -->
   <ion-grid class="table-style" *ngIf="journalEntries" fixed>

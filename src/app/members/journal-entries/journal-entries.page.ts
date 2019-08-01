@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { JournalEntry, BankAccount, CashAccount, Project, NonProfit } from 'src/app/services/helper-classes';
 import { DatabaseService } from 'src/app/services/database.service';
+import { FormGroup, FormBuilder, Validators, FormControl, FormArray } from '@angular/forms';
 
 @Component({
   selector: 'app-journal-entries',
@@ -8,6 +9,8 @@ import { DatabaseService } from 'src/app/services/database.service';
   styleUrls: ['./journal-entries.page.scss'],
 })
 export class JournalEntriesPage implements OnInit {
+
+  journalForm: FormGroup;
 
   particulars: string;
   costCenterId: string; // Project ID
@@ -17,11 +20,44 @@ export class JournalEntriesPage implements OnInit {
   typeOfEntry: string;
 
   constructor(
+    private fb: FormBuilder,
     private db: DatabaseService
-  ) {
-  }
+  ) { }
 
   ngOnInit() {
+    this.journalForm = this.fb.group({
+      debit: this.createDebitField(),
+      credit: this.fb.array([this.createCreditField()])
+    });
+
+    this.journalForm.valueChanges.subscribe(console.log);
+  }
+
+  createDebitField() {
+    return this.fb.group({
+      costCenter: ['', Validators.required],
+      account: ['', Validators.required],
+      amount: ['', Validators.required],
+      entryType: ['', Validators.required],
+      particulars: ['']
+    });
+  }
+
+  createCreditField() {
+    return this.fb.group({
+      account: ['', Validators.required],
+      amount: ['', Validators.required],
+      entryType: ['', Validators.required],
+      particulars: ['']
+    });
+  }
+
+  addCreditField() {
+    this.credit.push(this.createCreditField());
+  }
+
+  removeCreditField(index: number) {
+    this.credit.removeAt(index);
   }
 
   async addJournalEntry() {
@@ -68,6 +104,28 @@ export class JournalEntriesPage implements OnInit {
 
   getAccountById(accountId: string) {
     return this.db.getAccountById(accountId);
+  }
+
+  get debit() {
+    return this.journalForm.get('debit') as FormGroup;
+  }
+
+  get debitAmount() {
+    return Number(this.debit.get('amount').value);
+  }
+
+  get credit() {
+    return this.journalForm.get('credit') as FormArray;
+  }
+
+  get creditAmount() {
+    let sum = 0;
+    this.credit.value.forEach(credit => sum += Number(credit.amount));
+    return sum;
+  }
+
+  get balanced() {
+    return this.debitAmount === this.creditAmount;
   }
 
   get journalEntries() {
