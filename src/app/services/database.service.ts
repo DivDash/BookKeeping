@@ -244,7 +244,7 @@ export class DatabaseService {
       const arrayOfCostCenter = Promise.all([
         new Promise((resolve, reject) =>
           // Loading project
-          this.server.getLiveCollection('projects').subscribe(projects => {
+          this.server.getLiveCollection('project').subscribe(projects => {
             this.projects.length = projects.length;
             projects.forEach((project, index) => {
               this.projects[index] = new Project(project.name, project.clientAccountId,
