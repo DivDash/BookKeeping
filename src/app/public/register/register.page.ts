@@ -11,7 +11,7 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 export class RegisterPage implements OnInit {
 
   email: string;
-  username: string;
+  name: string;
   passwordOne: string;
   passwordTwo: string;
   date: Date;
@@ -23,15 +23,14 @@ export class RegisterPage implements OnInit {
     private au: AuthenticationService,
 
   ) {
-    // tslint:disable-next-line: new-parens
-    this.date = new Date;
+    this.date = new Date();
   }
 
   ngOnInit() {
   }
 
   register() {
-    this.au.register(new User(this.email, this.username, this.passwordOne, this.passwordTwo, this.date, this.role));
+    this.au.register(new User(this.email, this.name, this.role), this.passwordOne);
   }
 
 

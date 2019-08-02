@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Storage } from '@ionic/storage';
-import { Platform } from '@ionic/angular';
-
-import { HttpClient } from '@angular/common/http';
 
 import { User } from './helper-classes';
 
+import { Plugins } from '@capacitor/core';
+import { ServerService } from './server.service';
+const { Storage } = Plugins;
+
 
 const TOKEN_KEY = 'auth-token';
+const USER_KEY = 'user';
 
 @Injectable({
   providedIn: 'root'
@@ -16,102 +17,59 @@ const TOKEN_KEY = 'auth-token';
 export class AuthenticationService {
 
   authenticationState = new BehaviorSubject(false);
+  user: User;
 
   constructor(
-      private storage: Storage,
-      private plt: Platform,
-      private http: HttpClient
+      private server: ServerService
     ) {
-      this.plt.ready().then(() => {
-      this.checkToken();
-    });
   }
 
-  login(email: string, password: string) {
-    return new Promise(async (resolve, reject) => {
-
-      // this.users.push(user);
-      console.log(email);
-      console.log(password);
-
-      // To internet
-      this.http.post('http://localhost:4001/user-management/login/', {
-        email,
-        password
-      })
-      .subscribe(async resp => {
-        resolve(resp as User);
-
-        this.storage.set(TOKEN_KEY, 'Bearer 123456').then(res => {
-          this.authenticationState.next(true);
-        });
-
-
-
-        // Save object to local cache
-        // try {
-        //   await Storage.set({
-        //     key: 'users',
-        //     value: JSON.stringify(this.users)
-        //   });
-        // } catch (err) {
-        //   reject(new Error('Error while adding user in local storage.'));
-        //   return;
-        // }
-      }, async error => {
-        // TODO: if error === not connected
-        // Save object to local cache
-        console.log(error);
+  async login(email: string, password: string) {
+    try {
+      const response = await this.server.signIn(email, password);
+      // Create user
+      this.user = new User(email, response.name, response.role);
+      // Safe to move forward
+      this.authenticationState.next(true);
+      // Store token and user locally
+      await Storage.set({
+        key: TOKEN_KEY,
+        value: response.token
       });
-    });
-  }
-
-  logout() {
-    return this.storage.remove(TOKEN_KEY).then(() => {
-      console.log(this.storage.get(TOKEN_KEY));
-      this.authenticationState.next(false);
-    });
-  }
-
-  register(user: User) {
-    return new Promise<User>(async (resolve, reject) => {
-
-      // To internet
-      // console.log(user);
-      this.http.post('http://localhost:4001/user-management/sign-up/', user)
-      .subscribe(async resp => {
-        resolve(resp as User);
-
-        this.storage.set(TOKEN_KEY, 'Bearer 123456').then(res => {
-          this.authenticationState.next(true);
-        });
-
-
-        // Save object to local cache
-        // try {
-        //   await Storage.set({
-        //     key: 'users',
-        //     value: JSON.stringify(this.users)
-        //   });
-        // } catch (err) {
-        //   reject(new Error('Error while adding user in local storage.'));
-        //   return;
-        // }
-      }, async error => {
-        // TODO: if error === not connected
-        // Save object to local cache
-        console.log(error);
-        // try {
-        //   await Storage.set({
-        //     key: 'users',
-        //     value: JSON.stringify(this.users)
-        //   });
-        // } catch (err) {
-        //   reject(new Error('Error while adding project in local storage.'));
-        //   return;
-        // }
+      await Storage.set({
+        key: USER_KEY,
+        value: JSON.stringify(this.user)
       });
-    });
+    } catch (error) {
+      // TODO: Show login error
+    }
+  }
+
+  async logout() {
+    this.authenticationState.next(false);
+    await Storage.remove({key: TOKEN_KEY});
+    await Storage.remove({key: USER_KEY});
+  }
+
+  async register(user: User, password: string) {
+    try {
+      const response = await this.server.signUp(user, password);
+      // Set user
+      this.user = user;
+      // Safe to move forward
+      this.authenticationState.next(true);
+      // Store token and user locally
+      await Storage.set({
+        key: TOKEN_KEY,
+        value: response.token
+      });
+      await Storage.set({
+        key: USER_KEY,
+        value: JSON.stringify(this.user)
+      });
+    } catch (error) {
+      // TODO: Show registration error
+    }
   }
 
   isAuthenticated() {
@@ -119,13 +77,11 @@ export class AuthenticationService {
   }
 
   checkToken() {
-    return this.storage.get(TOKEN_KEY).then(res => {
+    return Storage.get({key: TOKEN_KEY}).then(res => {
       if (res) {
         this.authenticationState.next(true);
       }
     });
   }
-
-
 
 }

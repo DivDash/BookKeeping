@@ -14,7 +14,6 @@ import { ChartsModule } from 'ng2-charts';
 import { PipesModule } from './pipes/pipes.module';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { environment } from '../environments/environment';
-import { IonicStorageModule } from '@ionic/storage';
 
 // TODO: Change for server
 const config: SocketIoConfig = { url: environment.serverUrl, options: {} };
@@ -29,8 +28,7 @@ const config: SocketIoConfig = { url: environment.serverUrl, options: {} };
     HttpClientModule,
     ChartsModule,
     PipesModule,
-    SocketIoModule.forRoot(config),
-    IonicStorageModule.forRoot()
+    SocketIoModule.forRoot(config)
   ],
   providers: [
     StatusBar,

@@ -152,23 +152,13 @@ export class Voucher extends MongoDB {
 
 export class User extends MongoDB {
     email: string;
-    username: string;
-    passwordOne: string;
-    passwordTwo: string;
-    date: Date;
+    name: string;
     role: string;
 
-    constructor(
-        email: string, username: string,
-        passwordOne: string, passwordTwo: string,
-        date: Date, role: string
-    ) {
+    constructor(email: string, name: string, role: string) {
         super();
         this.email = email;
-        this.username = username;
-        this.passwordOne = passwordOne;
-        this.passwordTwo = passwordTwo;
-        this.date = date;
+        this.name = name;
         this.role = role;
     }
 }

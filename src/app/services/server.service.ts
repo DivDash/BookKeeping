@@ -4,6 +4,7 @@ import { Socket } from 'ngx-socket-io';
 import { Observable, Subject } from 'rxjs';
 
 import { environment } from '../../environments/environment';
+import { User } from './helper-classes';
 
 const { serverUrl } = environment;
 
@@ -16,6 +17,28 @@ export class ServerService {
     private http: HttpClient,
     private socket: Socket
   ) { }
+
+  signIn(email: string, password: string): Promise<{
+    token: string,
+    name: string,
+    role: string,
+    date: Date
+  }> {
+    return new Promise((resolve, reject) =>
+    this.http.post(`${serverUrl}/user-management/login/`, { email, password })
+    .subscribe(resolve, reject));
+  }
+
+  signUp(user: User, password: string): Promise<{
+    token: string
+  }> {
+    // For server
+    const serverUser: any = JSON.parse(JSON.stringify(user));
+    serverUser['password'] = password;
+    return new Promise((resolve, reject) =>
+    this.http.post(`${serverUrl}/user-management/register/`, { serverUser, password })
+    .subscribe(resolve, reject));
+  }
 
   getLiveCollection(name: string): Observable<Array<any>> {
     // Particular behavior for particular document
