@@ -1,7 +1,0 @@
-{
-  "appId": "com.telicsolutions.bookkeeper",
-  "appName": "BookKeeper",
-  "bundledWebRuntime": false,
-  "npmClient": "npm",
-  "webDir": "www"
-}
