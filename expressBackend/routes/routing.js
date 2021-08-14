@@ -1,6 +1,9 @@
 const express = require( 'express' )
 const router = express.Router()
-
+const bcrypt = require( 'bcrypt' )
+const jwt = require( 'jsonwebtoken' )
+const cookieParser = require( 'cookie-parser' );
+router.use( cookieParser() );
 const user = require( '../models/schema' )
 
 
@@ -34,6 +37,7 @@ router.post( '/signin', async ( req, res ) => {
     try 
     {
         let { email, password } = req.body
+        console.log(email,password)
 
         if ( !email || !password ) {
             res.status( 422 ).json( { error: "FILL THE FULL FORM" } )
