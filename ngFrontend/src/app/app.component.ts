@@ -6,10 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Book-Keeper';
-  sideBarOpen = true;
-
-  sideBarToggler() {
-    this.sideBarOpen = !this.sideBarOpen;
-  }
+  title = 'ngFrontend';
 }
