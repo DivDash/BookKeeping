@@ -1,0 +1,8 @@
+Creation of Account holder with some balance 
+Creation of Project with the associated account holder with some credit to work on.
+Account holder will make general entries taking care of that total amount in a entry should be equal to all the entries 
+A voucher will be generated for the particular project 
+the voucher will contain all the entries 
+We can update and add the entries (spend should be equal to the entries)
+one entry can not be pushed in the voucher until (spend should be equal to the entries)
+the balance of account holder will get effected whenever a general entry is made.
