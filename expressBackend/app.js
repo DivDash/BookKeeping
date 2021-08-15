@@ -6,7 +6,7 @@ const app=express();
 dotenv.config({ path:'./confing.env'})
 require('./DB/configdb')
 const cookieParser =require('cookie-parser');
-app.use(cors({origin:'*'}))
+app.use(cors({origin:true, credentials:true}))
 app.use(cookieParser()) 
 const PORT=5000
 app.use(express.json({limit: '50mb'}));

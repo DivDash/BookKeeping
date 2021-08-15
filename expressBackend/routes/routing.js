@@ -22,9 +22,11 @@ router.post( '/registration', async ( req, res ) => {
         if ( userexist ) {
             res.status( 422 ).json( { message: "Email Already Exist" } )
         }
+        else{
         const saving = new user( { name, email, password, confirm, phone, work } );
         await saving.save()
         res.status( 201 ).json( { message: "REGSITERED SUCCESFULLY" } )
+        }
     }
     catch ( err ) {
         console.log( err )
@@ -40,27 +42,36 @@ router.post( '/signin', async ( req, res ) => {
         console.log(email,password)
 
         if ( !email || !password ) {
-            res.status( 422 ).json( { error: "FILL THE FULL FORM" } )
+            console.log("fulllll")
+            res.json( { message: "FILL THE FULL FORM" } )
         }
+        else{
 
         const userexist = await user.findOne( { email: email } )
         if ( userexist ) {
             const match = await bcrypt.compare( password, userexist.password );
             const token = await userexist.generateauthtoken();
-            res.cookie( "BookKeeping", token, {
+            
+            console.log(token)
+            res.cookie( 'Book', token, {
                 expires: new Date( Date.now() + 864000000 ),
-                httpOnly: true
-            } );
+                httpOnly: false
+            } )
+            
             if ( match ) {
                 res.json( { message: "loggin succesfully" } )
             }
             if ( !match ) {
-                res.json( { err: "invalid credentials" } )
+                res.json( { message: "invalid credentials" } )
             }
             else {
-                res.json( { err: "invalid credentials" } )
+                res.json( { message: "invalid credentials" } )
             }
         }
+        else{
+            res.status(402).json( { err: "invalid credentials" } )
+        }
+    }
     } catch ( err ) {
         res.send( "notokk" )
     }
