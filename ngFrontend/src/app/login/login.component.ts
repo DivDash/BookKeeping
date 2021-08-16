@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { LoginModel } from '../LoginModel';
 import { respond } from '../respond';
 
+
+
 @Component( {
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -16,8 +18,8 @@ export class LoginComponent implements OnInit {
   email: string;
   password: string
   data: LoginModel
-  check:boolean
-  altermessage:string
+  check: boolean
+  altermessage: string
   resp: respond = new respond();
 
 
@@ -39,20 +41,21 @@ export class LoginComponent implements OnInit {
         res => {
           {
             console.log( res["message"] )
-            if(res["message"]==="loggin succesfully"){
+            if ( res["message"] === "loggin succesfully" ) {
               this.login()
             }
-            else{
-              this.check=false
-              this.altermessage=res["message"]
+            else {
+              this.check = false
+              this.altermessage = res["message"]
+              
             }
           }
         },
         err => {
-          console.log(err)
+          console.log( err )
           console.log( err["message"] )
         }
-  );
+      );
   }
 
   ngOnInit(): void {
