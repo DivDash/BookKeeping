@@ -1,4 +1,6 @@
-<div class="row" style="margin-left: 400px; margin-top: 100px;">
+<!-- <mat-card>
+    <mat-card-content>
+        <div class="row" style="margin-left: 400px; margin-top: 100px;">
   <div class="col-md-6 fluid">
       <div class="card card-primary">
           <div class="card-header">
@@ -28,3 +30,34 @@
   <div class="col-md-6">
   </div>
 </div>
+</mat-card-content>
+</mat-card> -->
+<mat-card>
+    <mat-card-content>
+      <form >
+        <h3>Login to Book Keeper</h3>
+        <mat-error >
+          The username and password were not recognized
+        </mat-error>
+        <mat-form-field class="full-width-input">
+            <label for="exampleInputEmail1"></label>
+                      <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+          <mat-error>
+            Please provide a valid email address
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="full-width-input">
+          <div class="form-group">
+            <label for="exampleInputPassword1"></label>
+            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+        </div>
+          <mat-error>
+            Please provide a valid password
+          </mat-error>
+        </mat-form-field>
+        <div class="card-footer">
+            <button type="submit" (click)="login()" class="btn btn-primary">Login</button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
