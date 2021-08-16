@@ -6,7 +6,7 @@
 .page__box {
   min-height: 120px;
   background: #1e293b;
-  margin: 0 -1rem;
+  margin: 0 -1rem 1;
   font-size: 25px;
 }
 .page__content {
