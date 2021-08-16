@@ -9,23 +9,29 @@ const user = require( '../models/schema' )
 
 router.post( '/registration', async ( req, res ) => {
     try {
-
+        let check=false;
         const { name, email, password, confirm, phone, work } = req.body
+        console.log(name, email, password, confirm, phone, work)
 
         if ( !name || !email || !password || !confirm || !phone || !work ) {
-            res.status( 422 ).json( { error: "FILL THE FULL FORM" } )
+            check=true;
+            res.json( { message: "Fill The Full Form" } )
         }
         if ( password !== confirm ) {
-            res.status( 422 ).json( { error: "CONFIRM PASSWORD DOSENT MATCH" } )
+            check=true;
+            res.json( { message: "Confirm Password Dosen't Match" } )
         }
         const userexist = await user.findOne( { email: email } )
         if ( userexist ) {
-            res.status( 422 ).json( { message: "Email Already Exist" } )
+            check=true;
+            res.json( { message: "Email Already Exist" } )
         }
-        else{
+
+        if(check===false) {
+        console.log("here at saving")    
         const saving = new user( { name, email, password, confirm, phone, work } );
         await saving.save()
-        res.status( 201 ).json( { message: "REGSITERED SUCCESFULLY" } )
+        res.json( { message: "Registered Sucessfully" } )
         }
     }
     catch ( err ) {
@@ -42,8 +48,7 @@ router.post( '/signin', async ( req, res ) => {
         console.log(email,password)
 
         if ( !email || !password ) {
-            console.log("fulllll")
-            res.json( { message: "FILL THE FULL FORM" } )
+            res.json( { message: "Fill The Full Form" } )
         }
         else{
 
@@ -62,14 +67,14 @@ router.post( '/signin', async ( req, res ) => {
                 res.json( { message: "loggin succesfully" } )
             }
             if ( !match ) {
-                res.json( { message: "invalid credentials" } )
+                res.json( { message: "Invalid Credentials" } )
             }
             else {
-                res.json( { message: "invalid credentials" } )
+                res.json( { message: "Invalid Credentials" } )
             }
         }
         else{
-            res.status(402).json( { err: "invalid credentials" } )
+            res.status(402).json( { err: "Invalid Credentials" } )
         }
     }
     } catch ( err ) {
