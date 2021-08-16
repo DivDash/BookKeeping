@@ -1,5 +1,12 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+// Angular Forms Modules
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+// MDB Angular Free
+// import { CheckboxModule, WavesModule, ButtonsModule, InputsModule, IconsModule, CardsModule } from 'angular-bootstrap-md'
+// // MDB Angular Pro
+// import { CheckboxModule, WavesModule, ButtonsModule, InputsModule, IconsModule, CardsModule, SelectModule } from 'ng-uikit-pro-standard'
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -20,6 +27,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { DashComponent } from './dash/dash.component';
 import { AttributesComponent } from './attributes/attributes.component';
+import { RegisterComponent } from './register/register.component';
 
 
 @NgModule({
@@ -30,7 +38,8 @@ import { AttributesComponent } from './attributes/attributes.component';
     HeaderComponent,
     SidenavComponent,
     DashComponent,
-    AttributesComponent
+    AttributesComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -47,6 +56,8 @@ import { AttributesComponent } from './attributes/attributes.component';
     MatIconModule,
     MatDividerModule,
     MatListModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
