@@ -18,5 +18,8 @@ export class SidenavComponent implements OnInit {
   attribute() {
     this.router.navigateByUrl('dashboard/attribute');
   }
+  account() {
+    this.router.navigateByUrl('dashboard/account');
+  }
 
 }
