@@ -1,27 +1,38 @@
 const express = require( 'express' )
 const router = express.Router()
-
+const bcrypt = require( 'bcrypt' )
+const jwt = require( 'jsonwebtoken' )
+const cookieParser = require( 'cookie-parser' );
+router.use( cookieParser() );
 const user = require( '../models/schema' )
+const Authenticate=require('../middlewares/Authenticate')
 
 
 router.post( '/registration', async ( req, res ) => {
     try {
-
+        let check=false;
         const { name, email, password, confirm, phone, work } = req.body
 
         if ( !name || !email || !password || !confirm || !phone || !work ) {
-            res.status( 422 ).json( { error: "FILL THE FULL FORM" } )
+            check=true;
+            res.json( { message: "Fill The Full Form" } )
         }
         if ( password !== confirm ) {
-            res.status( 422 ).json( { error: "CONFIRM PASSWORD DOSENT MATCH" } )
+            check=true;
+            res.json( { message: "Confirm Password Dosen't Match" } )
         }
         const userexist = await user.findOne( { email: email } )
         if ( userexist ) {
-            res.status( 422 ).json( { message: "Email Already Exist" } )
+            check=true;
+            res.json( { message: "Email Already Exist" } )
         }
+
+        if(check===false) {
+        console.log("here at saving")    
         const saving = new user( { name, email, password, confirm, phone, work } );
         await saving.save()
-        res.status( 201 ).json( { message: "REGSITERED SUCCESFULLY" } )
+        res.json( { message: "Registered Sucessfully" } )
+        }
     }
     catch ( err ) {
         console.log( err )
@@ -36,30 +47,43 @@ router.post( '/signin', async ( req, res ) => {
         let { email, password } = req.body
 
         if ( !email || !password ) {
-            res.status( 422 ).json( { error: "FILL THE FULL FORM" } )
+            res.json( { message: "Fill The Full Form" } )
         }
+        else{
 
         const userexist = await user.findOne( { email: email } )
         if ( userexist ) {
             const match = await bcrypt.compare( password, userexist.password );
             const token = await userexist.generateauthtoken();
-            res.cookie( "BookKeeping", token, {
+            
+            console.log(token)
+            res.cookie( 'Book', token, {
                 expires: new Date( Date.now() + 864000000 ),
-                httpOnly: true
-            } );
+                httpOnly: false
+            } )
+            
             if ( match ) {
                 res.json( { message: "loggin succesfully" } )
             }
             if ( !match ) {
-                res.json( { err: "invalid credentials" } )
+                res.json( { message: "Invalid Credentials" } )
             }
             else {
-                res.json( { err: "invalid credentials" } )
+                res.json( { message: "Invalid Credentials" } )
             }
         }
+        else{
+            res.status(402).json( { err: "Invalid Credentials" } )
+        }
+    }
     } catch ( err ) {
         res.send( "notokk" )
     }
+} )
+
+
+router.get( '/Getinfo', Authenticate, ( req, res ) => {
+    res.send( req.rootuser )
 } )
 
 

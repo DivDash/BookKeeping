@@ -1,62 +1,33 @@
-<!-- <mat-card>
-    <mat-card-content>
-        <div class="row" style="margin-left: 400px; margin-top: 100px;">
-  <div class="col-md-6 fluid">
-      <div class="card card-primary">
-          <div class="card-header">
-              <h3 class="card-title">Login to Book Keeper</h3>
-          </div>
-          <form role="form">
-              <div class="card-body">
-                  <div class="form-group">
-                      <label for="exampleInputEmail1">Email address</label>
-                      <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-                  </div>
-                  <div class="form-group">
-                      <label for="exampleInputPassword1">Password</label>
-                      <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                  </div>
-                  <div class="form-check">
-                      <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                      <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                  </div>
-              </div>
-              <div class="card-footer">
-                  <button type="submit" (click)="login()" class="btn btn-primary">Submit</button>
-              </div>
-          </form>
-      </div>
-  </div>
-  <div class="col-md-6">
-  </div>
-</div>
-</mat-card-content>
-</mat-card> -->
+
 <mat-card>
     <mat-card-content>
-      <form >
+      <form (ngSubmit)="Onsubmit()">
         <h3>Login to Book Keeper</h3>
-        <mat-error >
-          The username and password were not recognized
-        </mat-error>
-        <mat-form-field class="full-width-input">
-            <label for="exampleInputEmail1"></label>
-                      <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
-          <mat-error>
-            Please provide a valid email address
-          </mat-error>
-        </mat-form-field>
         <mat-form-field class="full-width-input">
           <div class="form-group">
-            <label for="exampleInputPassword1"></label>
-            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-        </div>
-          <mat-error>
-            Please provide a valid password
-          </mat-error>
-        </mat-form-field>
+              <label for="expamleInputEmail1"></label>
+              <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email"  name="email" [(ngModel)]="email" >
+          </div>
+          <br>
+        <div class="form-group">
+          <label for="exampleInputPassword1"></label>
+            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="password" [(ngModel)]="password" >
+      </div>
+    <div>
+        <div class="" *ngIf="check===false; then thenBlock"></div>
+        <ng-template #thenBlock>
+            <mat-error>
+            {{altermessage}}
+        </mat-error>
+        </ng-template>
+  </div>
+</mat-form-field>
+<p>Not a member?
+  <a href="register" (click)="register()">Register</a>
+</p>
+        
         <div class="card-footer">
-            <button type="submit" (click)="login()" class="btn btn-primary">Login</button>
+            <button type="submit"  class="btn btn-outline-primary btn-block">Login</button>
         </div>
       </form>
     </mat-card-content>

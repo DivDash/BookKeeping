@@ -4,7 +4,8 @@ import { AttributesComponent } from './attributes/attributes.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { DashComponent } from './dash/dash.component';
-
+import { RegisterComponent } from './register/register.component';
+import { AccountsComponent } from './accounts/accounts.component';
 // const routes: Routes = [
 //   { path: '', redirectTo: 'login', pathMatch: 'full' },
 //   { path: 'login', component: LoginComponent },
@@ -18,8 +19,10 @@ const routes: Routes =[
     children: [
       { path: 'home', component: HomeComponent },
       { path: 'attribute', component: AttributesComponent },
+      { path: 'account', component: AccountsComponent },
     ]
   },
+  { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: '**', redirectTo: '/login', pathMatch: 'full' }
 ];

@@ -1,4 +1,5 @@
-
+const bcrypt=require('bcrypt')
+const jwt=require('jsonwebtoken')
 const mongoose=require('mongoose')
 
 const table=new mongoose.Schema({
@@ -44,10 +45,19 @@ const table=new mongoose.Schema({
 
 })
 
+table.pre('save',async function(next){
+    if(this.isModified('password')){
+        this.password=await bcrypt.hash(this.password,10)
+        this.confirm=await bcrypt.hash(this.confirm,10)
+    }
+    next()
+
+})
+
 
 table.methods.generateauthtoken=async function (){
     try{
-        let token=jwt.sign({_id:this._id},'BookKeeping')
+        let token=jwt.sign({_id:this._id},"Book")
         this.tokens=this.tokens.concat({token:token})
         await this.save()
         return token

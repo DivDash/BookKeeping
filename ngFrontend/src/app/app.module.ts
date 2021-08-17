@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -20,7 +20,14 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { DashComponent } from './dash/dash.component';
 import { AttributesComponent } from './attributes/attributes.component';
-
+import { HttpClientModule } from '@angular/common/http';
+import { RegisterComponent } from './register/register.component';
+import { FooterComponent } from './footer/footer.component';
+import { AccountsComponent } from './accounts/accounts.component';
+import {MatTableModule} from '@angular/material/table';
+import { AccountComponent } from './accounts/account/account.component';
+// import { AccountListComponent } from './accounts/account-list/account-list.component';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -30,7 +37,11 @@ import { AttributesComponent } from './attributes/attributes.component';
     HeaderComponent,
     SidenavComponent,
     DashComponent,
-    AttributesComponent
+    AttributesComponent,
+    RegisterComponent,
+    FooterComponent,
+    AccountsComponent,
+    AccountComponent
   ],
   imports: [
     BrowserModule,
@@ -47,6 +58,11 @@ import { AttributesComponent } from './attributes/attributes.component';
     MatIconModule,
     MatDividerModule,
     MatListModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatTableModule,
+    MatPaginatorModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
