@@ -28,6 +28,8 @@ import {MatTableModule} from '@angular/material/table';
 import { AccountComponent } from './accounts/account/account.component';
 // import { AccountListComponent } from './accounts/account-list/account-list.component';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import { TableComponent } from './layouts/table/table.component';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,8 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     RegisterComponent,
     FooterComponent,
     AccountsComponent,
-    AccountComponent
+    AccountComponent,
+    TableComponent
   ],
   imports: [
     BrowserModule,
@@ -62,7 +65,8 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     ReactiveFormsModule,
     MatTableModule,
     MatPaginatorModule,
-    HttpClientModule
+    HttpClientModule,
+    MatInputModule
   ],
   providers: [],
   bootstrap: [AppComponent]
