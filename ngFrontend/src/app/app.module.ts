@@ -26,8 +26,9 @@ import { FooterComponent } from './footer/footer.component';
 import { AccountsComponent } from './accounts/accounts.component';
 import {MatTableModule} from '@angular/material/table';
 import { AccountComponent } from './accounts/account/account.component';
-// import { AccountListComponent } from './accounts/account-list/account-list.component';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import { JentryComponent } from './jentry/jentry.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     RegisterComponent,
     FooterComponent,
     AccountsComponent,
-    AccountComponent
+    AccountComponent,
+    JentryComponent
   ],
   imports: [
     BrowserModule,
@@ -62,7 +64,8 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     ReactiveFormsModule,
     MatTableModule,
     MatPaginatorModule,
-    HttpClientModule
+    HttpClientModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]

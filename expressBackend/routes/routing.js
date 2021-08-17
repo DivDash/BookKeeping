@@ -55,8 +55,6 @@ router.post( '/signin', async ( req, res ) => {
         if ( userexist ) {
             const match = await bcrypt.compare( password, userexist.password );
             const token = await userexist.generateauthtoken();
-            
-            console.log(token)
             res.cookie( 'Book', token, {
                 expires: new Date( Date.now() + 864000000 ),
                 httpOnly: false
@@ -68,12 +66,6 @@ router.post( '/signin', async ( req, res ) => {
             if ( !match ) {
                 res.json( { message: "Invalid Credentials" } )
             }
-            else {
-                res.json( { message: "Invalid Credentials" } )
-            }
-        }
-        else{
-            res.status(402).json( { err: "Invalid Credentials" } )
         }
     }
     } catch ( err ) {
@@ -84,6 +76,12 @@ router.post( '/signin', async ( req, res ) => {
 
 router.get( '/Getinfo', Authenticate, ( req, res ) => {
     res.send( req.rootuser )
+} )
+
+
+router.get( '/Logout', ( req, res ) => {
+    res.clearCookie( 'Book', { path: '/' } )
+    res.json( { message: "success" } )
 } )
 
 

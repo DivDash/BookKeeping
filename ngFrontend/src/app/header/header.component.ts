@@ -13,7 +13,6 @@ export class HeaderComponent implements OnInit {
 
 
   constructor(private router: Router,private http: HttpClient ) {
-    console.log("here at get")
     this.http
       .get( "http://localhost:5000/Getinfo",{
         withCredentials:true
@@ -22,7 +21,10 @@ export class HeaderComponent implements OnInit {
         res => {console.log(res)
           this.name=res["name"]
         },
-        err =>  console.log( err )
+        err =>  {
+          console.log( err )
+          this.router.navigateByUrl('login')
+        }
       );
 
    }
@@ -35,6 +37,15 @@ export class HeaderComponent implements OnInit {
     this.toggleSidebarForMe.emit();
   }
   logout() {
+    console.log("here at logout")
+    this.http
+      .get( "http://localhost:5000/Logout",{
+        withCredentials:true
+      })
+      .subscribe(
+        res => console.log(res),
+        err =>  console.log( err )
+      );
     this.router.navigateByUrl('login');
   }
 

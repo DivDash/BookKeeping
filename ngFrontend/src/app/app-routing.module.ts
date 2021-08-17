@@ -6,6 +6,7 @@ import { LoginComponent } from './login/login.component';
 import { DashComponent } from './dash/dash.component';
 import { RegisterComponent } from './register/register.component';
 import { AccountsComponent } from './accounts/accounts.component';
+import { JentryComponent } from './jentry/jentry.component';
 // const routes: Routes = [
 //   { path: '', redirectTo: 'login', pathMatch: 'full' },
 //   { path: 'login', component: LoginComponent },
@@ -20,6 +21,7 @@ const routes: Routes =[
       { path: 'home', component: HomeComponent },
       { path: 'attribute', component: AttributesComponent },
       { path: 'account', component: AccountsComponent },
+      {path:'journal',component:JentryComponent}
     ]
   },
   { path: 'register', component: RegisterComponent },
