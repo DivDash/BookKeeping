@@ -33,6 +33,10 @@ import {
   DialogOverviewExampleDialog,
 } from './dialogbox/dialogbox.component';
 import { MatInputModule } from '@angular/material/input';
+// import { AccountListComponent } from './accounts/account-list/account-list.component';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import { TableComponent } from './layouts/table/table.component';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -49,6 +53,8 @@ import { MatInputModule } from '@angular/material/input';
     AccountComponent,
     DialogboxComponent,
     DialogOverviewExampleDialog,
+    AccountComponent,
+    TableComponent
   ],
   imports: [
     BrowserModule,
@@ -72,6 +78,7 @@ import { MatInputModule } from '@angular/material/input';
     MatPaginatorModule,
     HttpClientModule,
     MatDialogModule,
+    MatInputModule
   ],
 
   providers: [],

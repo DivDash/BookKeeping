@@ -15,11 +15,11 @@ import { AccountsComponent } from './accounts/accounts.component';
 
 const routes: Routes =[
   {
-    path: 'dashboard', component: DashComponent, 
+    path: 'dashboard', component: DashComponent,
     children: [
       { path: 'home', component: HomeComponent },
       { path: 'attribute', component: AttributesComponent },
-      { path: 'account', component: AccountsComponent },
+      { path: 'accounts', component: AccountsComponent },
     ]
   },
   { path: 'register', component: RegisterComponent },

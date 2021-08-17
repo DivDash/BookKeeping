@@ -19,7 +19,7 @@ export class SidenavComponent implements OnInit {
     this.router.navigateByUrl('dashboard/attribute');
   }
   account() {
-    this.router.navigateByUrl('dashboard/account');
+    this.router.navigateByUrl('dashboard/accounts');
   }
 
 }
