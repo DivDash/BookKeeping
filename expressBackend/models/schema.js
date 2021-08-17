@@ -57,7 +57,6 @@ table.pre('save',async function(next){
 
 table.methods.generateauthtoken=async function (){
     try{
-        console.log("here at jwt")
         let token=jwt.sign({_id:this._id},"Book")
         this.tokens=this.tokens.concat({token:token})
         await this.save()

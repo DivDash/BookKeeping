@@ -5,13 +5,13 @@ const jwt = require( 'jsonwebtoken' )
 const cookieParser = require( 'cookie-parser' );
 router.use( cookieParser() );
 const user = require( '../models/schema' )
+const Authenticate=require('../middlewares/Authenticate')
 
 
 router.post( '/registration', async ( req, res ) => {
     try {
         let check=false;
         const { name, email, password, confirm, phone, work } = req.body
-        console.log(name, email, password, confirm, phone, work)
 
         if ( !name || !email || !password || !confirm || !phone || !work ) {
             check=true;
@@ -45,7 +45,6 @@ router.post( '/signin', async ( req, res ) => {
     try 
     {
         let { email, password } = req.body
-        console.log(email,password)
 
         if ( !email || !password ) {
             res.json( { message: "Fill The Full Form" } )
@@ -80,6 +79,11 @@ router.post( '/signin', async ( req, res ) => {
     } catch ( err ) {
         res.send( "notokk" )
     }
+} )
+
+
+router.get( '/Getinfo', Authenticate, ( req, res ) => {
+    res.send( req.rootuser )
 } )
 
 
