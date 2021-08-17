@@ -6,13 +6,27 @@
   <h2 matSubheader class="mt-2">APPLICATIONS</h2>
 
   <a mat-list-item routerLinkActive="list-item-active" (click)="home()" >
-    <mat-icon>home</mat-icon> Home
+    <mat-icon>home</mat-icon> HOME
   </a>
   <a mat-list-item routerLinkActive="list-item-active" (click)="attribute()">
-    <mat-icon>Attributes</mat-icon> Attributes
+    <mat-icon>recent_actors</mat-icon> ATTRIBUTES
   </a>
-  <a mat-list-item> <mat-icon>edit</mat-icon> Link 3 </a>
-  <a mat-list-item> <mat-icon>edit</mat-icon> Link 4 </a>
-  <a mat-list-item> <mat-icon>edit</mat-icon> Link 5 </a>
-  <a mat-list-item> <mat-icon>edit</mat-icon> Link 6 </a>
+  <a mat-list-item routerLinkActive="list-item-active" (click)="account()">
+    <mat-icon>account_box</mat-icon> ACCOUNTS
+  </a>
+  <a mat-list-item routerLinkActive="list-item-active" (click)="attribute()">
+    <mat-icon>perm_data_setting</mat-icon> COST CENTRE
+  </a>
+  <a mat-list-item routerLinkActive="list-item-active" (click)="attribute()">
+    <mat-icon>receipt</mat-icon> JOURNAL
+  </a>
+  <a mat-list-item routerLinkActive="list-item-active" (click)="attribute()">
+    <mat-icon>insert_chart_outlined</mat-icon> REPORTS
+  </a>
+  <a mat-list-item routerLinkActive="list-item-active" (click)="attribute()">
+    <mat-icon>help</mat-icon> GUIDE
+  </a>
+  <a mat-list-item routerLinkActive="list-item-active" (click)="attribute()">
+    <mat-icon>settings</mat-icon> SETTINGS
+  </a>
 </mat-nav-list>

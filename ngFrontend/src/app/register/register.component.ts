@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
 import { RegisterModel } from '../RegisterModel';
 import { Router } from '@angular/router';
+import { Component, OnInit,ElementRef } from '@angular/core';
 
 
 @Component({
@@ -21,7 +21,7 @@ export class RegisterComponent implements OnInit {
   data:RegisterModel=new RegisterModel();
 
 
-  constructor(private router: Router,private http: HttpClient) { }
+  constructor(private router: Router,private http: HttpClient,private elementRef: ElementRef) { }
 
   Onsubmit(){
     this.data={
@@ -62,6 +62,7 @@ login() {
 }
 
   ngOnInit(): void {
+    this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor = '#141c2e';
   }
 
 }

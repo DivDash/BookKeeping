@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginModel } from '../LoginModel';
 import { respond } from '../respond';
@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
   resp: respond = new respond();
 
 
-  constructor( private router: Router, private http: HttpClient ) { }
+  constructor( private router: Router, private http: HttpClient ,private elementRef: ElementRef) { }
   Onsubmit() {
     console.log( "here at submit" )
     this.data = {
@@ -59,6 +59,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor = '#141c2e';
   }
   register() {
     this.router.navigateByUrl('register');
