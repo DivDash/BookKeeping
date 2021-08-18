@@ -26,17 +26,18 @@ import { FooterComponent } from './footer/footer.component';
 import { AccountsComponent } from './accounts/accounts.component';
 import { MatTableModule } from '@angular/material/table';
 import { AccountComponent } from './accounts/account/account.component';
-import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatTabsModule } from '@angular/material/tabs';
+
 import {
   DialogboxComponent,
   DialogOverviewExampleDialog,
 } from './dialogbox/dialogbox.component';
-import { MatInputModule } from '@angular/material/input';
-// import { AccountListComponent } from './accounts/account-list/account-list.component';
-import {MatPaginatorModule} from '@angular/material/paginator';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { TableComponent } from './layouts/table/table.component';
 import { MatInputModule } from '@angular/material/input';
+import { CostcenterComponent } from './costcenter/costcenter.component';
+import { TabComponent } from './layouts/tabs/tab/tab.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,9 @@ import { MatInputModule } from '@angular/material/input';
     DialogboxComponent,
     DialogOverviewExampleDialog,
     AccountComponent,
-    TableComponent
+    TableComponent,
+    CostcenterComponent,
+    TabComponent,
   ],
   imports: [
     BrowserModule,
@@ -78,7 +81,8 @@ import { MatInputModule } from '@angular/material/input';
     MatPaginatorModule,
     HttpClientModule,
     MatDialogModule,
-    MatInputModule
+    MatInputModule,
+    MatTabsModule,
   ],
 
   providers: [],
