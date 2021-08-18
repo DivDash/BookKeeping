@@ -2,7 +2,7 @@
 <div mat-dialog-content>
   <mat-form-field appearance="fill">
     <mat-label>Account Holder Name</mat-label>
-    <input matInput [(ngModel)]="data.AccountHolder" />
+    <input matInput [(ngModel)]="data.name" />
   </mat-form-field>
   <mat-form-field appearance="fill">
     <mat-label>Bank Name</mat-label>
@@ -19,7 +19,7 @@
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">No Thanks</button>
-  <button mat-button [mat-dialog-close]="data.AccountHolder" cdkFocusInitial>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>
     Create
   </button>
 </div>

@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 router.use(cookieParser());
 const user = require("../models/schema");
+const AccountModel=require("../models/Account")
 const Authenticate = require("../middlewares/Authenticate");
 
 router.post("/registration", async (req, res) => {
@@ -70,5 +71,35 @@ router.post("/signin", async (req, res) => {
 router.get("/Getinfo", Authenticate, (req, res) => {
   res.send(req.rootuser);
 });
+
+
+router.get( '/Logout', ( req, res ) => {
+    res.clearCookie( 'Book', { path: '/' } )
+    res.status( 200 ).json( { message: "success" } )
+} )
+
+
+
+router.post("/account", async (req, res) => {
+    try {
+      let check = false;
+      const {name,Bank,Balance,Remarks} = req.body;
+      console.log(name,Bank,Balance,Remarks)
+      if (!name || !Bank || !Balance || !Remarks) {
+        check = true;
+        res.json({ message: "Fill All The Fields" });
+      }
+      if (check === false) {
+        console.log("here at saving Account");
+        const saving = new AccountModel({name,Bank,Balance,Remarks});
+        await saving.save();
+        res.json({ message: "Account Added" });
+      }
+    } catch (err) {
+      console.log(err);
+      res.send("there is error");
+    }
+  });
+
 
 module.exports = router;

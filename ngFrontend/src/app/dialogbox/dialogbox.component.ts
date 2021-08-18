@@ -1,12 +1,14 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, Inject } from '@angular/core';
 import {
   MatDialog,
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
+import { AccountModel } from '../AccountModel';
 
 export interface DialogData {
-  AccountHolder: string;
+  name: string;
   Bank: string;
   Balance: number;
   Remarks: string;
@@ -17,19 +19,21 @@ export interface DialogData {
   styleUrls: ['./dialogbox.component.css'],
 })
 export class DialogboxComponent {
-  AccountHolder: string;
+  name: string;
   Bank: string;
   Balance: number;
   Remarks: string;
+  AccountModel:AccountModel
 
-  constructor(public dialog: MatDialog) {}
+
+  constructor(public dialog: MatDialog,private http: HttpClient) {}
 
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
       width: '250px',
       panelClass: 'my-dialog',
       data: {
-        AccountHolder: this.AccountHolder,
+        name: this.name,
         Bank: this.Bank,
         Balance: this.Balance,
         Remarks: this.Remarks,
@@ -38,10 +42,32 @@ export class DialogboxComponent {
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed');
-      this.AccountHolder = result;
-      this.Bank = result;
-      this.Balance = result;
-      this.Remarks = result;
+      console.log(result)
+      this.name = result['name'];
+      this.Bank = result['Bank'];
+      this.Balance = result['Balance'];
+      this.Remarks = result['Remarks'];
+      this.AccountModel={
+        name: this.name,
+        Bank: this.Bank,
+        Balance: this.Balance,
+        Remarks: this.Remarks
+      }
+      this.http
+      .post( "http://localhost:5000/account",this.AccountModel, {
+        withCredentials: true
+      } )
+      .subscribe(
+        res => {
+          {
+            console.log( res["message"] )
+          }
+        },
+        err => {
+          console.log( err )
+          console.log( err["message"] )
+        }
+      )
     });
   }
 }
