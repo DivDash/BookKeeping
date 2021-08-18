@@ -30,7 +30,7 @@ export class DialogboxComponent {
 
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
-      width: '250px',
+      width: '60%',
       panelClass: 'my-dialog',
       data: {
         name: this.name,

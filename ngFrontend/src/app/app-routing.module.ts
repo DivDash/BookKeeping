@@ -6,6 +6,8 @@ import { LoginComponent } from './login/login.component';
 import { DashComponent } from './dash/dash.component';
 import { RegisterComponent } from './register/register.component';
 import { AccountsComponent } from './accounts/accounts.component';
+import { CostcenterComponent } from './costcenter/costcenter.component';
+
 import { JentryComponent } from './jentry/jentry.component';
 // const routes: Routes = [
 //   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -14,19 +16,21 @@ import { JentryComponent } from './jentry/jentry.component';
 //   { path: 'dashboard', component: DashboardComponent },
 // ];
 
-const routes: Routes =[
+const routes: Routes = [
   {
-    path: 'dashboard', component: DashComponent, 
+    path: 'dashboard',
+    component: DashComponent,
     children: [
       { path: 'home', component: HomeComponent },
       { path: 'attribute', component: AttributesComponent },
-      { path: 'account', component: AccountsComponent },
+      { path: 'accounts', component: AccountsComponent },
+      { path: 'costcenter', component: CostcenterComponent },
       {path:'journal',component:JentryComponent}
-    ]
+    ],
   },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
-  { path: '**', redirectTo: '/login', pathMatch: 'full' }
+  { path: '**', redirectTo: '/login', pathMatch: 'full' },
 ];
 
 @NgModule({

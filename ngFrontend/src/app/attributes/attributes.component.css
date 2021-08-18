@@ -7,15 +7,16 @@
   min-height: 120px;
   background: #1e293b;
   margin: 0 -1rem 1;
-  font-size: 25px;
+  font-size: 30px;
+  padding: 2rem !important;
 }
 .page__content {
-  min-height: calc(100vh - 178px);
-  border-radius: 10px;
-  margin-top: -3rem;
+  min-height: calc(106vh - 175px);
+  border-radius: 1px;
+  margin-top: -4rem;
   background: white;
   color: black;
-  font-size: 2rem;
+  font-size: 1rem;
 }
 .page__content-data {
   top: 50%;

@@ -1,4 +1,4 @@
-<mat-toolbar>
+<mat-toolbar class="header">
   <mat-toolbar-row class="justify-content-between">
     <button mat-icon-button (click)="toggleSidebar()">
       <mat-icon>menu</mat-icon>
@@ -9,10 +9,10 @@
           <button
             mat-button
             [matMenuTriggerFor]="menu"
-            class="user mt-2 d-flex align-items-center">
+            class="user mt-2 d-flex align-items-center"
+          >
             <img src="./assets/user.jpg" alt="" class="user-image mr-1 p-2" />
-
-            MR {{name}}
+            Mr {{ name }}
             <mat-icon class="user-image-icon ml-1"
               >keyboard_arrow_down</mat-icon
             >

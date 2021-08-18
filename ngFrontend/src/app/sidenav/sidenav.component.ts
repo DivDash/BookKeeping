@@ -1,17 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sidenav',
   templateUrl: './sidenav.component.html',
-  styleUrls: ['./sidenav.component.css']
+  styleUrls: ['./sidenav.component.css'],
 })
-
 export class SidenavComponent implements OnInit {
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
   home() {
     this.router.navigateByUrl('dashboard/home');
   }
@@ -19,7 +17,10 @@ export class SidenavComponent implements OnInit {
     this.router.navigateByUrl('dashboard/attribute');
   }
   account() {
-    this.router.navigateByUrl('dashboard/account');
+    this.router.navigateByUrl('dashboard/accounts');
+  }
+  costcenter() {
+    this.router.navigateByUrl('dashboard/costcenter');
   }
   journal() {
     this.router.navigateByUrl('dashboard/journal');
