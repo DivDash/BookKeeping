@@ -3,8 +3,12 @@
   <div class="page__content shadow p-3 position-relative">
     <!-- <app-table></app-table> -->
     <app-reusable-table
-      [GridData]="griddata"
-      [ColData]="coldata"
+      [tableData]="tableData1"
+      [columnHeader]="columnHeader1"
+    ></app-reusable-table>
+    <app-reusable-table
+      [tableData]="tableData2"
+      [columnHeader]="columnHeader2"
     ></app-reusable-table>
   </div>
 </div>
