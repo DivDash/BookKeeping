@@ -1,6 +1,10 @@
 <div class="container-fluid page">
   <div class="d-flex page__box p-3 mt-2">Accounts</div>
   <div class="page__content shadow p-3 position-relative">
-    <app-table></app-table>
+    <!-- <app-table></app-table> -->
+    <app-reusable-table
+      [GridData]="griddata"
+      [ColData]="coldata"
+    ></app-reusable-table>
   </div>
 </div>

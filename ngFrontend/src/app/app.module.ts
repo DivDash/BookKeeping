@@ -38,6 +38,7 @@ import { TableComponent } from './layouts/table/table.component';
 import { MatInputModule } from '@angular/material/input';
 import { CostcenterComponent } from './costcenter/costcenter.component';
 import { TabComponent } from './layouts/tabs/tab/tab.component';
+import { ReusableTableComponent } from './layouts/reusable-table/reusable-table.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { TabComponent } from './layouts/tabs/tab/tab.component';
     TableComponent,
     CostcenterComponent,
     TabComponent,
+    ReusableTableComponent,
   ],
   imports: [
     BrowserModule,

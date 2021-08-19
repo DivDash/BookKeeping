@@ -1,0 +1,24 @@
+<div class="search-div">
+  <app-dialogbox></app-dialogbox>
+  <mat-form-field appearance="standard">
+    <mat-label>Filter</mat-label>
+    <input matInput placeholder="Ex. Mia" #input />
+  </mat-form-field>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-bordered table-striped table-hover table-success">
+    <thead>
+      <tr>
+        <th *ngFor="let key of ColData">{{ key.header }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let record of GridData">
+        <td *ngFor="let key of ColData">
+          <span>{{ record[key.field] }}</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
