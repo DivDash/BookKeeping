@@ -24,6 +24,8 @@ export class ReusableTableComponent implements OnInit {
   dataSource;
 
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
   // @Input() GridData: any;
   // @Input() ColData: any;
 
@@ -48,5 +50,9 @@ export class ReusableTableComponent implements OnInit {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim();
+  }
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 }

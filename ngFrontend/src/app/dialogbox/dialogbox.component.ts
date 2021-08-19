@@ -1,4 +1,5 @@
 import { Component, Inject } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import {
   MatDialog,
   MatDialogRef,
@@ -26,8 +27,12 @@ export class DialogboxComponent {
 
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
-      width: '60%',
-      panelClass: 'my-dialog',
+      // width: '60%'
+      panelClass: 'custom-modalbox',
+      height: '450px',
+      width: '300px',
+      disableClose: true,
+      hasBackdrop: true,
       data: {
         AccountHolder: this.AccountHolder,
         Bank: this.Bank,
@@ -45,6 +50,7 @@ export class DialogboxComponent {
     });
   }
 }
+
 @Component({
   selector: 'dialog-overview-example-dialog',
   templateUrl: './dialog-overview-example-dialog.html',
