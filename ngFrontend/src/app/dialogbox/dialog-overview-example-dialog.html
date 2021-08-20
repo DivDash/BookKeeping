@@ -31,8 +31,6 @@
 
   <mat-dialog-actions>
     <button mat-button (click)="onNoClick()">No Thanks</button>
-    <button mat-button [mat-dialog-close]="data.AccountHolder" cdkFocusInitial>
-      Create
-    </button>
+    <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Create</button>
   </mat-dialog-actions>
 </div>

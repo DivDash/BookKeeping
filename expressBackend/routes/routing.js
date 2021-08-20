@@ -5,6 +5,8 @@ const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 router.use(cookieParser());
 const user = require("../models/schema");
+const accounts = require("../models/schema");
+
 const Authenticate = require("../middlewares/Authenticate");
 
 router.post("/registration", async (req, res) => {
@@ -27,7 +29,7 @@ router.post("/registration", async (req, res) => {
     }
 
     if (check === false) {
-      console.log("here at saving");
+      console.log("here at saving registration");
       const saving = new user({ name, email, password, confirm, phone, work });
       await saving.save();
       res.json({ message: "Registered Sucessfully" });
@@ -64,6 +66,32 @@ router.post("/signin", async (req, res) => {
     }
   } catch (err) {
     res.send("notokk");
+  }
+});
+router.post("/accounts", async (req, res) => {
+  try {
+    let check = false;
+    let { AccountHolder, Bank, Balance, Remarks } = req.body;
+
+    if (!AccountHolder || !Bank || !Balance || !Remarks) {
+      check = true;
+      res.json({ message: "Fill The Full Form" });
+    }
+    const userexist = await accounts.findOne({ AccountHolder: AccountHolder });
+    if (userexist) {
+      check = true;
+      res.json({ message: "Account Holder Already Exist" });
+    }
+
+    if (check === false) {
+      console.log("here at saving account");
+      const saving = new accounts({ AccountHolder, Bank, Balance, Remarks });
+      await saving.save();
+      res.json({ message: "Account Information Added" });
+    }
+  } catch (err) {
+    console.log(err);
+    res.send("Error in filling account info");
   }
 });
 

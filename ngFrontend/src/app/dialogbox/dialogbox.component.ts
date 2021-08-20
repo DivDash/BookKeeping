@@ -1,4 +1,7 @@
 import { Component, Inject } from '@angular/core';
+// import { DialogForm } from '../RegisterModel';
+import { HttpClient } from '@angular/common/http';
+
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import {
   MatDialog,
@@ -22,8 +25,11 @@ export class DialogboxComponent {
   Bank: string;
   Balance: number;
   Remarks: string;
+  check: boolean;
+  altermessage: string;
+  // data: DialogForm = new DialogForm();
 
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog, private http: HttpClient) {}
 
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
@@ -40,13 +46,30 @@ export class DialogboxComponent {
         Remarks: this.Remarks,
       },
     });
-
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
-      this.AccountHolder = result;
-      this.Bank = result;
-      this.Balance = result;
-      this.Remarks = result;
+      this.AccountHolder = result['AccountHolder'];
+      this.Bank = result['Bank'];
+      this.Balance = result['Balance'];
+      this.Remarks = result['Remarks'];
+      console.log(this.Bank);
+      this.http.post('http://localhost:5000/accounts', result, {}).subscribe(
+        (res) => {
+          {
+            console.log(res['message']);
+            if (res['message'] === 'Registered Sucessfully') {
+              console.log('SUCCESSFULL');
+              // this.login();
+            } else {
+              this.check = false;
+              this.altermessage = res['message'];
+            }
+          }
+        },
+        (err) => {
+          console.log(err);
+          console.log(err['message']);
+        }
+      );
     });
   }
 }

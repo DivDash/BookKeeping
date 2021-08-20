@@ -37,6 +37,25 @@ const table = new mongoose.Schema({
   ],
 });
 
+const AccountsTable = new mongoose.Schema({
+  AccountHolder: {
+    type: String,
+    required: true,
+  },
+  Bank: {
+    type: String,
+    required: true,
+  },
+  Balance: {
+    type: String,
+    required: true,
+  },
+  Remarks: {
+    type: String,
+    required: true,
+  },
+});
+
 table.pre("save", async function (next) {
   if (this.isModified("password")) {
     this.password = await bcrypt.hash(this.password, 10);
@@ -57,5 +76,7 @@ table.methods.generateauthtoken = async function () {
 };
 
 const user = mongoose.model("REGISTRATION", table);
+const accounts = mongoose.model("AccountTable", AccountsTable);
 
 module.exports = user;
+module.exports = accounts;
