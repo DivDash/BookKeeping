@@ -1,23 +1,3 @@
-<!-- <div class="search-div">
-  <app-dialogbox></app-dialogbox>
-</div> -->
-
-<!-- <div class="table-responsive">
-  <table class="table table-bordered table-striped table-hover table-success">
-    <thead>
-      <tr>
-        <th *ngFor="let key of ColData">{{ key.header }}</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let record of GridData">
-        <td *ngFor="let key of ColData">
-          <span>{{ record[key.field] }}</span>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div> -->
 <div class="mat-elevation-z8">
   <div class="search-div">
     <app-dialogbox></app-dialogbox>
@@ -30,7 +10,6 @@
         #input
       />
     </mat-form-field>
-    <!-- <input matInput (keyup)="applyFilter($event)" placeholder="Filter" /> -->
   </div>
   <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
     <ng-container

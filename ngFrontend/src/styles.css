@@ -21,3 +21,9 @@ body {
   width: 250px;
   height: 100%;
 }
+.mat-form-field-appearance-legacy .mat-form-field-infix {
+  padding: 0.4375em 60px;
+}
+.mat-form-field-appearance-legacy .mat-form-field-wrapper {
+  padding: 1.4375em 1px -1px;
+}

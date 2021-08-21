@@ -2,7 +2,7 @@
   <h1 mat-dialog-title>Create Account</h1>
   <mat-dialog-content class="content">
     <mat-form-field appearance="fill" class="dialog">
-      <mat-label style="max-width: 200px">Account Holder Name</mat-label>
+      <mat-label>Account Holder Name</mat-label>
       <input matInput [(ngModel)]="data.AccountHolder" />
     </mat-form-field>
 
@@ -30,7 +30,14 @@
   </mat-dialog-content>
 
   <mat-dialog-actions>
-    <button mat-button (click)="onNoClick()">No Thanks</button>
-    <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Create</button>
+    <button mat-raised-button (click)="onNoClick()">No Thanks</button>
+    <button
+      mat-raised-button
+      color="primary"
+      [mat-dialog-close]="data"
+      cdkFocusInitial
+    >
+      Create
+    </button>
   </mat-dialog-actions>
 </div>
