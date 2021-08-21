@@ -25,7 +25,6 @@ import { RegisterComponent } from './register/register.component';
 import { FooterComponent } from './footer/footer.component';
 import { AccountsComponent } from './accounts/accounts.component';
 import { MatTableModule } from '@angular/material/table';
-import { AccountComponent } from './accounts/account/account.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTabsModule } from '@angular/material/tabs';
 
@@ -37,7 +36,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { TableComponent } from './layouts/table/table.component';
 import { MatInputModule } from '@angular/material/input';
 import { CostcenterComponent } from './costcenter/costcenter.component';
-import { TabComponent } from './layouts/tabs/tab/tab.component';
+import { TabComponent } from './layouts/tab/tab.component';
 import { ReusableTableComponent } from './layouts/reusable-table/reusable-table.component';
 
 @NgModule({
@@ -52,10 +51,8 @@ import { ReusableTableComponent } from './layouts/reusable-table/reusable-table.
     RegisterComponent,
     FooterComponent,
     AccountsComponent,
-    AccountComponent,
     DialogboxComponent,
     DialogOverviewExampleDialog,
-    AccountComponent,
     TableComponent,
     CostcenterComponent,
     TabComponent,
