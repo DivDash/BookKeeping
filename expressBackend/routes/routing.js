@@ -84,13 +84,11 @@ router.post("/account", async (req, res) => {
     try {
       let check = false;
       const {name,Bank,Balance,Remarks} = req.body;
-      console.log(name,Bank,Balance,Remarks)
       if (!name || !Bank || !Balance || !Remarks) {
         check = true;
         res.json({ message: "Fill All The Fields" });
       }
       if (check === false) {
-        console.log("here at saving Account");
         const saving = new AccountModel({name,Bank,Balance,Remarks});
         await saving.save();
         res.json({ message: "Account Added" });
@@ -101,5 +99,14 @@ router.post("/account", async (req, res) => {
     }
   });
 
+
+  router.get( '/ViewAccount',async ( req, res ) => {
+    try{
+        const data = await AccountModel.find()
+        res.send( data )
+    }catch(error){
+      res.send("there is error");
+    }
+  });
 
 module.exports = router;

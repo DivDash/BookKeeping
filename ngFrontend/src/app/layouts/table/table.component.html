@@ -29,27 +29,27 @@
 </div>
 <div class="mat-elevation-z8">
   <mat-table [dataSource]="listData" matSort>
-    <ng-container matColumnDef="accountHolder">
+    <ng-container matColumnDef="name">
       <mat-header-cell *matHeaderCellDef mat-sort-header
         >Account Holder</mat-header-cell
       >
-      <mat-cell *matCellDef="let element">{{ element.accountHolder }}</mat-cell>
+      <mat-cell *matCellDef="let element">{{ element.name }}</mat-cell>
     </ng-container>
     <ng-container matColumnDef="bank">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Bank</mat-header-cell>
-      <mat-cell *matCellDef="let element">{{ element.bank }}</mat-cell>
+      <mat-cell *matCellDef="let element">{{ element.Bank }}</mat-cell>
     </ng-container>
     <ng-container matColumnDef="balance">
       <mat-header-cell *matHeaderCellDef mat-sort-header
         >Balance</mat-header-cell
       >
-      <mat-cell *matCellDef="let element">{{ element.balance }}</mat-cell>
+      <mat-cell *matCellDef="let element">{{ element.Balance }}</mat-cell>
     </ng-container>
     <ng-container matColumnDef="remarks">
       <mat-header-cell *matHeaderCellDef mat-sort-header
         >Remarks</mat-header-cell
       >
-      <mat-cell *matCellDef="let element">{{ element.remarks }}</mat-cell>
+      <mat-cell *matCellDef="let element">{{ element.Remarks }}</mat-cell>
     </ng-container>
     <ng-container matColumnDef="actions">
       <mat-header-cell *matHeaderCellDef></mat-header-cell>
