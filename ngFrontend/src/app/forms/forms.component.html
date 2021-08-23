@@ -1,86 +1,86 @@
 <div class="box">
   
 
-<mat-form-field appearance="fill" class="matt leftt">
-  <mat-label>Favorite food</mat-label>
-  <mat-select>
-    <mat-option *ngFor="" [value]="">
-
-    </mat-option>
-  </mat-select>
-</mat-form-field>
-
-
-
-<mat-form-field appearance="fill" class="matt matt2">
-  <mat-label>Favorite food</mat-label>
-  <mat-select>
-    <mat-option *ngFor="" [value]="">
-
-    </mat-option>
-  </mat-select>
-</mat-form-field>
-
-
-
-<mat-form-field appearance="fill" floatLabel="always" class="matt">
-  <mat-label>Amount</mat-label>
-  <input matInput type="number" class="example-right-align" placeholder="0">
-  <span matPrefix>Rs&nbsp;</span>
-</mat-form-field>
-
-
-  <button class="btnn2"  mat-mini-fab [ngStyle]="{'background-color':'#2c3344'}" aria-label="Example icon button with a home icon">
-    <mat-icon  (click)='addNewDiv()' class="btnn">add</mat-icon>
-  </button>
-
-</div>
-<mat-divider class="bott"></mat-divider>
-<div *ngFor='let new_div of newDivs;'>
-  <div class="boxx">
-    <mat-form-field appearance="fill" class="mattt leftt">
-      <mat-label>Name</mat-label>
-      <input matInput>
-    </mat-form-field>
+  <mat-form-field appearance="fill" class="matt leftt">
+    <mat-label>Project</mat-label>
+    <mat-select>
+      <mat-option *ngFor="" [value]="">
   
-    <mat-form-field appearance="fill" floatLabel="always" class="mattt">
-      <mat-label>Amount</mat-label>
-      <input matInput type="number" class="example-right-align" placeholder="0">
-      <span matPrefix>Rs&nbsp;</span>
-    </mat-form-field>
-
-    <mat-form-field appearance="fill" class="mattt">
-      <mat-label>Reason</mat-label>
-      <input matInput>
-    </mat-form-field>
-    <mat-form-field appearance="fill" class="mattt">
-      <mat-label>Method</mat-label>
-      <input matInput>
-    </mat-form-field>
-    <mat-form-field appearance="fill" class="mattt">
-      <mat-label>Remarks</mat-label>
-      <input matInput>
-    </mat-form-field>
-
-
-  </div>
-  </div>
-
-  <mat-divider class="upp"></mat-divider>
-
-
-
-  <div class="box leftt">
-    <h3> Voucher: </h3>
-    <h3> Credit: </h3>
-    <h3> Debit: </h3>
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
   
-
+  
+  
+  <mat-form-field appearance="fill" class="matt matt2">
+    <mat-label>Client</mat-label>
+    <mat-select>
+      <mat-option *ngFor="" [value]="">
+  
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  
+  
+  
+  <mat-form-field appearance="fill" floatLabel="always" class="matt">
+    <mat-label>Amount</mat-label>
+    <input matInput type="number" class="example-right-align" placeholder="0">
+    <span matPrefix>Rs&nbsp;</span>
+  </mat-form-field>
+  
+  
+    <button class="btnn2"  mat-mini-fab [ngStyle]="{'background-color':'#2c3344'}" aria-label="Example icon button with a home icon">
+      <mat-icon  (click)='addNewDiv()' class="btnn">add</mat-icon>
+    </button>
+  
+  </div>
+  <mat-divider class="bott"></mat-divider>
+  <div *ngFor='let new_div of newDivs;'>
+    <div class="boxx">
+      <mat-form-field appearance="fill" class="mattt leftt">
+        <mat-label>Name</mat-label>
+        <input matInput>
+      </mat-form-field>
     
-
-
-    <button mat-raised-button color="primary"[ngStyle]="{'background-color':'#2c3344'}">ADD JOURNAL ENTRY</button>
+      <mat-form-field appearance="fill" floatLabel="always" class="mattt">
+        <mat-label>Amount</mat-label>
+        <input matInput type="number" class="example-right-align" placeholder="0">
+        <span matPrefix>Rs&nbsp;</span>
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill" class="mattt">
+        <mat-label>Reason</mat-label>
+        <input matInput>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="mattt">
+        <mat-label>Method</mat-label>
+        <input matInput>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="mattt">
+        <mat-label>Remarks</mat-label>
+        <input matInput>
+      </mat-form-field>
+  
+  
+    </div>
+    </div>
+  
+    <mat-divider class="upp"></mat-divider>
+  
+  
+  
+    <div class="box leftt">
+      <h3> Voucher: </h3>
+      <h3> Credit: </h3>
+      <h3> Debit: </h3>
+    
+  
+      
+  
+  
+      <button mat-raised-button color="primary"[ngStyle]="{'background-color':'#2c3344'}">ADD JOURNAL ENTRY</button>
+    </div>
+  <div class="leftt">
+    <!-- <app-table></app-table> -->
   </div>
-<div class="leftt">
-  <app-table></app-table>
-</div>

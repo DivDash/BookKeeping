@@ -1,17 +1,17 @@
 <div class="mat-elevation-z8">
   <div class="search-div">
-    <app-dialogbox></app-dialogbox>
+    <!-- <app-dialogbox></app-dialogbox> -->
     <mat-form-field appearance="standard">
       <mat-label>Filter</mat-label>
       <input
         matInput
         (keyup)="applyFilter($event)"
-        placeholder="Ex. Mia"
+        placeholder="Ex. Mia Nawaz Sharif"
         #input
       />
     </mat-form-field>
   </div>
-  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource"  matSort class="mat-elevation-z8">
     <ng-container
       [matColumnDef]="tableData"
       *ngFor="let tableData of objectKeys(columnHeader)"

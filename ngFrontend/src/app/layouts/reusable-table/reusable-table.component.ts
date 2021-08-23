@@ -17,15 +17,14 @@ import { MatTableDataSource } from '@angular/material/table';
   templateUrl: './reusable-table.component.html',
   styleUrls: ['./reusable-table.component.css'],
 })
-export class ReusableTableComponent implements OnInit {
+export class ReusableTableComponent implements OnChanges {
   @Input() tableData;
   @Input() columnHeader;
   objectKeys = Object.keys;
-  dataSource;
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-
+  dataSource: MatTableDataSource<any> = new MatTableDataSource();
   // @Input() GridData: any;
   // @Input() ColData: any;
 
@@ -41,12 +40,29 @@ export class ReusableTableComponent implements OnInit {
   //   this.matDataSource.sort = this.sort;
   //   this.matDataSource.data = this.GridData;
   // }
+  ngOnChanges(changes: SimpleChanges): void {
 
-  ngOnInit() {
-    console.log(this.tableData);
+    console.log(this.tableData['filteredData'],"reusableeee");
+    this.tableData=this.tableData['filteredData']
+    console.log(this.tableData,"reusableeee againnn")
+    console.log(this.columnHeader,"reusableeee");
     this.dataSource = new MatTableDataSource(this.tableData);
-    this.dataSource.sort = this.sort;
+    console.log(this.dataSource,"shshshs")
+    // this.dataSource.sort = this.sort
+    
   }
+
+  modelChangeFn(value){
+    
+    this.dataSource=value
+    console.log(this.dataSource,"zainnn")
+
+  }
+  ngOnInit() {
+
+    this.dataSource = new MatTableDataSource(this.tableData);
+  }
+  
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim();

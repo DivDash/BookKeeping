@@ -5,7 +5,8 @@
 <mat-tab-group>
   <mat-tab *ngFor="let tab of asyncTabs | async">
     <ng-template mat-tab-label>{{ tab.label }}</ng-template>
-    <!-- {{ tab.content }} -->
-    <app-table></app-table>
+    <div *ngIf="tab.label==='Profit'; else elseBlock"><app-footer></app-footer></div>
+  <ng-template #elseBlock><app-dialogbox></app-dialogbox></ng-template>
+    <!-- <app-table></app-table> -->
   </mat-tab>
 </mat-tab-group>

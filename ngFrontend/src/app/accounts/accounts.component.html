@@ -1,14 +1,10 @@
 <div class="container-fluid page">
   <div class="d-flex page__box p-3 mt-2">Accounts</div>
   <div class="page__content shadow p-3 position-relative">
-    <!-- <app-table></app-table> -->
-    <app-reusable-table
-      [tableData]="tableData1"
-      [columnHeader]="columnHeader1"
-    ></app-reusable-table>
-    <!-- <app-reusable-table
-      [tableData]="tableData2"
+    <app-dialogbox></app-dialogbox>
+     <app-reusable-table
+      [tableData]="listData"
       [columnHeader]="columnHeader2"
-    ></app-reusable-table> -->
+    ></app-reusable-table>
   </div>
 </div>

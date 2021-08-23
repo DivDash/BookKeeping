@@ -33,10 +33,8 @@ import {
 } from './dialogbox/dialogbox.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
-import { TableComponent } from './layouts/table/table.component';
 import { MatInputModule } from '@angular/material/input';
 import { CostcenterComponent } from './costcenter/costcenter.component';
-import { TabComponent } from './layouts/tabs/tab/tab.component';
 import { JentryComponent } from './jentry/jentry.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsComponent } from './forms/forms.component';
@@ -57,11 +55,11 @@ import { ReusableTableComponent } from './layouts/reusable-table/reusable-table.
     AccountsComponent,
     DialogboxComponent,
     DialogOverviewExampleDialog,
-    TableComponent,
     CostcenterComponent,
     TabComponent,
     FormsComponent,
-    JentryComponent
+    JentryComponent,
+    ReusableTableComponent
   ],
   imports: [
     BrowserModule,

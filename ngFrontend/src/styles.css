@@ -16,14 +16,14 @@ body {
   font-family: auto;
   padding: 1.5rem !important;
 }
-.mat-form-field-wrapper {
+/* .mat-form-field-wrapper {
   /* padding-bottom: 1.34375em; */
-  width: 250px;
+  /* width: 250px;
   height: 100%;
-}
-.mat-form-field-appearance-legacy .mat-form-field-infix {
+} */
+/* .mat-form-field-appearance-legacy .mat-form-field-infix {
   padding: 0.4375em 60px;
-}
-.mat-form-field-appearance-legacy .mat-form-field-wrapper {
+} */
+/* .mat-form-field-appearance-legacy .mat-form-field-wrapper {
   padding: 1.4375em 1px -1px;
-}
+} */ 

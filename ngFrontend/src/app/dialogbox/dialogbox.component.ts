@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject } from '@angular/core';
-import { TableComponent } from '../layouts/table/table.component';
 import {
   MatDialog,
   MatDialogRef,
@@ -27,7 +26,6 @@ export class DialogboxComponent {
   Remarks: string;
   AccountModel:AccountModel
   location: any;
-  tableclass:TableComponent
 
 
   constructor(public dialog: MatDialog,private http: HttpClient, private router:Router) {}

@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 router.use(cookieParser());
 const user = require("../models/schema");
+const AccountModel=require("../models/Account")
 const Authenticate = require("../middlewares/Authenticate");
 
 router.post("/registration", async (req, res) => {
@@ -70,5 +71,42 @@ router.post("/signin", async (req, res) => {
 router.get("/Getinfo", Authenticate, (req, res) => {
   res.send(req.rootuser);
 });
+
+
+router.get( '/Logout', ( req, res ) => {
+    res.clearCookie( 'Book', { path: '/' } )
+    res.status( 200 ).json( { message: "success" } )
+} )
+
+
+
+router.post("/account", async (req, res) => {
+    try {
+      let check = false;
+      const {name,Bank,Balance,Remarks} = req.body;
+      if (!name || !Bank || !Balance || !Remarks) {
+        check = true;
+        res.json({ message: "Fill All The Fields" });
+      }
+      if (check === false) {
+        const saving = new AccountModel({name,Bank,Balance,Remarks});
+        await saving.save();
+        res.json({ message: "Account Added" });
+      }
+    } catch (err) {
+      console.log(err);
+      res.send("there is error");
+    }
+  });
+
+
+  router.get( '/ViewAccount',async ( req, res ) => {
+    try{
+        const data = await AccountModel.find()
+        res.send( data )
+    }catch(error){
+      res.send("there is error");
+    }
+  });
 
 module.exports = router;
