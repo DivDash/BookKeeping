@@ -25,21 +25,21 @@ import { RegisterComponent } from './register/register.component';
 import { FooterComponent } from './footer/footer.component';
 import { AccountsComponent } from './accounts/accounts.component';
 import { MatTableModule } from '@angular/material/table';
-import { AccountComponent } from './accounts/account/account.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTabsModule } from '@angular/material/tabs';
-
 import {
   DialogboxComponent,
   DialogOverviewExampleDialog,
 } from './dialogbox/dialogbox.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSelectModule } from '@angular/material/select';
 import { TableComponent } from './layouts/table/table.component';
 import { MatInputModule } from '@angular/material/input';
 import { CostcenterComponent } from './costcenter/costcenter.component';
 import { TabComponent } from './layouts/tabs/tab/tab.component';
 import { JentryComponent } from './jentry/jentry.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsComponent } from './forms/forms.component';
 
 @NgModule({
   declarations: [
@@ -53,13 +53,13 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     RegisterComponent,
     FooterComponent,
     AccountsComponent,
-    AccountComponent,
     DialogboxComponent,
     DialogOverviewExampleDialog,
-    AccountComponent,
     TableComponent,
     CostcenterComponent,
     TabComponent,
+    FormsComponent,
+    JentryComponent
   ],
   imports: [
     BrowserModule,
@@ -85,7 +85,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     MatDialogModule,
     MatInputModule,
     MatTabsModule,
-    NgbModule
+    NgbModule,
+    MatSelectModule
   ],
 
   providers: [],

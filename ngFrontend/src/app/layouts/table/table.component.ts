@@ -19,7 +19,9 @@ export class TableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   searchKey: string;
 
+
   ngOnInit() {
+    console.log("ithayyyyyyyyyyy")
     const users: UserData[] =[];
     this.http
       .get( "http://localhost:5000/ViewAccount",{
@@ -120,3 +122,5 @@ export interface UserData {
   balance: number,
   remarks: string
 }
+
+
