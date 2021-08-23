@@ -40,6 +40,8 @@ import { TabComponent } from './layouts/tabs/tab/tab.component';
 import { JentryComponent } from './jentry/jentry.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsComponent } from './forms/forms.component';
+import { TabComponent } from './layouts/tab/tab.component';
+import { ReusableTableComponent } from './layouts/reusable-table/reusable-table.component';
 
 @NgModule({
   declarations: [

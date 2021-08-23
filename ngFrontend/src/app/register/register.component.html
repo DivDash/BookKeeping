@@ -1,42 +1,86 @@
 <mat-card>
-    <mat-card-content>
-      <form (ngSubmit)="Onsubmit()" >
-        <h3>Register Yourself</h3>
-        <mat-form-field class="full-width-input">
-            <div class="form-group">
-                <label for="formGroupExampleInput"></label>
-                <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Name"  name="name" [(ngModel)]="name">
-            </div>
-          <div class="form-group">
-            <label for="exampleInputEmail1"></label>
-                      <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email"  name="email" [(ngModel)]="email">
+  <mat-card-content>
+    <form (ngSubmit)="Onsubmit()">
+      <h1>Register Yourself</h1>
+      <mat-form-field class="full-width-input">
+        <div class="form-group">
+          <label for="formGroupExampleInput"></label>
+          <input
+            type="text"
+            class="form-control"
+            id="exampleInputPassword1"
+            placeholder="Name"
+            name="name"
+            [(ngModel)]="name"
+          />
         </div>
         <div class="form-group">
-            <label for="formGroupExampleInput"></label>
-            <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Profession"  name="work" [(ngModel)]="work">
+          <label for="exampleInputEmail1"></label>
+          <input
+            type="email"
+            class="form-control"
+            id="exampleInputEmail1"
+            placeholder="Email"
+            name="email"
+            [(ngModel)]="email"
+          />
         </div>
         <div class="form-group">
           <label for="formGroupExampleInput"></label>
-          <input type="number" class="form-control" id="exampleInputPassword1" placeholder="Phone"  name="phone" [(ngModel)]="phone">
+          <input
+            type="text"
+            class="form-control"
+            id="exampleInputPassword1"
+            placeholder="Profession"
+            name="work"
+            [(ngModel)]="work"
+          />
         </div>
         <div class="form-group">
-            <label for="exampleInputPassword1"></label>
-            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"  name="password" [(ngModel)]="password">
+          <label for="formGroupExampleInput"></label>
+          <input
+            type="number"
+            class="form-control"
+            id="exampleInputPassword1"
+            placeholder="Phone"
+            name="phone"
+            [(ngModel)]="phone"
+          />
         </div>
         <div class="form-group">
-            <label for="exampleInputPassword1"></label>
-            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Confirm Password"  name="confirm" [(ngModel)]="confirm">
+          <label for="exampleInputPassword1"></label>
+          <input
+            type="password"
+            class="form-control"
+            id="exampleInputPassword1"
+            placeholder="Password"
+            name="password"
+            [(ngModel)]="password"
+          />
         </div>
-        <div class="" *ngIf="check===false; then thenBlock"></div>
+        <div class="form-group">
+          <label for="exampleInputPassword1"></label>
+          <input
+            type="password"
+            class="form-control"
+            id="exampleInputPassword1"
+            placeholder="Confirm Password"
+            name="confirm"
+            [(ngModel)]="confirm"
+          />
+        </div>
+        <div class="" *ngIf="check === false; then thenBlock"></div>
         <ng-template #thenBlock>
-            <mat-error>
-            {{altermessage}}
-        </mat-error>
+          <mat-error>
+            {{ altermessage }}
+          </mat-error>
         </ng-template>
-        </mat-form-field>
-        <div class="card-footer">
-            <button type="submit"  class="btn btn-outline-primary btn-block">Register</button>
-        </div>
-      </form>
-    </mat-card-content>
-  </mat-card>
+      </mat-form-field>
+      <div class="card-footer">
+        <button type="submit" class="btn btn-outline-primary btn-block">
+          Register
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

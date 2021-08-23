@@ -1,7 +1,29 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+.page__box {
+  min-height: 120px;
+  background: #1e293b;
+  margin: 0 -1rem 1;
+  font-size: 35px;
+  font-family: auto;
+  padding: 1.5rem !important;
+}
+.mat-form-field-wrapper {
+  /* padding-bottom: 1.34375em; */
+  width: 250px;
+  height: 100%;
+}
+.mat-form-field-appearance-legacy .mat-form-field-infix {
+  padding: 0.4375em 60px;
+}
+.mat-form-field-appearance-legacy .mat-form-field-wrapper {
+  padding: 1.4375em 1px -1px;
+}

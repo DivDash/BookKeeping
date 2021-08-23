@@ -7,9 +7,10 @@ import {MatTableDataSource} from '@angular/material/table';
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
-  styleUrls: ['./table.component.css']
+  styleUrls: ['./table.component.css'],
 })
 export class TableComponent implements OnInit {
+  constructor() {}
 
   constructor(private http: HttpClient) { }
   object:any
@@ -76,13 +77,13 @@ export class TableComponent implements OnInit {
   }
 
   onSearchClear() {
-    this.searchKey = "";
+    this.searchKey = '';
     // this.applyFilter();
   }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.listData.filter = filterValue.trim()
+    this.listData.filter = filterValue.trim();
 
     if (this.listData.paginator) {
       this.listData.paginator.firstPage();
@@ -98,23 +99,58 @@ export class TableComponent implements OnInit {
 /** Builds and returns a new User. */
 function createNewUser(id: number): UserData {
   const name =
-      NAMES[Math.round(Math.random() * (NAMES.length - 1))] + ' ' +
-      NAMES[Math.round(Math.random() * (NAMES.length - 1))].charAt(0) + '.';
+    NAMES[Math.round(Math.random() * (NAMES.length - 1))] +
+    ' ' +
+    NAMES[Math.round(Math.random() * (NAMES.length - 1))].charAt(0) +
+    '.';
 
   return {
     name: COLORS[Math.round(Math.random() * (COLORS.length - 1))],
     bank: COLORS[Math.round(Math.random() * (COLORS.length - 1))],
     balance: Math.round(Math.random() * 100),
-    remarks: COLORS[Math.round(Math.random() * (COLORS.length - 1))]
+    remarks: COLORS[Math.round(Math.random() * (COLORS.length - 1))],
   };
 }
 
 /** Constants used to fill up our data base. */
-const COLORS = ['maroon', 'red', 'orange', 'yellow', 'olive', 'green', 'purple',
-  'fuchsia', 'lime', 'teal', 'aqua', 'blue', 'navy', 'black', 'gray'];
-const NAMES = ['Maia', 'Asher', 'Olivia', 'Atticus', 'Amelia', 'Jack',
-  'Charlotte', 'Theodore', 'Isla', 'Oliver', 'Isabella', 'Jasper',
-  'Cora', 'Levi', 'Violet', 'Arthur', 'Mia', 'Thomas', 'Elizabeth'];
+const COLORS = [
+  'maroon',
+  'red',
+  'orange',
+  'yellow',
+  'olive',
+  'green',
+  'purple',
+  'fuchsia',
+  'lime',
+  'teal',
+  'aqua',
+  'blue',
+  'navy',
+  'black',
+  'gray',
+];
+const NAMES = [
+  'Maia',
+  'Asher',
+  'Olivia',
+  'Atticus',
+  'Amelia',
+  'Jack',
+  'Charlotte',
+  'Theodore',
+  'Isla',
+  'Oliver',
+  'Isabella',
+  'Jasper',
+  'Cora',
+  'Levi',
+  'Violet',
+  'Arthur',
+  'Mia',
+  'Thomas',
+  'Elizabeth',
+];
 
 export interface UserData {
   name: string,

@@ -59,3 +59,4 @@ table.methods.generateauthtoken = async function () {
 const user = mongoose.model("REGISTRATION", table);
 
 module.exports = user;
+module.exports = accounts;

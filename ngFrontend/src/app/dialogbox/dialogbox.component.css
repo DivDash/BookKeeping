@@ -1,4 +1,14 @@
 .dialog {
+  /* background-color: blue; */
   border-radius: 4px 4px 0 0;
   padding: 0.75em 6.75em 2px 1.75em;
+}
+h1 {
+  background: #e60000;
+  color: gold;
+}
+.custom-modalbox {
+  background: #e60000;
+  color: gold;
+  padding: 100;
 }

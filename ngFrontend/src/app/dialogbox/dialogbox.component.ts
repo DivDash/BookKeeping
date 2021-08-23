@@ -43,7 +43,6 @@ export class DialogboxComponent {
         Remarks: this.Remarks,
       },
     });
-
     dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed');
       console.log(result)
@@ -79,6 +78,7 @@ export class DialogboxComponent {
     });
   }
 }
+
 @Component({
   selector: 'dialog-overview-example-dialog',
   templateUrl: './dialog-overview-example-dialog.html',
