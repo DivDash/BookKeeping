@@ -6,7 +6,12 @@ const cookieParser = require("cookie-parser");
 router.use(cookieParser());
 const user = require("../models/schema");
 const AccountModel=require("../models/Account")
+const profit=require("../models/Project")
+const Entry=require("../models/JournalEntries")
 const Authenticate = require("../middlewares/Authenticate");
+
+
+
 
 router.post("/registration", async (req, res) => {
   try {
@@ -108,5 +113,143 @@ router.post("/account", async (req, res) => {
       res.send("there is error");
     }
   });
+
+
+
+  router.post('/Profit',async ( req, res ) => {
+    try{
+      check=false;
+      const{project,client,receivable,revenue,expense,datee,status}=req.body
+      console.log(project,client,receivable,revenue,expense,datee,status)
+      const query = { $and: [{ "project":project }, { "client": client }] }
+      const ProjectExist = await profit.find( query )
+
+      if (!project || !client || !receivable || !revenue || !expense || !datee || !status) {
+        check=true
+        res.json({ message: "Fill The Full Form" });
+      }
+
+      if(ProjectExist.length!==0){
+        check=true
+        res.json({message:"Project With This client Already Exist"})
+      }
+
+      if(check===false){
+        const saving = new profit({project,client,receivable,revenue,expense,datee,status});
+        await saving.save();
+        res.json({ message: "Project with Client Added" });
+      }
+
+
+    }catch(error){
+      res.send('error')
+    }
+  })
+
+
+
+
+  router.post('/Entries', async ( req, res ) => {
+  try{
+    console.log("1")
+    console.log(req.body)
+    check=false
+    client=req.body[0].client;
+    project=req.body[0].project;
+    const query = { $and: [{ "project":project }, { "client": client }] }
+    const ProjectExist = await profit.find( query )
+    console.log(ProjectExist,"hellooo")
+    if(ProjectExist.length===0){
+      console.log("2")
+      check=true
+      res.json({message:"Project with This Client Dosent exist"})
+    }
+    if(check===false){
+    console.log("3")
+    const accountExist = await AccountModel.findOne({ name:client})
+    console.log(accountExist,"account")
+
+    sum=0
+    for(let i=0;i<req.body.length;i++)
+    {
+      sum=sum + req.body[i].amount
+    }
+    exp=ProjectExist[0].expense+sum
+    rev=ProjectExist[0].receivable-exp;
+    
+
+    console.log(rev,exp,"revExp")
+    const filter ={ $and: [{ project:project }, { client: client }] } ;
+    const update = {revenue:rev,expense:exp};
+
+    bal=accountExist.Balance-sum
+    console.log(bal,"balance")
+    const filterAccount = {name:client};
+    const updateAccount = {Balance:bal};
+  
+    let doc = await profit.findOneAndUpdate(filter, update,{
+      new: true,
+      upsert: true,
+      rawResult: true 
+    });
+
+    let docAcc = await AccountModel.findOneAndUpdate(filterAccount, updateAccount,{
+      
+        new: true,
+        upsert: true,
+        rawResult: true 
+      
+    });
+
+    const saving=await Entry.insertMany(req.body)
+    res.json({message:"Entries are added"})
+    }
+    }
+    catch(error){
+      console.log("4") 
+      res.json({message:'error'})
+    }
+
+  })
+
+
+  router.post('/ViewEntry',async(req,res)=>{
+    try{
+      console.log("here at viewEntry")
+      check=false
+      const {project,client}=req.body
+      console.log(project,client)
+      const query = { $and: [{ "project":project }, { "client": client }] }
+      const ProjectExist = await profit.find( query )
+
+      if(ProjectExist.length===0){
+      check=true  
+      res.json({message:"Project with This Client Dosent exist"})
+        }
+
+     if(check===false){
+
+      console.log(ProjectExist)
+      const queryEntry = { $and: [{ "project":project }, { "client": client }] }
+      const entryExist = await Entry.find( query )
+      console.log(entryExist)
+      res.json({message:"Success",entryExist})
+      }
+
+    }catch(error){
+      res.send('error')
+    }
+  })
+
+
+  router.get( '/ViewProfit',async ( req, res ) => {
+    try{
+        const data = await profit.find()
+        res.send( data )
+    }catch(error){
+      res.send("there is error");
+    }
+  });
+  
 
 module.exports = router;

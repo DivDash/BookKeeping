@@ -1,5 +1,5 @@
 const mongoose=require('mongoose')
-const Project=new mongoose.Schema({
+const Profit=new mongoose.Schema({
     project:{
         type:String,
         required:true
@@ -34,5 +34,5 @@ const Project=new mongoose.Schema({
     }
 })
 
-const ProjectModel=mongoose.model('Project',Project)
-module.exports=ProjectModel
+const profit=mongoose.model('Profit',Profit)
+module.exports=profit

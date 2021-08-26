@@ -1,0 +1,50 @@
+<mat-card>
+  <mat-card-content>
+    <form (ngSubmit)="Onsubmit()">
+      <h1>Login to Book Keeper</h1>
+      <mat-form-field class="full-width-input">
+        <div class="form-group">
+          <label for="expamleInputEmail1"></label>
+          <input
+            type="email"
+            class="form-control"
+            id="exampleInputEmail1"
+            placeholder="Email"
+            name="email"
+            [(ngModel)]="email"
+          />
+        </div>
+        <br />
+        <div class="form-group">
+          <label for="exampleInputPassword1"></label>
+          <input
+            type="password"
+            class="form-control"
+            id="exampleInputPassword1"
+            placeholder="Password"
+            name="password"
+            [(ngModel)]="password"
+          />
+        </div>
+        <div>
+          <div class="" *ngIf="check === false; then thenBlock"></div>
+          <ng-template #thenBlock>
+            <mat-error>
+              {{ altermessage }}
+            </mat-error>
+          </ng-template>
+        </div>
+      </mat-form-field>
+      <p>
+        Not a member?
+        <a href="register" (click)="register()">Register</a>
+      </p>
+
+      <div class="card-footer">
+        <button type="submit" class="btn btn-outline-primary btn-block">
+          Login
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

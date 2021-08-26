@@ -1,0 +1,43 @@
+<div class="dialog mubashir">
+  <h1 mat-dialog-title>Create Account</h1>
+  <mat-dialog-content class="content">
+    <mat-form-field appearance="fill" class="dialog">
+      <mat-label>Account Holder Name</mat-label>
+      <input matInput [(ngModel)]="data.name" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Bank Name</mat-label>
+      <input matInput [(ngModel)]="data.Bank" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Balance</mat-label>
+      <input matInput [(ngModel)]="data.Balance" />
+    </mat-form-field>
+
+    <mat-form-field hintLabel="Max 30 characters" appearance="fill">
+      <mat-label>Remarks</mat-label>
+      <input
+        matInput
+        [(ngModel)]="data.Remarks"
+        #input
+        maxlength="30"
+        placeholder="Ex. Nougat"
+      />
+      <mat-hint align="end">{{input.value?.length || 0}}/30</mat-hint>
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button mat-raised-button (click)="onNoClick()">No Thanks</button>
+    <button
+      mat-raised-button
+      color="primary"
+      [mat-dialog-close]="data"
+      cdkFocusInitial
+    >
+      Create
+    </button>
+  </mat-dialog-actions>
+</div>
