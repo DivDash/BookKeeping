@@ -6,6 +6,7 @@ const cookieParser = require("cookie-parser");
 router.use(cookieParser());
 const user = require("../models/schema");
 const AccountModel=require("../models/Account")
+const AccountsNonProfit=require("../models/AccountNonProfit")
 const profit=require("../models/Project")
 const Entry=require("../models/JournalEntries")
 const Authenticate = require("../middlewares/Authenticate");
@@ -119,12 +120,14 @@ router.post("/account", async (req, res) => {
   router.post('/Profit',async ( req, res ) => {
     try{
       check=false;
-      const{project,client,receivable,revenue,expense,datee,status}=req.body
-      console.log(project,client,receivable,revenue,expense,datee,status)
-      const query = { $and: [{ "project":project }, { "client": client }] }
+      console.log("here at profitt")
+      const{Project,Client,Receivable,Revenue,Expense,Date,Status}=req.body
+      console.log(Project,Client,Receivable,Revenue,Expense,Date,Status)
+      const query = { $and: [{ "Project":Project }, { "Client": Client }] }
       const ProjectExist = await profit.find( query )
 
-      if (!project || !client || !receivable || !revenue || !expense || !datee || !status) {
+      if (!Project || !Client || !Receivable || !Date || !Status) {
+       
         check=true
         res.json({ message: "Fill The Full Form" });
       }
@@ -135,13 +138,14 @@ router.post("/account", async (req, res) => {
       }
 
       if(check===false){
-        const saving = new profit({project,client,receivable,revenue,expense,datee,status});
+        const saving = new profit({Project,Client,Receivable,Revenue,Expense,Date,Status});
         await saving.save();
         res.json({ message: "Project with Client Added" });
       }
 
 
     }catch(error){
+      console.log("here at error")
       res.send('error')
     }
   })
@@ -156,7 +160,7 @@ router.post("/account", async (req, res) => {
     check=false
     client=req.body[0].client;
     project=req.body[0].project;
-    const query = { $and: [{ "project":project }, { "client": client }] }
+    const query = { $and: [{ "Project":project }, { "Client": client }] }
     const ProjectExist = await profit.find( query )
     console.log(ProjectExist,"hellooo")
     if(ProjectExist.length===0){
@@ -174,13 +178,13 @@ router.post("/account", async (req, res) => {
     {
       sum=sum + req.body[i].amount
     }
-    exp=ProjectExist[0].expense+sum
-    rev=ProjectExist[0].receivable-exp;
+    exp=ProjectExist[0].Expense+sum
+    rev=ProjectExist[0].Receivable-exp;
     
 
     console.log(rev,exp,"revExp")
-    const filter ={ $and: [{ project:project }, { client: client }] } ;
-    const update = {revenue:rev,expense:exp};
+    const filter ={ $and: [{ Project:project }, { Client: client }] } ;
+    const update = {Revenue:rev,Expense:exp};
 
     bal=accountExist.Balance-sum
     console.log(bal,"balance")
@@ -219,7 +223,7 @@ router.post("/account", async (req, res) => {
       check=false
       const {project,client}=req.body
       console.log(project,client)
-      const query = { $and: [{ "project":project }, { "client": client }] }
+      const query = { $and: [{ "Project":project }, { "Client": client }] }
       const ProjectExist = await profit.find( query )
 
       if(ProjectExist.length===0){
@@ -231,7 +235,7 @@ router.post("/account", async (req, res) => {
 
       console.log(ProjectExist)
       const queryEntry = { $and: [{ "project":project }, { "client": client }] }
-      const entryExist = await Entry.find( query )
+      const entryExist = await Entry.find( queryEntry )
       console.log(entryExist)
       res.json({message:"Success",entryExist})
       }
@@ -250,6 +254,35 @@ router.post("/account", async (req, res) => {
       res.send("there is error");
     }
   });
+
+  router.post("/accountnonprofit", async (req, res) => {
+    try {
+      let check = false;
+      const { Name, Expense, Remarks } = req.body;
+      if (!Name || !Expense || !Remarks) {
+        check = true;
+        res.json({ message: "Fill All The Fields" });
+      }
+      if (check === false) {
+        const saving = new AccountsNonProfit({ Name, Expense, Remarks });
+        await saving.save();
+        res.json({ message: "Account Added" });
+      }
+    } catch (err) {
+      console.log(err);
+      res.send("there is error");
+    }
+  });
+  router.get("/ViewAccountNonProfit", async (req, res) => {
+    try {
+      const data = await AccountsNonProfit.find();
+      res.send(data);
+    } catch (error) {
+      res.send("there is error");
+    }
+  });
   
+  
+
 
 module.exports = router;

@@ -1,91 +1,83 @@
-import { Component, Inject, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { MatTableDataSource } from '@angular/material/table';
-import { AccountModel } from '../AccountModel';
+import { Component, Inject, OnInit } from '@angular/core';
 import {
   MatDialog,
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
+import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { NonProfitModel } from 'src/app/NonProfitModel';
 
 export interface UserData {
-  name: string;
-  Bank: string;
-  Balance: number;
+  Name: string;
+  Expense: number;
   Remarks: string;
 }
 export interface DialogData {
-  name: string;
-  Bank: string;
-  Balance: number;
+  Name: string;
+  Expense: number;
   Remarks: string;
 }
 
 @Component({
-  selector: 'app-accounts',
-  templateUrl: './accounts.component.html',
-  styleUrls: ['./accounts.component.css'],
+  selector: 'app-non-profit',
+  templateUrl: './non-profit.component.html',
+  styleUrls: ['./non-profit.component.css'],
 })
-export class AccountsComponent implements OnInit {
-  name: string;
-  Bank: string;
-  Balance: number;
+export class NonProfitComponent implements OnInit {
+  Name: string;
+  Expense: number;
   Remarks: string;
   object: any;
   listData: MatTableDataSource<any>;
-  AccountModel: AccountModel;
-  displayedColumns: string[] = ['name', 'Bank', 'Balance', 'Remarks'];
-  searchKey: string;
+  NonProfitModel: NonProfitModel;
+  displayedColumns: string[] = ['Name', 'Expense', 'Remarks'];
   constructor(
     public dialog: MatDialog,
     private http: HttpClient,
-    private router: Router,
-    private toastr: ToastrService
+    private router: Router
   ) {}
-
+  columnHeader2 = {
+    Name: 'Name',
+    Expense: 'Expense',
+    Remarks: 'Remarks',
+  };
   openDialog(): void {
-    const dialogRef = this.dialog.open(DialogAccount, {
+    const dialogRef = this.dialog.open(DialogNonProfit, {
       // width: '60%'
       panelClass: 'custom-modalbox',
-      height: '450px',
+      height: '400px',
       width: '300px',
       disableClose: true,
       hasBackdrop: true,
       data: {
-        name: this.name,
-        Bank: this.Bank,
-        Balance: this.Balance,
+        Name: this.Name,
+        Expense: this.Expense,
         Remarks: this.Remarks,
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
-      this.name = result['name'];
-      this.Bank = result['Bank'];
-      this.Balance = result['Balance'];
+      this.Name = result['Name'];
+      this.Expense = result['Expense'];
       this.Remarks = result['Remarks'];
-      this.AccountModel = {
-        name: this.name,
-        Bank: this.Bank,
-        Balance: this.Balance,
+      this.NonProfitModel = {
+        Name: this.Name,
+        Expense: this.Expense,
         Remarks: this.Remarks,
       };
       this.http
-        .post('http://localhost:5000/account', this.AccountModel, {
+        .post('http://localhost:5000/accountnonprofit', this.NonProfitModel, {
           withCredentials: true,
         })
         .subscribe(
           (res) => {
             {
-              console.log(res['message'] + 'MUBASHIR');
-              if (res['message'] === 'Account Added') {
-                this.showSuccess();
-              }
+              console.log(res['message']);
               this.router
                 .navigateByUrl('/accounts', { skipLocationChange: true })
                 .then(() => {
-                  this.router.navigate(['/dashboard/accounts']);
+                  this.router.navigate(['/dashboard/costcenter']);
                 });
             }
           },
@@ -96,17 +88,11 @@ export class AccountsComponent implements OnInit {
         );
     });
   }
-  columnHeader2 = {
-    name: 'Account Holder',
-    Bank: 'Bank',
-    Balance: 'Balance',
-    Remarks: 'Remarks',
-  };
   ngOnInit() {
     console.log('ithayyyyyyyyyyy');
     const users: UserData[] = [];
     this.http
-      .get('http://localhost:5000/ViewAccount', {
+      .get('http://localhost:5000/ViewAccountNonProfit', {
         withCredentials: true,
       })
       .subscribe(
@@ -116,9 +102,8 @@ export class AccountsComponent implements OnInit {
           // console.log(res[0]['name'])
           // res.length
           users.push({
-            name: res[0]['name'],
-            Bank: res[0]['Bank'],
-            Balance: res[0]['Balance'],
+            Name: res[0]['Name'],
+            Expense: res[0]['Expense'],
             Remarks: res[0]['Remarks'],
           });
           this.object = res;
@@ -133,17 +118,14 @@ export class AccountsComponent implements OnInit {
       );
     console.log(users);
   }
-  showSuccess() {
-    this.toastr.success('Successfull!', 'Account Added');
-  }
 }
 @Component({
-  selector: 'dialog-account',
-  templateUrl: './dialog-account.html',
+  selector: 'dialog-non-profit',
+  templateUrl: './dialog-non-profit.html',
 })
-export class DialogAccount {
+export class DialogNonProfit {
   constructor(
-    public dialogRef: MatDialogRef<DialogAccount>,
+    public dialogRef: MatDialogRef<DialogNonProfit>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData
   ) {}
 

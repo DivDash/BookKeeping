@@ -1,0 +1,56 @@
+<div class="dialog">
+  <h1 mat-dialog-title>Create Account</h1>
+  <mat-dialog-content class="content">
+    <mat-form-field appearance="fill" style="width: 100%">
+      <mat-label
+        >Account Holder Name <span class="required-asterisk">*</span></mat-label
+      >
+      <input matInput [(ngModel)]="data.name" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" style="width: 100%">
+      <mat-label>Bank Name</mat-label>
+      <!-- <select matNativeControl required>
+        <option value="volvo">HBL</option>
+        <option value="saab">UBL</option>
+        <option value="mercedes">MCB</option>
+        <option value="audi">JS</option>
+        <option value="audi">Cash</option>
+      </select> -->
+      <input matInput [(ngModel)]="data.Bank" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" style="width: 100%">
+      <mat-label>Balance <span class="required-asterisk">*</span></mat-label>
+      <input matInput [(ngModel)]="data.Balance" />
+    </mat-form-field>
+
+    <mat-form-field
+      hintLabel="Max 30 characters"
+      appearance="fill"
+      style="width: 100%"
+    >
+      <mat-label>Remarks</mat-label>
+      <input
+        matInput
+        [(ngModel)]="data.Remarks"
+        #input
+        maxlength="30"
+        placeholder="Ex. Nougat"
+      />
+      <mat-hint align="end">{{input.value?.length || 0}}/30</mat-hint>
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button mat-raised-button (click)="onNoClick()">No Thanks</button>
+    <button
+      mat-raised-button
+      color="primary"
+      [mat-dialog-close]="data"
+      cdkFocusInitial
+    >
+      Create
+    </button>
+  </mat-dialog-actions>
+</div>

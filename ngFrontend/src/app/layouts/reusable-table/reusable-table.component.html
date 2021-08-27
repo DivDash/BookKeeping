@@ -2,21 +2,26 @@
   <div class="search-div">
     <!-- <app-dialogbox></app-dialogbox> -->
     <mat-form-field appearance="standard">
-      <mat-label>Filter</mat-label>
+      <mat-label>Search</mat-label>
       <input
         matInput
         (keyup)="applyFilter($event)"
-        placeholder="Ex. Mia Nawaz Sharif"
+        placeholder="Ex. John"
         #input
       />
     </mat-form-field>
   </div>
-  <table mat-table [dataSource]="dataSource"  matSort class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
     <ng-container
       [matColumnDef]="tableData"
       *ngFor="let tableData of objectKeys(columnHeader)"
     >
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      <th
+        style="font-weight: bold; font-size: large"
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+      >
         {{ columnHeader[tableData] }}
       </th>
       <td mat-cell *matCellDef="let element">{{ element[tableData] }}</td>

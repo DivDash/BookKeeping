@@ -1,34 +1,34 @@
 const mongoose=require('mongoose')
 const Profit=new mongoose.Schema({
-    project:{
+    Project:{
         type:String,
         required:true
 
     },
-    client:{
+    Client:{
         type:String,
         required:true
 
     },
-    receivable:{
+    Receivable:{
         type:Number,
         required:true
 
     },
-    revenue:{
+    Revenue:{
         type:Number,
         required:true
 
     },
-    expense:{
+    Expense:{
         type:Number,
         required:true
     },
-    datee:{
-        type:String,
+    Date:{
+       type:String,
         required:true
     },
-    status:{
+    Status:{
         type:String,
         required:true
     }

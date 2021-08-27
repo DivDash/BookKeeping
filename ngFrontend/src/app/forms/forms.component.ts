@@ -35,6 +35,8 @@ export class FormsComponent implements DoCheck{
   total:number
   data:any={}
   objects:any
+  objectsEmpty:any=[]
+
   listData: MatTableDataSource<any>;
 
   addNewDiv(){
@@ -129,7 +131,7 @@ export class FormsComponent implements DoCheck{
         this.object=res
         console.log(this.object)
         for (let i=0;i<this.object.length;i++){
-          this.projects.push(this.object[i]['project'])
+          this.projects.push(this.object[i]['Project'])
         }
         console.log(this.projects)
       },
@@ -205,6 +207,8 @@ export class FormsComponent implements DoCheck{
         if(res['message']==='Project with This Client Dosent exist')
         {
           this.showerror(res['message'])
+
+          this.listData = new MatTableDataSource(this.objectsEmpty)
         }
         else{
         this.showsuccess('Account And Project Exist!!')

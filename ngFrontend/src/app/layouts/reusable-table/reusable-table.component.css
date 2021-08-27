@@ -1,5 +1,7 @@
 .search-div {
   padding: 10px;
+  margin-top: -20px;
+  margin-bottom: -20px;
 }
 .search {
   font-size: 20px;

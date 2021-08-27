@@ -21,7 +21,6 @@ const routes: Routes = [
     path: 'dashboard',
     component: DashComponent,
     children: [
-      { path: 'home', component: HomeComponent },
       { path: 'attribute', component: AttributesComponent },
       { path: 'accounts', component: AccountsComponent },
       { path: 'costcenter', component: CostcenterComponent },

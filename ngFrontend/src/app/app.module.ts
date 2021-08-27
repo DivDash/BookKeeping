@@ -23,7 +23,7 @@ import { AttributesComponent } from './attributes/attributes.component';
 import { HttpClientModule } from '@angular/common/http';
 import { RegisterComponent } from './register/register.component';
 import { FooterComponent } from './footer/footer.component';
-import { AccountsComponent } from './accounts/accounts.component';
+import { AccountsComponent ,DialogAccount} from './accounts/accounts.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -41,6 +41,15 @@ import { FormsComponent } from './forms/forms.component';
 import { TabComponent } from './layouts/tab/tab.component';
 import { ReusableTableComponent } from './layouts/reusable-table/reusable-table.component';
 import { ToastrModule } from 'ngx-toastr';
+import {
+  ProfitComponent,
+  DialogProfit,
+} from './costcenter/profit/profit.component';
+import {
+  NonProfitComponent,
+  DialogNonProfit,
+} from './costcenter/non-profit/non-profit.component';
+
 
 @NgModule({
   declarations: [
@@ -60,7 +69,12 @@ import { ToastrModule } from 'ngx-toastr';
     TabComponent,
     FormsComponent,
     JentryComponent,
-    ReusableTableComponent
+    ReusableTableComponent,
+    ProfitComponent,
+    NonProfitComponent,
+    DialogNonProfit,
+    DialogProfit,
+    DialogAccount
   ],
   imports: [
     BrowserModule,
