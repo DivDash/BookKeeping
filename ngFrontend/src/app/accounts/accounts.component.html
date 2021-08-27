@@ -1,0 +1,20 @@
+<div class="container-fluid page">
+  <div class="d-flex page__box p-3 mt-2">Accounts</div>
+  <div class="page__content shadow p-3 position-relative">
+    <button
+      mat-raised-button
+      class="add-account"
+      color="primary"
+      (click)="openDialog()"
+    >
+      <mat-icon>library_add</mat-icon>
+      Add An Account
+    </button>
+    <div class="mat-elevation-z8">
+     <app-reusable-table
+      [tableData]="listData"
+      [columnHeader]="columnHeader2"
+    ></app-reusable-table>
+  </div>
+</div>
+</div>

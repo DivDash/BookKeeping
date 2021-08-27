@@ -1,0 +1,22 @@
+.search-div {
+  padding: 10px;
+  margin-top: -20px;
+  margin-bottom: -20px;
+}
+.search {
+  font-size: 20px;
+  margin-left: 20px;
+}
+table {
+  width: 100%;
+}
+
+.mat-form-field {
+  font-size: 20px;
+  margin-left: 20px;
+}
+
+td,
+th {
+  width: 15%;
+}
