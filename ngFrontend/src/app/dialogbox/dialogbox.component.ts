@@ -7,6 +7,7 @@ import {
 } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AccountModel } from '../AccountModel';
+import { MyserviceService } from '../services/myservice.service';
 
 export interface DialogData {
   name: string;
@@ -28,7 +29,7 @@ export class DialogboxComponent {
   location: any;
 
 
-  constructor(public dialog: MatDialog,private http: HttpClient, private router:Router) {}
+  constructor(public dialog: MatDialog,private http: HttpClient, private router:Router, private myservices:MyserviceService) {}
 
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
@@ -54,19 +55,20 @@ export class DialogboxComponent {
         Balance: this.Balance,
         Remarks: this.Remarks
       }
-      this.http
-      .post( "http://localhost:5000/account",this.AccountModel, {
-        withCredentials: true
-      } )
+      // this.http
+      // .post( "http://localhost:5000/account",this.AccountModel, {
+      //   withCredentials: true
+      // } )
+      this.myservices.createAccount(this.AccountModel)
       .subscribe(
         res => {
           {
             console.log( res["message"] )
             this.router.navigateByUrl('/accounts', { skipLocationChange: true }).then(() => {
             this.router.navigate(['/dashboard/accounts']);
-          }); 
-          }; 
-          
+          });
+          };
+
         },
         err => {
           console.log( err )

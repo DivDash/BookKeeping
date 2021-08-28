@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { MyserviceService } from '../services/myservice.service';
 
 @Component({
   selector: 'app-header',
@@ -12,11 +13,12 @@ export class HeaderComponent implements OnInit {
 
 
 
-  constructor(private router: Router,private http: HttpClient ) {
-    this.http
-      .get( "http://localhost:5000/Getinfo",{
-        withCredentials:true
-      })
+  constructor(private router: Router,private http: HttpClient, private myservice:MyserviceService ) {
+    // this.http
+    //   .get( "http://localhost:5000/Getinfo",{
+    //     withCredentials:true
+    //   })
+    this.myservice.getInfo()
       .subscribe(
         res => {console.log(res)
           this.name=res["name"]
@@ -38,10 +40,10 @@ export class HeaderComponent implements OnInit {
   }
   logout() {
     console.log("here at logout")
-    this.http
-      .get( "http://localhost:5000/Logout",{
-        withCredentials:true
-      })
+    this.myservice.logout()
+      // .get( "http://localhost:5000/Logout",{
+      //   withCredentials:true
+      // })
       .subscribe(
         res => console.log(res),
         err =>  console.log( err )

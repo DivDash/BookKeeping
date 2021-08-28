@@ -10,6 +10,7 @@
   },
   "private": true,
   "dependencies": {
+    "@angular-devkit/build-webpack": "^0.1202.3",
     "@angular/animations": "^12.2.2",
     "@angular/cdk": "^12.2.1",
     "@angular/common": "~12.2.0",
@@ -25,15 +26,17 @@
     "@ng-bootstrap/ng-bootstrap": "^10.0.0",
     "angular-bootstrap-md": "^4.3.2",
     "bootstrap": "^4.5.0",
+    "ngx-socket-io": "^4.1.0",
     "ngx-toastr": "^14.1.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.3.0",
+    "webpack": "^5.51.1",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~12.2.1",
-    "@angular/cli": "~12.2.1",
-    "@angular/compiler-cli": "~12.2.0",
+    "@angular-devkit/build-angular": "^12.2.3",
+    "@angular/cli": "^12.2.3",
+    "@angular/compiler-cli": "^12.2.3",
     "@types/jasmine": "~3.8.0",
     "@types/node": "^12.11.1",
     "jasmine-core": "~3.8.0",

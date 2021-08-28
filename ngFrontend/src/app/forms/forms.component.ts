@@ -3,6 +3,7 @@ import { Component, DoCheck, OnChanges, OnInit, SimpleChanges } from '@angular/c
 import { ShowHideDirective } from '@angular/flex-layout';
 import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
+import { MyserviceService } from '../services/myservice.service';
 
 @Component({
   selector: 'app-forms',
@@ -40,7 +41,7 @@ export class FormsComponent implements DoCheck{
   listData: MatTableDataSource<any>;
 
   addNewDiv(){
- 
+
     this.newDivs.push({
       project:this.selectedProject,
       client:this.client,
@@ -61,7 +62,7 @@ export class FormsComponent implements DoCheck{
       temp=temp + this.newDivs[i]['amount']
     }
     this.sum=temp
-    
+
   }
 
   showerror(message){
@@ -73,7 +74,7 @@ export class FormsComponent implements DoCheck{
     this.toastr.success(message, 'Success!');
   }
 
-  
+
 
   final(){
     console.log(this.newDivs)
@@ -88,6 +89,7 @@ export class FormsComponent implements DoCheck{
       .post( "http://localhost:5000/Entries",this.newDivs, {
         withCredentials: true
       } )
+
       .subscribe(
         res => {
           {
@@ -115,17 +117,18 @@ export class FormsComponent implements DoCheck{
       console.log("debit not equal to credit")
     }
 
-    
+
   }
 
-  constructor(private http: HttpClient,private toastr: ToastrService)
-   { 
+  constructor(private http: HttpClient,private toastr: ToastrService, private myservice:MyserviceService)
+   {
     // this.entriesObject[0].client = "dsa"
     // console.log(this.entriesObject[0]["amount"])
-    this.http
-    .get( "http://localhost:5000/ViewProfit",{
-      withCredentials:true
-    })
+    // this.http
+    // .get( "http://localhost:5000/ViewProfit",{
+    //   withCredentials:true
+    // })
+    this.myservice.viewProfit()
     .subscribe(
       res => {
         this.object=res
@@ -140,10 +143,11 @@ export class FormsComponent implements DoCheck{
       }
     )
 
-    this.http
-    .get( "http://localhost:5000/ViewAccount",{
-      withCredentials:true
-    })
+    // this.http
+    // .get( "http://localhost:5000/ViewAccount",{
+    //   withCredentials:true
+    // })
+    this.myservice.viewAccount()
     .subscribe(
       res => {
         this.object=res
@@ -169,11 +173,11 @@ export class FormsComponent implements DoCheck{
       temp=temp + this.newDivs[i]['amount']
     }
     this.sum=temp
-     
+
    }
-  
-  
-  
+
+
+
  addEntry(){
   console.log(this.newDivs,"test")
  }
@@ -196,10 +200,11 @@ export class FormsComponent implements DoCheck{
       project: this.selectedProject,
     }
     if(this.client && this.selectedProject){
-    this.http
-    .post( "http://localhost:5000/ViewEntry",this.data,{
-      withCredentials:true
-    })
+    // this.http
+    // .post( "http://localhost:5000/ViewEntry",this.data,{
+    //   withCredentials:true
+    // })
+    this.myservice.viewEntry(this.data)
     .subscribe(
       res => {
         console.log("here at res")
@@ -215,7 +220,7 @@ export class FormsComponent implements DoCheck{
         this.objects=res['entryExist']
         this.listData = new MatTableDataSource(this.objects)
         }
-        
+
       },
       err =>  {
         console.log("here at error")
@@ -224,10 +229,10 @@ export class FormsComponent implements DoCheck{
     )
     }
 
-   
-   
+
+
   }
- 
+
 
 
  columnHeader2 = {

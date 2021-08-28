@@ -49,7 +49,9 @@ import {
   NonProfitComponent,
   DialogNonProfit,
 } from './costcenter/non-profit/non-profit.component';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 
+const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
 
 @NgModule({
   declarations: [
@@ -102,7 +104,8 @@ import {
     MatTabsModule,
     NgbModule,
     MatSelectModule,
-    ToastrModule.forRoot({ timeOut: 2000 ,enableHtml: true })
+    ToastrModule.forRoot({ timeOut: 2000 ,enableHtml: true }),
+    SocketIoModule.forRoot(config)
   ],
 
   providers: [],
