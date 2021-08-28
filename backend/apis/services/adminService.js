@@ -2,17 +2,9 @@ const AdminModel = require("../models/adminModel.js");
 const bcrypt = require("bcrypt");
 
 module.exports = class AdminService{
-    // static async getAllAdmin(){
-    //     try {
-    //         const allAdmin = await  Admin.find();
-    //         return allAdmin;
-    //     } catch (error) {
-    //         console.log(`Could not fetch Admin ${error}`)
-    //     }
-    // }
-
     static async createAdmin(data){
         try {
+            console.log(data)
             const userexist = await AdminModel.findOne({ email: data.email });
             if (userexist) {
               return ({ message: "Email Already Exist" });

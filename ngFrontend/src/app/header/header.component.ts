@@ -18,7 +18,9 @@ export class HeaderComponent implements OnInit {
         withCredentials:true
       })
       .subscribe(
-        res => {console.log(res)
+        res => {
+          console.log("here at header")
+          console.log(res)
           this.name=res["name"]
         },
         err =>  {

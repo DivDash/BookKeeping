@@ -8,8 +8,8 @@ dotenv.config({ path:'./confing.env'})
 require('./DB/configdb')
 const cookieParser =require('cookie-parser');
 app.use(cors({origin:true, credentials:true})) 
-const PORT=5000
 app.use(cookieParser())
+const PORT=5000
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.listen(PORT,()=>{
@@ -17,10 +17,10 @@ app.listen(PORT,()=>{
 });
 app.use(require('./apis/routes/adminRoute'))
 app.use(require('./apis/routes/accountNonProfitRoute'))
-const httpServer = require("http").createServer(app);
-const options = { /* ... */ };
-const io = require("socket.io")(httpServer, options);
-io.sockets.emit("hi", "everyone")
-// io.on("connection", socket => { /* ... */ });
+// const httpServer = require("http").createServer(app);
+// const options = { /* ... */ };
+// const io = require("socket.io")(httpServer, options);
+// io.sockets.emit("hi", "everyone")
+// // io.on("connection", socket => { /* ... */ });
 
-httpServer.listen(3000); 
+// httpServer.listen(3000); 

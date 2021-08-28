@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const Authenticate=async(req,res,next)=>{
     try
     {
+       
     const token=req.cookies.Book
     const infos=jwt.verify(token,"Book")
     const rootuser=await user.findOne({_id:infos._id,"tokens.token":token})
