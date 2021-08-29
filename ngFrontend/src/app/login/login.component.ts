@@ -3,7 +3,6 @@ import { Component, OnInit,ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginModel } from '../LoginModel';
 import { respond } from '../respond';
-import { MyserviceService } from '../services/myservice.service';
 
 
 
@@ -24,7 +23,7 @@ export class LoginComponent implements OnInit {
   resp: respond = new respond();
 
 
-  constructor( private router: Router, private http: HttpClient ,private elementRef: ElementRef, private myservice: MyserviceService) { }
+  constructor( private router: Router, private http: HttpClient ,private elementRef: ElementRef) { }
   Onsubmit() {
     console.log( "here at submit" )
     this.data = {
@@ -33,17 +32,18 @@ export class LoginComponent implements OnInit {
     }
 
 
-    // console.log( this.data )
-    // this.http
-    //   .post( "http://localhost:5000/signin", this.data, {
-    //     withCredentials: true
-    //   } )
-    this.myservice.loginAdmin(this.data)
+    console.log( this.data )
+    this.http
+      .post( "http://localhost:5000/signin", this.data, {
+        withCredentials: true
+      } )
       .subscribe(
         res => {
           {
+            console.log(res)
             console.log( res["message"] )
             if ( res["message"] === "loggin succesfully" ) {
+              console.log("here at iff condition")
               this.login()
             }
             else {

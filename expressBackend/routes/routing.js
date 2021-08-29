@@ -281,6 +281,22 @@ router.post("/account", async (req, res) => {
       res.send("there is error");
     }
   });
+  const  { commonEmitter } = require('../events')
+const changeStream = AccountsNonProfit.watch();
+
+
+changeStream.on('change', (data) => {
+  AccountsNonProfit.find((err, doc) => {
+    if (err) {
+      commonEmitter.emit("view-account-non-profit", {
+        error: err.message
+      })
+    } else {
+      commonEmitter.emit("viewAccountsNonProfit", doc )
+    }
+  });
+
+}); 
   
   
 

@@ -142,11 +142,11 @@ export class ProfitComponent implements OnInit {
           (res) => {
             {
               console.log(res['message']);
-              this.router
-                .navigateByUrl('/accounts', { skipLocationChange: true })
-                .then(() => {
-                  this.router.navigate(['/dashboard/costcenter']);
-                });
+              // this.router
+              //   .navigateByUrl('/accounts', { skipLocationChange: true })
+              //   .then(() => {
+              //     this.router.navigate(['/dashboard/costcenter']);
+              //   });
             }
           },
           (err) => {
