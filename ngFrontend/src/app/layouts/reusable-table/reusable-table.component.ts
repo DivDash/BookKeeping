@@ -34,20 +34,17 @@ export class ReusableTableComponent implements OnChanges {
 
   // @ViewChild(MatPaginator) paginator: MatPaginator;
   // @ViewChild(MatSort) sort: MatSort;
-  constructor() {}
+  constructor() {
+
+  }
   // ngAfterViewInit() {
   //   this.matDataSource.paginator = this.paginator;
   //   this.matDataSource.sort = this.sort;
   //   this.matDataSource.data = this.GridData;
   // }
   ngOnChanges(changes: SimpleChanges): void {
-
-    console.log(this.tableData['filteredData'],"reusableeee");
     this.tableData=this.tableData['filteredData']
-    console.log(this.tableData,"reusableeee againnn")
-    console.log(this.columnHeader,"reusableeee");
     this.dataSource = new MatTableDataSource(this.tableData);
-    console.log(this.dataSource,"shshshs")
     // this.dataSource.sort = this.sort
     
   }
@@ -74,5 +71,9 @@ export class ReusableTableComponent implements OnChanges {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     // this.dataSource.data = this.dataSource;
+  }
+
+  getData(data){
+    console.log(data,"from update")
   }
 }

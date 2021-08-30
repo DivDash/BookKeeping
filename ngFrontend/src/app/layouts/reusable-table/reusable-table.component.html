@@ -24,8 +24,26 @@
       >
         {{ columnHeader[tableData] }}
       </th>
-      <td mat-cell *matCellDef="let element">{{ element[tableData] }}</td>
-    </ng-container>
+
+      <td mat-cell *matCellDef="let element">
+        <div *ngIf="element[tableData]==='update'; else second">
+
+        <button class="btnn2"  mat-mini-fab [ngStyle]="{'background-color':'#2c3344'}" aria-label="Example icon button with a home icon" >
+          <mat-icon   class="btnn">edit</mat-icon>
+        </button>
+        </div>
+        <ng-template #second>
+          <div *ngIf="element[tableData]==='delete'; else elseBlock">
+
+          <button class="btnn2"  mat-mini-fab [ngStyle]="{'background-color':'#2c3344'}" aria-label="Example icon button with a home icon" >
+            <mat-icon (click)='getData(element)'  class="btnn">delete</mat-icon>
+          </button>
+          </div>
+        </ng-template>   
+      
+        <ng-template #elseBlock>{{ element[tableData] }}</ng-template>
+        </td>
+        </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="objectKeys(columnHeader)"></tr>
     <tr mat-row *matRowDef="let row; columns: objectKeys(columnHeader)"></tr>

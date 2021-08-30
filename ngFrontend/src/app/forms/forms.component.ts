@@ -217,6 +217,11 @@ export class FormsComponent implements DoCheck{
         console.log("here at if forms")  
         this.showsuccess('Account And Project Exist!!')
         this.objects=res['getEntries']
+
+        for(let i=0;i<this.objects.length;i++){
+          this.objects[i].delete="delete"
+        }
+
         this.listData = new MatTableDataSource(this.objects)
         }
         
@@ -241,7 +246,8 @@ export class FormsComponent implements DoCheck{
   receiver:"receive",
   reason:"reason",
   method:"method",
-  remarks:"remarks"
+  remarks:"remarks",
+  delete:'Delete'
 };
 
 

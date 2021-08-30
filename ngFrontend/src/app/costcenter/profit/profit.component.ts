@@ -91,6 +91,8 @@ export class ProfitComponent implements OnInit {
     Expense: 'Expense',
     Date: 'Date',
     Status: 'Status',
+    update:'Update',
+    delete:'Delete'
   };
   openDialog(): void {
       
@@ -161,30 +163,20 @@ export class ProfitComponent implements OnInit {
       })
       .subscribe(
         (res) => {
-          // console.log(res)
-          console.log(res);
-          // console.log(res[0]['name'])
-          // res.length
-          users.push({
-            Client: res[0]['Client'],
-            Project: res[0]['Project'],
-            Receivable: res[0]['Receivable'],
-            Revenue: res[0]['Revenue'],
-            Expense: res[0]['Expense'],
-            Date: res[0]['Date'],
-            Status: res[0]['Status'],
-          });
           this.object = res;
-          console.log(this.object, 'dsdslkd');
-          console.log(this.object.length);
-          console.log(users);
+         
+          for(let i=0;i<this.object.length;i++){
+            this.object[i].update="update"
+            this.object[i].delete="delete"
+          }
+          
           this.listData = new MatTableDataSource(this.object);
         },
         (err) => {
           console.log(err);
         }
       );
-    console.log(users);
+ 
   }
 }
 @Component({
