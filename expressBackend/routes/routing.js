@@ -273,7 +273,7 @@ router.post("/account", async (req, res) => {
       res.send("there is error");
     }
   });
-  router.get("/ViewAccountNonProfit", async (req, res) => {
+  router.get("/viewaccountnonprofit", async (req, res) => {
     try {
       const data = await AccountsNonProfit.find();
       res.send(data);
@@ -288,11 +288,14 @@ const changeStream = AccountsNonProfit.watch();
 changeStream.on('change', (data) => {
   AccountsNonProfit.find((err, doc) => {
     if (err) {
+      console.log("error")
+
       commonEmitter.emit("view-account-non-profit", {
         error: err.message
       })
     } else {
-      commonEmitter.emit("viewAccountsNonProfit", doc )
+      console.log("emit")
+      commonEmitter.emit("view-account-non-profit", doc )
     }
   });
 

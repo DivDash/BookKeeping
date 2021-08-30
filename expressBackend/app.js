@@ -13,8 +13,8 @@ const { commonEmitter } = require('./events')
 const cookieParser =require('cookie-parser');
 app.use(cors({origin:true, credentials:true})) 
 const PORT=5000
-app.use(express.json({limit: '50mb'}));
-app.use(express.urlencoded({limit: '50mb'}));
+
+app.use(express.json())
 app.use(cookieParser())
 app.use(require('./routes/routing'))
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -33,7 +33,7 @@ const server = http.createServer(app).listen(PORT, hostname, () => {
   });
   io.on('connection', (socket)=>{
     commonEmitter.on('view-account-non-profit', function (data) {
-      socket.broadcast.emit('viewAccountNonProfit', data)
+      socket.broadcast.emit('viewaccountnonprofit-data', data)
     });
     // commonEmitter.on('journalData', function (data) {
     //   socket.broadcast.emit('journal-entries-data', data)

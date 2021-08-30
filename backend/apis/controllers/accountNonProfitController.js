@@ -1,7 +1,6 @@
 'use strict';
 // const accountNonProfitService = require("../services/accountNonProfitService.js");
 const Authenticate = require("../../middlewares/Authenticate");
-const AccountProfitModel = require("../models/accountNonProfitModel");
 const AccountNonProfitService = require("../services/accountNonProfitService.js");
 
 module.exports = class AccountNonProfit{
@@ -62,14 +61,14 @@ module.exports = class AccountNonProfit{
   //     }
   //  }
 
-//    static async apiDeleteAdmin(req, res, next){
-//          try {
-//             const AdminId = req.params.id;
-//             const deleteResponse =  await AdminService.deleteAdmin(AdminId)
-//             res.json(deleteResponse);
-//          } catch (error) {
-//             res.status(500).json({error: error})
-//          }
-//    }
+   static async viewAccount(req, res, next){
+    try {
+      const data = await AccountNonProfitService.viewAccountService()
+      // const data = await AccountsNonProfit.find();
+      res.send(data);
+    } catch (error) {
+      res.send("there is error");
+    }
+  };
 
 }

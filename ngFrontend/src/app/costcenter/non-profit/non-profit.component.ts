@@ -100,53 +100,53 @@ export class NonProfitComponent implements OnInit {
     //   .get('http://localhost:5000/ViewAccountNonProfit', {
     //     withCredentials: true,
     //   })
-      this.myservice.viewAccountNonProfit()
-      .subscribe(
-        (res) => {
-          // console.log(res)
-          console.log(res);
-          // console.log(res[0]['name'])
-          // res.length
-          users.push({
-            Name: res[0]['Name'],
-            Expense: res[0]['Expense'],
-            Remarks: res[0]['Remarks'],
-          });
-          this.object = res;
-          console.log(this.object, 'dsdslkd');
-          console.log(this.object.length);
-          console.log(users);
-          this.listData = new MatTableDataSource(this.object);
-        },
-        (err) => {
-          console.log(err);
-        }
-      );
+      // this.myservice.viewAccountNonProfit()
+      // .subscribe(
+      //   (res) => {
+      //     // console.log(res)
+      //     console.log(res);
+      //     // console.log(res[0]['name'])
+      //     // res.length
+      //     users.push({
+      //       Name: res[0]['Name'],
+      //       Expense: res[0]['Expense'],
+      //       Remarks: res[0]['Remarks'],
+      //     });
+      //     this.object = res;
+      //     console.log(this.object, 'dsdslkd');
+      //     console.log(this.object.length);
+      //     console.log(users);
+      //     this.listData = new MatTableDataSource(this.object);
+      //   },
+      //   (err) => {
+      //     console.log(err);
+      //   }
+      // );
 
     //socket
-  //   this.myservice.getLiveCollection('viewAccountNonProfit').
-  //   subscribe(
-  //     (res) => {
-  //       // console.log(res)
-  //       console.log(res);
-  //       // console.log(res[0]['name'])
-  //       // res.length
-  //       users.push({
-  //         Name: res[0]['Name'],
-  //         Expense: res[0]['Expense'],
-  //         Remarks: res[0]['Remarks'],
-  //       });
-  //       this.object = res;
-  //       console.log(this.object, 'dsdslkd');
-  //       console.log(this.object.length);
-  //       console.log(users);
-  //       this.listData = new MatTableDataSource(this.object);
-  //     },
-  //     (err) => {
-  //       console.log(err);
-  //     }
-  //   );
-  //   console.log(users);
+    this.myservice.getLiveCollection('viewaccountnonprofit').
+    subscribe(
+      (res) => {
+        // console.log(res)
+        console.log(res);
+        // console.log(res[0]['name'])
+        // res.length
+        users.push({
+          Name: res[0]['Name'],
+          Expense: res[0]['Expense'],
+          Remarks: res[0]['Remarks'],
+        });
+        this.object = res;
+        console.log(this.object, 'dsdslkd');
+        console.log(this.object.length);
+        console.log(users);
+        this.listData = new MatTableDataSource(this.object);
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+    console.log(users);
   }
 }
 @Component({

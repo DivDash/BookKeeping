@@ -9,6 +9,6 @@ router.use(cookieParser());
 router.post("/account", AccountController.createAccount);
 
 // router.post("/signin", AdminController.login_admin);
-router.get("/ViewAccount", AccountController.viewAccount);
+router.get("/viewaccount", AccountController.viewAccount);
 
 module.exports = router;

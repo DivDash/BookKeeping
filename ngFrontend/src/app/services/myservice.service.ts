@@ -38,7 +38,7 @@ export class MyserviceService {
     } );
   }
   viewAccount() :  Observable<any> {
-    return this.http.get<any>(`${baseUrl}/viewAccount`, {
+    return this.http.get<any>(`${baseUrl}/viewaccount`, {
       withCredentials: true
     } );
   }

@@ -163,8 +163,36 @@ export class ProfitComponent implements OnInit {
     //   .get('http://localhost:5000/ViewProfit', {
     //     withCredentials: true,
     //   })
-      this.myservice.viewAccount()
-      .subscribe(
+      // this.myservice.viewAccount()
+      // .subscribe(
+      //   (res) => {
+      //     // console.log(res)
+      //     console.log(res);
+      //     // console.log(res[0]['name'])
+      //     // res.length
+      //     users.push({
+      //       Client: res[0]['Client'],
+      //       Project: res[0]['Project'],
+      //       Receivable: res[0]['Receivable'],
+      //       Revenue: res[0]['Revenue'],
+      //       Expense: res[0]['Expense'],
+      //       Date: res[0]['Date'],
+      //       Status: res[0]['Status'],
+      //     });
+      //     this.object = res;
+      //     console.log(this.object, 'dsdslkd');
+      //     console.log(this.object.length);
+      //     console.log(users);
+      //     this.listData = new MatTableDataSource(this.object);
+      //   },
+      //   (err) => {
+      //     console.log(err);
+      //   }
+      // );
+
+      //socket
+    this.myservice.getLiveCollection('viewaccountprofit')
+    .subscribe(
         (res) => {
           // console.log(res)
           console.log(res);
