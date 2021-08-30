@@ -9,6 +9,7 @@ import { AccountsComponent } from './accounts/accounts.component';
 import { CostcenterComponent } from './costcenter/costcenter.component';
 
 import { JentryComponent } from './jentry/jentry.component';
+import { ReportsComponent } from './reports/reports.component';
 // const routes: Routes = [
 //   { path: '', redirectTo: 'login', pathMatch: 'full' },
 //   { path: 'login', component: LoginComponent },
@@ -24,7 +25,8 @@ const routes: Routes = [
       { path: 'attribute', component: AttributesComponent },
       { path: 'accounts', component: AccountsComponent },
       { path: 'costcenter', component: CostcenterComponent },
-      {path:'journal',component:JentryComponent}
+      {path:'journal',component:JentryComponent},
+      {path:'reports',component:ReportsComponent}
     ],
   },
   { path: 'register', component: RegisterComponent },

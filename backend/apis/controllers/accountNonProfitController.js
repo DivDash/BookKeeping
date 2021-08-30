@@ -18,12 +18,9 @@ module.exports = class AccountNonProfit{
         }
         if (check === false) {
           
-          // const {match,token } = await AdminService.loginAdmin(email,password);
           const response=await AccountNonProfitService.createAccountService(Name,Expense,Remarks)
-          // const saving = new AccountsNonProfit({ Name, Expense, Remarks });
-          // await saving.save();
-
-          
+    
+      
           res.json({ message: "Account Added" });
         }
       }
@@ -33,43 +30,14 @@ module.exports = class AccountNonProfit{
       }
     }
 
-  //  static async login_admin(req, res, next){
-  //     try {
-  //       let { email, password } = req.body;
+    static async viewAccount(req, res, next) {
+      try {
+        const data = await AccountNonProfitService.viewAccount();
+        res.send(data);
+      } catch (error) {
+        res.send("there is error");
+      }
+    }
 
-  //       if (!email || !password) {
-  //         res.json({ message: "Fill The Full Form" });
-  //       } else {
-          
-  //         const {match,token } = await AdminService.loginAdmin(email,password);
-              
-  //         res.cookie("Book", token, {
-  //           expires: new Date(Date.now() + 864000000),
-  //           httpOnly: false,
-  //         });
-              
-
-  //         if (match) {
-  //           res.json({ message: "loggin succesfully" });
-  //         }
-  //         if (!match) {
-  //           res.json({ message: "Invalid Credentials" });
-  //         }  
-  //       }
-  //     } 
-  //     catch (error) {
-  //        res.status(500).json({error: error});
-  //     }
-  //  }
-
-//    static async apiDeleteAdmin(req, res, next){
-//          try {
-//             const AdminId = req.params.id;
-//             const deleteResponse =  await AdminService.deleteAdmin(AdminId)
-//             res.json(deleteResponse);
-//          } catch (error) {
-//             res.status(500).json({error: error})
-//          }
-//    }
 
 }

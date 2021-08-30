@@ -6,6 +6,7 @@ const express = require("express");
 const router = express.Router();
 const cookieParser = require("cookie-parser");
 const jwt = require("jsonwebtoken");
+const { createAdmin } = require( "../services/adminService.js" );
 router.use(cookieParser());
 
 
@@ -32,7 +33,8 @@ module.exports = class Admin{
         if (check === false) {
           console.log("here at saving");
           const createdAdmin =  await AdminService.createAdmin(req.body);
-          res.json({ message: "Registered Sucessfully" });
+          console.log(createdAdmin,"adminnnn")
+          res.json(createdAdmin);
          
 
         }

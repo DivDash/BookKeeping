@@ -7,6 +7,7 @@ module.exports = class AdminService{
             console.log(data)
             const userexist = await AdminModel.findOne({ email: data.email });
             if (userexist) {
+              console.log("here at email exist")  
               return ({ message: "Email Already Exist" });
             }
             const newAdmin = {
@@ -21,7 +22,7 @@ module.exports = class AdminService{
             const response = await new AdminModel(newAdmin).save();
             // await saving.save();
             // res.json({ message: "Registered Sucessfully" });
-            return response;
+            return ({ message: "Registered Sucessfully" });
         //    const response = await new Admin(newAdmin).save();
           
         } catch (error) {

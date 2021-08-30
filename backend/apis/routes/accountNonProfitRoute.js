@@ -9,8 +9,7 @@ router.use(cookieParser());
 
 router.post("/accountnonprofit", AccountNonProfitController.createAccount);
 
-// router.post("/signin", AdminController.login_admin);
-
+router.get("/ViewAccountNonProfit", AccountNonProfitController.viewAccount);
 
 module.exports =  router;
 

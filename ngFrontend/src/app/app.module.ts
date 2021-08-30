@@ -49,6 +49,7 @@ import {
   NonProfitComponent,
   DialogNonProfit,
 } from './costcenter/non-profit/non-profit.component';
+import { ReportsComponent } from './reports/reports.component';
 
 
 @NgModule({
@@ -74,7 +75,8 @@ import {
     NonProfitComponent,
     DialogNonProfit,
     DialogProfit,
-    DialogAccount
+    DialogAccount,
+    ReportsComponent
   ],
   imports: [
     BrowserModule,

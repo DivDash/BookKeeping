@@ -9,15 +9,15 @@
         }
     
     .matt{
-        padding-right:3%;
-        width: 25%;
+        padding-right:1%;
+        width: 23%;
     }
     
     .matt2{
         width: 45%;
     }
     .btnn{
-        padding-bottom: 40px
+        padding-bottom: 40px;
         /* padding-left: 50px; */
     }
     .btnn2{
@@ -31,7 +31,7 @@
     }
     
     .leftt{
-        padding-left: 2%;
+        padding-left: 1%;
     }
     
     .mattt{
@@ -54,4 +54,7 @@
     }
     .tabUpp{
         padding-top: 5%
+    }
+    .rightt{
+        padding-right: 5%;
     }

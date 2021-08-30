@@ -31,6 +31,7 @@ export class FormsComponent implements DoCheck{
     remarks:string=""
     i:number=0
   selectedProject:string;
+  date:string
   sum:number=0
   total:number
   data:any={}
@@ -44,6 +45,7 @@ export class FormsComponent implements DoCheck{
     this.newDivs.push({
       project:this.selectedProject,
       client:this.client,
+      date:this.date,
       amount: 0,
       receiver: "",
       reason: "",
@@ -84,6 +86,7 @@ export class FormsComponent implements DoCheck{
 
     if(summ===this.total){
       console.log("debit = credit")
+      console.log(this.newDivs)
       this.http
       .post( "http://localhost:5000/Entries",this.newDivs, {
         withCredentials: true
@@ -211,8 +214,9 @@ export class FormsComponent implements DoCheck{
           this.listData = new MatTableDataSource(this.objectsEmpty)
         }
         else{
+        console.log("here at if forms")  
         this.showsuccess('Account And Project Exist!!')
-        this.objects=res['entryExist']
+        this.objects=res['getEntries']
         this.listData = new MatTableDataSource(this.objects)
         }
         
@@ -247,7 +251,8 @@ export class FormsComponent implements DoCheck{
 
 export interface addDivisions {
   project:string;
-  client:string
+  client:string;
+  date:string;
   receiver: string;
   reason: string;
   amount: number;

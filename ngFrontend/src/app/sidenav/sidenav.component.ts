@@ -24,4 +24,8 @@ export class SidenavComponent implements OnInit {
     this.router.navigateByUrl('dashboard/journal');
   }
 
+  reports(){
+    this.router.navigateByUrl('dashboard/reports');
+  }
+
 }

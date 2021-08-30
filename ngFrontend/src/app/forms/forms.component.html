@@ -12,7 +12,7 @@
   
   
   
-  <mat-form-field appearance="fill" class="matt matt2">
+  <mat-form-field appearance="fill" class="matt leftt">
     <mat-label>Client</mat-label>
     <mat-select [(ngModel)]="client" name="client" (ngModelChange)="forTable($event)">
       <mat-option *ngFor="let client of clients" [value]="client">
@@ -23,12 +23,17 @@
   
   
   
-  <mat-form-field appearance="fill" floatLabel="always" class="matt">
+  <mat-form-field appearance="fill" floatLabel="always" class="matt leftt">
     <mat-label>Amount</mat-label>
     <input matInput type="number" class="example-right-align" placeholder="0" [(ngModel)]="total" name="total">
     <span matPrefix>Rs&nbsp;</span>
   </mat-form-field>
   
+  <mat-form-field appearance="fill" class="matt leftt rightt">
+    <mat-label>Date</mat-label>
+    <input matInput type="date" class="example-right-align"[(ngModel)]="date" name="date">
+  </mat-form-field>
+
   
     <button class="btnn2"  mat-mini-fab [ngStyle]="{'background-color':'#2c3344'}" aria-label="Example icon button with a home icon" >
       <mat-icon (click)="addEntry()" (click)='addNewDiv()'   class="btnn">add</mat-icon>

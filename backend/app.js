@@ -17,6 +17,9 @@ app.listen(PORT,()=>{
 });
 app.use(require('./apis/routes/adminRoute'))
 app.use(require('./apis/routes/accountNonProfitRoute'))
+app.use(require('./apis/routes/profit_route'))
+app.use(require('./apis/routes/account_Route'))
+app.use(require('./apis/routes/journal_entries_routes'))
 // const httpServer = require("http").createServer(app);
 // const options = { /* ... */ };
 // const io = require("socket.io")(httpServer, options);
