@@ -10,7 +10,7 @@ export class SidenavComponent implements OnInit {
   constructor(private router: Router) {}
 
   ngOnInit(): void {}
- 
+
   attribute() {
     this.router.navigateByUrl('dashboard/attribute');
   }
@@ -23,5 +23,4 @@ export class SidenavComponent implements OnInit {
   journal() {
     this.router.navigateByUrl('dashboard/journal');
   }
-
 }

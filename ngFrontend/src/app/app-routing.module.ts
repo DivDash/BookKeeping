@@ -1,14 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AttributesComponent } from './attributes/attributes.component';
-import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { DashComponent } from './dash/dash.component';
 import { RegisterComponent } from './register/register.component';
 import { AccountsComponent } from './accounts/accounts.component';
 import { CostcenterComponent } from './costcenter/costcenter.component';
-
 import { JentryComponent } from './jentry/jentry.component';
+
 // const routes: Routes = [
 //   { path: '', redirectTo: 'login', pathMatch: 'full' },
 //   { path: 'login', component: LoginComponent },
@@ -24,7 +23,7 @@ const routes: Routes = [
       { path: 'attribute', component: AttributesComponent },
       { path: 'accounts', component: AccountsComponent },
       { path: 'costcenter', component: CostcenterComponent },
-      {path:'journal',component:JentryComponent}
+      { path: 'journal', component: JentryComponent },
     ],
   },
   { path: 'register', component: RegisterComponent },
@@ -33,7 +32,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {onSameUrlNavigation: 'reload'})],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { RegisterModel } from '../RegisterModel';
 import { Router } from '@angular/router';
 import { Component, OnInit,ElementRef } from '@angular/core';
-import { MyserviceService } from '../services/myservice.service';
 
 
 @Component({
@@ -22,7 +21,7 @@ export class RegisterComponent implements OnInit {
   data:RegisterModel=new RegisterModel();
 
 
-  constructor(private router: Router,private http: HttpClient,private elementRef: ElementRef, private myservice: MyserviceService) { }
+  constructor(private router: Router,private http: HttpClient,private elementRef: ElementRef) { }
 
   Onsubmit(){
     this.data={
@@ -33,8 +32,10 @@ export class RegisterComponent implements OnInit {
     phone:this.phone,
     work:this.work
   }
-
-  this.myservice.registerAdmin(this.data)
+  console.log(this.data)
+  this.http
+  .post("http://localhost:5000/registration",this.data,{
+  })
     .subscribe(
       res => {
         {
@@ -45,6 +46,7 @@ export class RegisterComponent implements OnInit {
           else {
             this.check = false
             this.altermessage = res["message"]
+            
           }
         }
       },
@@ -52,35 +54,12 @@ export class RegisterComponent implements OnInit {
         console.log( err )
         console.log( err["message"] )
       }
-    );
-    // console.log(this.data)
-    // this.http
-    // .post("http://localhost:5000/registration",this.data,{
-    // })
-    //   .subscribe(
-    //     res => {
-    //       {
-    //         console.log( res["message"] )
-    //         if ( res["message"] === "Registered Sucessfully" ) {
-    //           this.login()
-    //         }
-    //         else {
-    //           this.check = false
-    //           this.altermessage = res["message"]
+  );
+}
 
-    //         }
-    //       }
-    //     },
-    //     err => {
-    //       console.log( err )
-    //       console.log( err["message"] )
-    //     }
-    // );
-  }
-
-  login() {
-    this.router.navigateByUrl( 'login' );
-  }
+login() {
+  this.router.navigateByUrl( 'login' );
+}
 
   ngOnInit(): void {
     this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor = '#141c2e';

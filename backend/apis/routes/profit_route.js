@@ -1,10 +1,10 @@
-'use strict';
-const  express =  require("express");
+"use strict";
+const express = require("express");
 const router = express.Router();
-const profitController=require('../controllers/profit_controller')
+const profitController = require("../controllers/profit_controller");
 
-router.post('/Profit', profitController.createProfitProject)
+router.post("/createaccountprofit", profitController.createProfitProject);
 
-router.get( '/ViewProfit',profitController.getProfitProject);
+router.get("/viewaccountprofit", profitController.getProfitProject);
 
-module.exports =  router;
+module.exports = router;

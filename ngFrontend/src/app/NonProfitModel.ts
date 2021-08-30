@@ -1,5 +1,5 @@
 export class NonProfitModel {
-    Name: string;
-    Expense: number;
-    Remarks: string;
-  }
+  Name: string;
+  Expense: number;
+  Remarks: string;
+}

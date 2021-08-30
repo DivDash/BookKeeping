@@ -8,6 +8,7 @@ import {
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { ProfitModel } from 'src/app/ProfitModel';
+import { ToastrService } from 'ngx-toastr';
 import { MyserviceService } from 'src/app/services/myservice.service';
 
 export interface UserData {
@@ -44,9 +45,7 @@ export class ProfitComponent implements OnInit {
   Status: string;
   object: any;
   listData: MatTableDataSource<any>;
-  clients:string[]=[]
   ProfitModel: ProfitModel;
-
   displayedColumns: string[] = [
     'Client',
     'Project',
@@ -60,32 +59,9 @@ export class ProfitComponent implements OnInit {
     public dialog: MatDialog,
     private http: HttpClient,
     private router: Router,
-    private myservice:MyserviceService
-  ) {
-
-    // this.http
-    // .get( "http://localhost:5000/ViewAccount",{
-    //   withCredentials:true
-    // })
-    this.myservice.viewAccount()
-    .subscribe(
-
-      res => {
-        console.log("resss")
-        this.object=res
-        for (let i=0;i<this.object.length;i++){
-          this.clients.push(this.object[i]['name'])
-        }
-        console.log(this.clients,"here at profittt")
-        let clients2= this.clients
-        console.log(clients2)
-      },
-      err =>  {
-        console.log("resss")
-        console.log( err )
-      }
-    )
-  }
+    private toastr: ToastrService,
+    private myservice: MyserviceService
+  ) {}
   columnHeader2 = {
     Client: 'Client',
     Project: 'Project',
@@ -96,11 +72,10 @@ export class ProfitComponent implements OnInit {
     Status: 'Status',
   };
   openDialog(): void {
-
-      const dialogRef = this.dialog.open(DialogProfit, {
+    const dialogRef = this.dialog.open(DialogProfit, {
       // width: '60%'
       panelClass: 'custom-modalbox',
-      height: '80%',
+      height: '70%',
       width: '30%',
       disableClose: true,
       hasBackdrop: true,
@@ -113,9 +88,7 @@ export class ProfitComponent implements OnInit {
         Date: this.Date,
         Status: this.Status,
       },
-
     });
-
     dialogRef.afterClosed().subscribe((result) => {
       this.Client = result['Client'];
       this.Project = result['Project'];
@@ -133,15 +106,17 @@ export class ProfitComponent implements OnInit {
         Date: this.Date,
         Status: this.Status,
       };
-      // this.http
-      //   .post('http://localhost:5000/Profit', this.ProfitModel, {
-      //     withCredentials: true,
-      //   })
-      this.myservice.createProfitModel(this.ProfitModel)
+      this.http
+        .post('http://localhost:5000/createaccountprofit', this.ProfitModel, {
+          withCredentials: true,
+        })
         .subscribe(
           (res) => {
             {
-              console.log(res['message']);
+              console.log(res['message'] + '  Mubashir');
+              if (res['message'] === 'Project with Client Added') {
+                this.showSuccess();
+              }
               // this.router
               //   .navigateByUrl('/accounts', { skipLocationChange: true })
               //   .then(() => {
@@ -163,107 +138,76 @@ export class ProfitComponent implements OnInit {
     //   .get('http://localhost:5000/ViewProfit', {
     //     withCredentials: true,
     //   })
-      // this.myservice.viewAccount()
-      // .subscribe(
-      //   (res) => {
-      //     // console.log(res)
-      //     console.log(res);
-      //     // console.log(res[0]['name'])
-      //     // res.length
-      //     users.push({
-      //       Client: res[0]['Client'],
-      //       Project: res[0]['Project'],
-      //       Receivable: res[0]['Receivable'],
-      //       Revenue: res[0]['Revenue'],
-      //       Expense: res[0]['Expense'],
-      //       Date: res[0]['Date'],
-      //       Status: res[0]['Status'],
-      //     });
-      //     this.object = res;
-      //     console.log(this.object, 'dsdslkd');
-      //     console.log(this.object.length);
-      //     console.log(users);
-      //     this.listData = new MatTableDataSource(this.object);
-      //   },
-      //   (err) => {
-      //     console.log(err);
-      //   }
-      // );
-
-      //socket
-    this.myservice.getLiveCollection('viewaccountprofit')
-    .subscribe(
-        (res) => {
-          // console.log(res)
-          console.log(res);
-          // console.log(res[0]['name'])
-          // res.length
-          users.push({
-            Client: res[0]['Client'],
-            Project: res[0]['Project'],
-            Receivable: res[0]['Receivable'],
-            Revenue: res[0]['Revenue'],
-            Expense: res[0]['Expense'],
-            Date: res[0]['Date'],
-            Status: res[0]['Status'],
-          });
-          this.object = res;
-          console.log(this.object, 'dsdslkd');
-          console.log(this.object.length);
-          console.log(users);
-          this.listData = new MatTableDataSource(this.object);
-        },
-        (err) => {
-          console.log(err);
-        }
-      );
+    this.myservice.getLiveCollection('viewaccountprofit').subscribe(
+      (res) => {
+        // console.log(res)
+        console.log(res);
+        // console.log(res[0]['name'])
+        // res.length
+        users.push({
+          Client: res[0]['Client'],
+          Project: res[0]['Project'],
+          Receivable: res[0]['Receivable'],
+          Revenue: res[0]['Revenue'],
+          Expense: res[0]['Expense'],
+          Date: res[0]['Date'],
+          Status: res[0]['Status'],
+        });
+        this.object = res;
+        console.log(this.object, 'dsdslkd');
+        console.log(this.object.length);
+        console.log(users);
+        this.listData = new MatTableDataSource(this.object);
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
     console.log(users);
+  }
+  showSuccess() {
+    this.toastr.success('Successful!', 'Entry Added');
   }
 }
 @Component({
   selector: 'dialog-profit',
   templateUrl: './dialog-profit.html',
 })
-export class DialogProfit{
-  object:any
-  clients:string[]=[]
-  clients2:any
+export class DialogProfit {
+  object: any;
+  clients: string[] = [];
+  clients2: any;
   constructor(
     public dialogRef: MatDialogRef<DialogProfit>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private http: HttpClient,
-    private myservice:MyserviceService
-  )
-  {
+    private myservice: MyserviceService
+  ) {
     // this.http
-    // .get( "http://localhost:5000/ViewAccount",{
-    //   withCredentials:true
-    // })
-    this.myservice.viewAccount()
-    .subscribe(
-
-      res => {
-        console.log("resss")
-        this.object=res
-        for (let i=0;i<this.object.length;i++){
-          this.clients.push(this.object[i]['name'])
+    //   .get('http://localhost:5000/ViewAccount', {
+    //     withCredentials: true,
+    //   })
+    this.myservice.getLiveCollection('viewaccount').subscribe(
+      (res) => {
+        console.log('resss');
+        this.object = res;
+        for (let i = 0; i < this.object.length; i++) {
+          this.clients.push(this.object[i]['name']);
         }
-        console.log(this.clients,"here at profittt")
-         this.clients2= this.clients
-        console.log(this.clients2)
+        console.log(this.clients, 'here at profittt');
+        this.clients2 = this.clients;
+        console.log(this.clients2);
       },
-      err =>  {
-        console.log("resss")
-        console.log( err )
+      (err) => {
+        console.log('resss');
+        console.log(err);
       }
-    )
+    );
   }
-
   onNoClick(): void {
     this.dialogRef.close();
   }
 }
-
-export class clientsClass{
-  clientsMsg:string
+export class clientsClass {
+  clientsMsg: string;
 }

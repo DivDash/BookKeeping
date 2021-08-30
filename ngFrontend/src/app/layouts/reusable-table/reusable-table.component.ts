@@ -22,47 +22,25 @@ export class ReusableTableComponent implements OnChanges {
   @Input() columnHeader;
   objectKeys = Object.keys;
 
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
   dataSource: MatTableDataSource<any> = new MatTableDataSource();
-  // @Input() GridData: any;
-  // @Input() ColData: any;
-
-  // @Input() tableTemplate: TemplateRef<any>;
-
-  // matDataSource = new MatTableDataSource<any>();
-
-  // @ViewChild(MatPaginator) paginator: MatPaginator;
-  // @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   constructor() {}
-  // ngAfterViewInit() {
-  //   this.matDataSource.paginator = this.paginator;
-  //   this.matDataSource.sort = this.sort;
-  //   this.matDataSource.data = this.GridData;
-  // }
-  ngOnChanges(changes: SimpleChanges): void {
 
-    console.log(this.tableData['filteredData'],"reusableeee");
-    this.tableData=this.tableData['filteredData']
-    console.log(this.tableData,"reusableeee againnn")
-    console.log(this.columnHeader,"reusableeee");
-    this.dataSource = new MatTableDataSource(this.tableData);
-    console.log(this.dataSource,"shshshs")
-    // this.dataSource.sort = this.sort
-    
-  }
-
-  modelChangeFn(value){
-    
-    this.dataSource=value
-    console.log(this.dataSource,"zainnn")
-
-  }
   ngOnInit() {
-
     this.dataSource = new MatTableDataSource(this.tableData);
+    // this.dataSource.paginator = this.paginator;
   }
-  
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(this.tableData['filteredData'], 'reusableeee');
+    this.tableData = this.tableData['filteredData'];
+    console.log(this.tableData, 'reusableeee againnn');
+    console.log(this.columnHeader, 'reusableeee');
+    this.dataSource = new MatTableDataSource(this.tableData);
+    console.log(this.dataSource, 'shshshs');
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+  }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim();

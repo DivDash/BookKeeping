@@ -9,7 +9,7 @@ import {
 } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { MyserviceService } from '../services/myservice.service';
+import { MyserviceService } from 'src/app/services/myservice.service';
 
 export interface UserData {
   name: string;
@@ -44,15 +44,15 @@ export class AccountsComponent implements OnInit {
     private http: HttpClient,
     private router: Router,
     private toastr: ToastrService,
-    private myservice:MyserviceService
+    private myservice: MyserviceService
   ) {}
 
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogAccount, {
       // width: '60%'
       panelClass: 'custom-modalbox',
-      height: '450px',
-      width: '300px',
+      height: '60%',
+      width: '25%',
       disableClose: true,
       hasBackdrop: true,
       data: {
@@ -74,7 +74,7 @@ export class AccountsComponent implements OnInit {
         Remarks: this.Remarks,
       };
       this.http
-        .post('http://localhost:5000/account', this.AccountModel, {
+        .post('http://localhost:5000/createaccount', this.AccountModel, {
           withCredentials: true,
         })
         .subscribe(
@@ -84,11 +84,11 @@ export class AccountsComponent implements OnInit {
               if (res['message'] === 'Account Added') {
                 this.showSuccess();
               }
-            //   this.router
-            //     .navigateByUrl('/accounts', { skipLocationChange: true })
-            //     .then(() => {
-            //       this.router.navigate(['/dashboard/accounts']);
-            //     });
+              // this.router
+              //   .navigateByUrl('/accounts', { skipLocationChange: true })
+              //   .then(() => {
+              //     this.router.navigate(['/dashboard/accounts']);
+              //   });
             }
           },
           (err) => {
@@ -108,60 +108,38 @@ export class AccountsComponent implements OnInit {
     console.log('ithayyyyyyyyyyy');
     const users: UserData[] = [];
     // this.http
-    //   .get('http://localhost:5000/viewaccount', {
+    //   .get('http://localhost:5000/ViewAccount', {
     //     withCredentials: true,
     //   })
-    //   .subscribe(
-    //     (res) => {
-    //       // console.log(res)
-    //       console.log(res);
-    //       // console.log(res[0]['name'])
-    //       // res.length
-    //       users.push({
-    //         name: res[0]['name'],
-    //         Bank: res[0]['Bank'],
-    //         Balance: res[0]['Balance'],
-    //         Remarks: res[0]['Remarks'],
-    //       });
-    //       this.object = res;
-    //       console.log(this.object, 'dsdslkd');
-    //       console.log(this.object.length);
-    //       console.log(users);
-    //       this.listData = new MatTableDataSource(this.object);
-    //     },
-    //     (err) => {
-    //       console.log(err);
-    //     }
-    //   );
-    //socket
-    this.myservice.getLiveCollection('viewaccount')
-    .subscribe(
-          (res) => {
-            // console.log(res)
-            console.log(res);
-            // console.log(res[0]['name'])
-            // res.length
-            users.push({
-              name: res[0]['name'],
-              Bank: res[0]['Bank'],
-              Balance: res[0]['Balance'],
-              Remarks: res[0]['Remarks'],
-            });
-            this.object = res;
-            console.log(this.object, 'dsdslkd');
-            console.log(this.object.length);
-            console.log(users);
-            this.listData = new MatTableDataSource(this.object);
-          },
-          (err) => {
-            console.log(err);
-          }
-        );
+    this.myservice.getLiveCollection('viewaccount').subscribe(
+      (res) => {
+        // console.log(res)
+        console.log('account' + res);
+        console.log(res);
+        // console.log(res[0]['name'])
+        // res.length
+        users.push({
+          name: res[0]['name'],
+          Bank: res[0]['Bank'],
+          Balance: res[0]['Balance'],
+          Remarks: res[0]['Remarks'],
+        });
+        this.object = res;
+        console.log(this.object, 'dsdslkd');
+        console.log(this.object.length);
+        console.log(users);
+        this.listData = new MatTableDataSource(this.object);
+      },
+      (err) => {
+        console.log('accountError');
 
+        console.log(err);
+      }
+    );
     console.log(users);
   }
   showSuccess() {
-    this.toastr.success('Successfull!', 'Account Added');
+    this.toastr.success('Successful!', 'Account Added');
   }
 }
 @Component({

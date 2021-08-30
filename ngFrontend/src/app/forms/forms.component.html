@@ -1,92 +1,154 @@
 <div class="box">
-  
-
   <mat-form-field appearance="fill" class="matt leftt">
     <mat-label>Project</mat-label>
-    <mat-select [(ngModel)]="selectedProject" name="project" (ngModelChange)="forTable($event)">
+    <mat-select
+      [(ngModel)]="selectedProject"
+      name="project"
+      (ngModelChange)="forTable($event)"
+    >
       <mat-option *ngFor="let project of projects" [value]="project">
-        {{project}}
+        {{ project }}
       </mat-option>
     </mat-select>
   </mat-form-field>
-  
-  
-  
+
   <mat-form-field appearance="fill" class="matt matt2">
     <mat-label>Client</mat-label>
-    <mat-select [(ngModel)]="client" name="client" (ngModelChange)="forTable($event)">
+    <mat-select
+      [(ngModel)]="client"
+      name="client"
+      (ngModelChange)="forTable($event)"
+    >
       <mat-option *ngFor="let client of clients" [value]="client">
-        {{client}}
+        {{ client }}
       </mat-option>
     </mat-select>
   </mat-form-field>
-  
-  
-  
+
   <mat-form-field appearance="fill" floatLabel="always" class="matt">
     <mat-label>Amount</mat-label>
-    <input matInput type="number" class="example-right-align" placeholder="0" [(ngModel)]="total" name="total">
+    <input
+      matInput
+      type="number"
+      class="example-right-align"
+      placeholder="0"
+      [(ngModel)]="total"
+      name="total"
+    />
     <span matPrefix>Rs&nbsp;</span>
   </mat-form-field>
-  
-  
-    <button class="btnn2"  mat-mini-fab [ngStyle]="{'background-color':'#2c3344'}" aria-label="Example icon button with a home icon" >
-      <mat-icon (click)="addEntry()" (click)='addNewDiv()'   class="btnn">add</mat-icon>
+
+  <button
+    class="btnn2"
+    mat-mini-fab
+    [ngStyle]="{ 'background-color': '#2c3344' }"
+    aria-label="Example icon button with a home icon"
+  >
+    <mat-icon (click)="addEntry()" (click)="addNewDiv()" class="btnn"
+      >add</mat-icon
+    >
+  </button>
+</div>
+<mat-divider class="bott"></mat-divider>
+<div *ngFor="let new_div of newDivs">
+  <div class="boxx">
+    <mat-form-field appearance="fill" class="mattt leftt">
+      <mat-label>Name</mat-label>
+      <input
+        matInput
+        type="text"
+        class="example-right-align"
+        placeholder="xyz"
+        [(ngModel)]="new_div.receiver"
+        name="receiver"
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" floatLabel="always" class="mattt">
+      <mat-label>Amount</mat-label>
+      <input
+        matInput
+        type="number"
+        class="example-right-align"
+        placeholder="0"
+        [(ngModel)]="new_div.amount"
+        name="amount"
+      />
+      <span matPrefix>Rs&nbsp;</span>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="mattt">
+      <mat-label>Reason</mat-label>
+      <input
+        matInput
+        type="text"
+        class="example-right-align"
+        placeholder="xyz"
+        [(ngModel)]="new_div.reason"
+        name="reason"
+      />
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="mattt">
+      <mat-label>Method</mat-label>
+      <input
+        matInput
+        type="text"
+        class="example-right-align"
+        placeholder="xyz"
+        [(ngModel)]="new_div.method"
+        name="method"
+      />
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="mattt">
+      <mat-label>Remarks</mat-label>
+      <input
+        matInput
+        type="text"
+        class="example-right-align"
+        placeholder="xyz"
+        [(ngModel)]="new_div.remarks"
+        name="remarks"
+      />
+    </mat-form-field>
+
+    <button
+      class="btnn3"
+      mat-mini-fab
+      [ngStyle]="{ 'background-color': '#2c3344' }"
+      aria-label="Example icon button with a home icon"
+    >
+      <mat-icon (click)="remove(new_div.receiver)" class="btnn"
+        >remove</mat-icon
+      >
     </button>
-  
   </div>
-  <mat-divider class="bott"></mat-divider>
-  <div *ngFor='let new_div of newDivs;'>
-    <div class="boxx">
-      <mat-form-field appearance="fill" class="mattt leftt">
-        <mat-label>Name</mat-label>
-        <input matInput type="text" class="example-right-align" placeholder="xyz" [(ngModel)]="new_div.receiver" name="receiver">
-      </mat-form-field>
-    
-      <mat-form-field appearance="fill" floatLabel="always" class="mattt">
-        <mat-label>Amount</mat-label>
-        <input matInput type="number" class="example-right-align" placeholder="0" [(ngModel)]="new_div.amount" name="amount" >
-        <span matPrefix>Rs&nbsp;</span>
-      </mat-form-field>
-  
-      <mat-form-field appearance="fill" class="mattt">
-        <mat-label>Reason</mat-label>
-        <input matInput type="text" class="example-right-align" placeholder="xyz" [(ngModel)]="new_div.reason" name="reason">
-      </mat-form-field>
-      <mat-form-field appearance="fill" class="mattt">
-        <mat-label>Method</mat-label>
-        <input matInput type="text" class="example-right-align" placeholder="xyz" [(ngModel)]="new_div.method" name="method">
-      </mat-form-field>
-      <mat-form-field appearance="fill" class="mattt">
-        <mat-label>Remarks</mat-label>
-        <input matInput type="text" class="example-right-align" placeholder="xyz" [(ngModel)]="new_div.remarks" name="remarks">
-      </mat-form-field>
-      
-      <button class="btnn3"  mat-mini-fab [ngStyle]="{'background-color':'#2c3344'}" aria-label="Example icon button with a home icon" >
-        <mat-icon (click)="remove(new_div.receiver)" class="btnn">remove</mat-icon>
-      </button>
-  
-    </div>
-    </div>
-  
-    <mat-divider class="upp"></mat-divider>
-  
-  
-  
-    <div class="box leftt">
-      <h4 [ngStyle]="{'color':'#2c3344'}" ><strong> Voucher: 1212 </strong> </h4>
-      <h4 [ngStyle]="{'color':'#2c3344'}"> <strong> Credit:{{sum}}</strong> </h4>
-      <h4 [ngStyle]="{'color':'#2c3344'}"> <strong> Debit:{{total}}</strong> </h4>
-    
-  
-      
-  
-  
-      <button mat-raised-button color="primary"[ngStyle]="{'background-color':'#2c3344'}" (click)="final()">ADD JOURNAL ENTRY</button>
-    </div>
-  <div class="leftt tabUpp">
-    <app-reusable-table
-      [tableData]="listData"
-      [columnHeader]="columnHeader2"
-    ></app-reusable-table>
-  </div>
+</div>
+
+<mat-divider class="upp"></mat-divider>
+
+<div class="box leftt">
+  <h4 [ngStyle]="{ color: '#2c3344' }"><strong> Voucher: 1212 </strong></h4>
+  <h4 [ngStyle]="{ color: '#2c3344' }">
+    <strong> Credit:{{ sum }}</strong>
+  </h4>
+  <h4 [ngStyle]="{ color: '#2c3344' }">
+    <strong> Debit:{{ total }}</strong>
+  </h4>
+
+  <button color="primary" mat-raised-button (click)="final()">
+    <mat-icon>library_add</mat-icon>
+    Add Journal Entry
+  </button>
+</div>
+<!-- <div class="leftt tabUpp">
+  <app-reusable-table
+    [tableData]="listData"
+    [columnHeader]="columnHeader2"
+  ></app-reusable-table>
+</div> -->
+<div class="mat-elevation-z8">
+  <app-reusable-table
+    [tableData]="listData"
+    [columnHeader]="columnHeader2"
+  ></app-reusable-table>
+</div>

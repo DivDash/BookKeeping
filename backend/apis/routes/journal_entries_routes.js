@@ -1,13 +1,10 @@
-'use strict';
-const  express =  require("express");
+"use strict";
+const express = require("express");
 const router = express.Router();
-const JournalEntries=require('../controllers/journal_entries_controller')
+const JournalEntries = require("../controllers/journal_entries_controller");
 
-router.post('/Entries',JournalEntries.createJournalEntries)
+router.post("/createentries", JournalEntries.createJournalEntries);
 
-router.post('/ViewEntry',JournalEntries.getJournalEntries)
+router.post("/viewentry", JournalEntries.getJournalEntries);
 
-
-module.exports =  router;
-
-
+module.exports = router;

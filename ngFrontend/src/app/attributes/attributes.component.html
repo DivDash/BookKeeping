@@ -1,8 +1,16 @@
 <div class="container-fluid page">
-    <div class="d-flex page__box p-3 mt-2">Attributes</div>
-    <div class="page__content shadow p-3 position-relative">
-      <div class="page__content-data position-absolute text-center">
-        <app-dialogbox></app-dialogbox>
-      </div>
+  <div class="d-flex page__box p-3 mt-2">Attributes</div>
+  <div class="page__content shadow p-3 position-relative">
+    <div class="page__content-data position-absolute text-center">
+      <!-- <app-dialogbox></app-dialogbox> -->
+      <button
+        mat-raised-button
+        class="add-account"
+        color="primary"
+        (click)="showSuccess()"
+      >
+        Add An Account
+      </button>
     </div>
   </div>
+</div>

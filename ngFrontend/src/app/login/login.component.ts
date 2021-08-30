@@ -40,16 +40,14 @@ export class LoginComponent implements OnInit {
       .subscribe(
         res => {
           {
-            console.log(res)
             console.log( res["message"] )
             if ( res["message"] === "loggin succesfully" ) {
-              console.log("here at iff condition")
               this.login()
             }
             else {
               this.check = false
               this.altermessage = res["message"]
-
+              
             }
           }
         },

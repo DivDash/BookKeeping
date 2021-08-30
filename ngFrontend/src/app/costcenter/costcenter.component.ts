@@ -7,10 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CostcenterComponent implements OnInit {
 
-  constructor(
-
-    
-  ) { }
+  constructor() { }
 
   ngOnInit(): void {
   }

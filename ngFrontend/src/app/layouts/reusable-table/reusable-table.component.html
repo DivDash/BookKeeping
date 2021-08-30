@@ -25,6 +25,8 @@
         {{ columnHeader[tableData] }}
       </th>
       <td mat-cell *matCellDef="let element">{{ element[tableData] }}</td>
+      <th mat-header-cell *matHeaderCellDef>Action</th>
+      <td mat-cell *matCellDef>okay</td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="objectKeys(columnHeader)"></tr>

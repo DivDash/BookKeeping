@@ -3,7 +3,6 @@ import { Observable, Observer } from 'rxjs';
 
 export interface ExampleTab {
   label: string;
-  content: string;
 }
 
 @Component({
@@ -16,10 +15,7 @@ export class TabComponent {
   constructor() {
     this.asyncTabs = new Observable((observer: Observer<ExampleTab[]>) => {
       setTimeout(() => {
-        observer.next([
-          { label: 'Profit', content: 'Content 1' },
-          { label: 'Non-Profit', content: 'Content 2' },
-        ]);
+        observer.next([{ label: 'Profit' }, { label: 'Non-Profit' }]);
       }, 100);
     });
   }
