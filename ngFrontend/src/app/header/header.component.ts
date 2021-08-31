@@ -11,28 +11,6 @@ export class HeaderComponent implements OnInit {
   name:string
 
 
-
-  constructor(private router: Router,private http: HttpClient ) {
-    this.http
-      .get( "http://localhost:5000/Getinfo",{
-        withCredentials:true
-      })
-      .subscribe(
-        res => {
-          console.log("here at header")
-          console.log(res)
-          this.name=res["name"]
-        },
-        err =>  {
-          console.log( err )
-          this.router.navigateByUrl('login')
-        }
-      );
-
-   }
-
-@Output() toggleSidebarForMe: EventEmitter<any> = new EventEmitter();
-
   constructor(private router: Router, private http: HttpClient) {
     console.log('here at get');
     this.http

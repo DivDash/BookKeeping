@@ -27,6 +27,8 @@
     "angular-bootstrap-md": "^12.0.0",
     "angular-routing": "^0.3.1",
     "bootstrap": "^4.5.0",
+    "chart": "^0.1.2",
+    "chart.js": "^3.5.1",
     "ngx-socket-io": "^4.1.0",
     "ngx-toastr": "^14.1.0",
     "rxjs": "~6.6.0",

@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Chart ,registerables } from 'chart.js';
 import { ToastrService } from 'ngx-toastr';
+import { MyserviceService } from 'src/app/services/myservice.service';
 Chart.register(...registerables);
 
 @Component({
@@ -28,12 +29,8 @@ export class ReportsComponent implements OnInit {
   amounts:number[]=[]
   sum:number=0
 
-  constructor(private http: HttpClient,private toastr: ToastrService) {
-
-    this.http
-    .get( "http://localhost:5000/ViewProfit",{
-      withCredentials:true
-    })
+  constructor(private http: HttpClient,private toastr: ToastrService, private myservice:MyserviceService ) {
+    this.myservice.viewProfit()
     .subscribe(
       res => {
         this.object=res
@@ -48,10 +45,9 @@ export class ReportsComponent implements OnInit {
       }
     )
 
-    this.http
-    .get( "http://localhost:5000/ViewAccount",{
-      withCredentials:true
-    })
+
+
+    this.myservice.viewAccount()
     .subscribe(
       res => {
         this.object=res
@@ -100,17 +96,14 @@ export class ReportsComponent implements OnInit {
        project: this.selectedProject,
      }
      if(this.client && this.selectedProject){
-     this.http
-     .post( "http://localhost:5000/ViewEntry",this.data,{
-       withCredentials:true
-     })
+     this.myservice.viewEntry(this.data)
      .subscribe(
        res => {
          if(res['message']==='Project with This Client Dosent exist')
          {
            this.showerror(res['message'])
          }
-         else{ 
+         else{
          this.showsuccess('Account And Project Exist!!')
          this.objects=res['getEntries']
          console.log(this.objects,"top")
@@ -127,7 +120,7 @@ export class ReportsComponent implements OnInit {
             this.amounts.push(this.objects[i]['amount'])
           }
         }
-        
+
         console.log(this.format.length)
         console.log(this.amounts.length)
 
@@ -139,20 +132,20 @@ export class ReportsComponent implements OnInit {
 
         for (let i=0;i<this.format.length;i++)
         {
-          
+
             if(this.validate.includes(this.format[i])===false){
               this.validate.push(this.format[i])
               this.months.push(this.monthsName[parseInt(this.format[i])-1])
               for(let j=0;j<this.format.length;j++){
-              
+
                 if(this.format[i]===this.format[j]){
                   this.sum=this.sum+this.amounts[j]
-  
+
              }
 
             }
 
-          if(this.sum!==0){  
+          if(this.sum!==0){
           this.expenses.push(this.sum)
           this.sum=0
           }
@@ -160,32 +153,32 @@ export class ReportsComponent implements OnInit {
         console.log(i)
 
         }
-        
+
         console.log(this.months,"months")
         console.log(this.expenses,"expenses")
         // this.myChart.destroy()
-        if (this.myChart)         {    
+        if (this.myChart)         {
           console.log("here at destroy")
           this.myChart.destroy();  }
 
         this.chartFunc()
 
          }
-         
+
        },
        err =>  {
          console.log("here at error")
          console.log( err )
        }
      )
-    
+
      }
 
-    
+
    }
 
    chartFunc(){
-     
+
     this.myChart =new Chart("testChart", {
       type: 'bar',
       data: {
@@ -196,7 +189,7 @@ export class ReportsComponent implements OnInit {
               backgroundColor: [
                   'rgba(54, 162, 235, 0.2)'
               ],
-              borderColor: [  
+              borderColor: [
                 'rgba(54, 162, 235, 1)'
               ],
               borderWidth: 1
@@ -212,6 +205,6 @@ export class ReportsComponent implements OnInit {
   });
 
    }
-  
+
 
 }

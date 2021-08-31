@@ -8,6 +8,7 @@ import {
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { NonProfitModel } from 'src/app/NonProfitModel';
+import { MyserviceService } from 'src/app/services/myservice.service';
 
 export interface UserData {
   Name: string;
@@ -36,7 +37,8 @@ export class NonProfitComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private myservice:MyserviceService
   ) {}
   columnHeader2 = {
     Name: 'Name',
@@ -66,19 +68,20 @@ export class NonProfitComponent implements OnInit {
         Expense: this.Expense,
         Remarks: this.Remarks,
       };
-      this.http
-        .post('http://localhost:5000/accountnonprofit', this.NonProfitModel, {
-          withCredentials: true,
-        })
+      // this.http
+      //   .post('http://localhost:5000/accountnonprofit', this.NonProfitModel, {
+      //     withCredentials: true,
+      //   })
+        this.myservice.createAccountNonProfit(this.NonProfitModel)
         .subscribe(
           (res) => {
             {
-              console.log(res['message']);
-              this.router
-                .navigateByUrl('/accounts', { skipLocationChange: true })
-                .then(() => {
-                  this.router.navigate(['/dashboard/costcenter']);
-                });
+              // console.log(res['message']);
+              // this.router
+              //   .navigateByUrl('/accounts', { skipLocationChange: true })
+              //   .then(() => {
+              //     this.router.navigate(['/dashboard/costcenter']);
+              //   });
             }
           },
           (err) => {
@@ -87,35 +90,62 @@ export class NonProfitComponent implements OnInit {
           }
         );
     });
+
+
   }
   ngOnInit() {
     console.log('ithayyyyyyyyyyy');
     const users: UserData[] = [];
-    this.http
-      .get('http://localhost:5000/ViewAccountNonProfit', {
-        withCredentials: true,
-      })
-      .subscribe(
-        (res) => {
-          // console.log(res)
-          console.log(res);
-          // console.log(res[0]['name'])
-          // res.length
-          users.push({
-            Name: res[0]['Name'],
-            Expense: res[0]['Expense'],
-            Remarks: res[0]['Remarks'],
-          });
-          this.object = res;
-          console.log(this.object, 'dsdslkd');
-          console.log(this.object.length);
-          console.log(users);
-          this.listData = new MatTableDataSource(this.object);
-        },
-        (err) => {
-          console.log(err);
-        }
-      );
+    // this.http
+    //   .get('http://localhost:5000/ViewAccountNonProfit', {
+    //     withCredentials: true,
+    //   })
+      // this.myservice.viewAccountNonProfit()
+      // .subscribe(
+      //   (res) => {
+      //     // console.log(res)
+      //     console.log(res);
+      //     // console.log(res[0]['name'])
+      //     // res.length
+      //     users.push({
+      //       Name: res[0]['Name'],
+      //       Expense: res[0]['Expense'],
+      //       Remarks: res[0]['Remarks'],
+      //     });
+      //     this.object = res;
+      //     console.log(this.object, 'dsdslkd');
+      //     console.log(this.object.length);
+      //     console.log(users);
+      //     this.listData = new MatTableDataSource(this.object);
+      //   },
+      //   (err) => {
+      //     console.log(err);
+      //   }
+      // );
+
+    //socket
+    this.myservice.getLiveCollection('viewaccountnonprofit')
+    .subscribe(
+      (res) => {
+        // console.log(res)
+        console.log(res);
+        // console.log(res[0]['name'])
+        // res.length
+        users.push({
+          Name: res[0]['Name'],
+          Expense: res[0]['Expense'],
+          Remarks: res[0]['Remarks'],
+        });
+        this.object = res;
+        console.log(this.object, 'dsdslkd');
+        console.log(this.object.length);
+        console.log(users);
+        this.listData = new MatTableDataSource(this.object);
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
     console.log(users);
   }
 }

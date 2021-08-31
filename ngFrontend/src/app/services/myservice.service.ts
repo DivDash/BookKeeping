@@ -9,11 +9,16 @@ const baseUrl = 'http://localhost:5000';
   providedIn: 'root',
 })
 export class MyserviceService {
-  // createAccountNonProfit(NonProfitModel): Observable<any> {
-  //   return this.http.post<any>(`${baseUrl}/accountnonprofit`, NonProfitModel, {
-  //     withCredentials: true,
-  //   });
-  // }
+  viewAccount(): Observable<any> {
+    return this.http.get<any>(`${baseUrl}/viewaccount`, {
+      withCredentials: true,
+    });
+  }
+  createAccountNonProfit(NonProfitModel): Observable<any> {
+    return this.http.post<any>(`${baseUrl}/accountnonprofit`, NonProfitModel, {
+      withCredentials: true,
+    });
+  }
   createProfitModel(ProfitModel): Observable<any> {
     return this.http.post<any>(`${baseUrl}/Profit`, ProfitModel, {
       withCredentials: true,
