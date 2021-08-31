@@ -31,6 +31,10 @@ const entry=new mongoose.Schema({
     remarks:{
         type:String,
         required:true
+    },
+    date:{
+        type:String,
+        required:true
     }
 })
 

@@ -22,25 +22,44 @@ export class ReusableTableComponent implements OnChanges {
   @Input() columnHeader;
   objectKeys = Object.keys;
 
-  dataSource: MatTableDataSource<any> = new MatTableDataSource();
   @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  constructor() {}
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  dataSource: MatTableDataSource<any> = new MatTableDataSource();
+  // @Input() GridData: any;
+  // @Input() ColData: any;
 
-  ngOnInit() {
-    this.dataSource = new MatTableDataSource(this.tableData);
-    // this.dataSource.paginator = this.paginator;
+  // @Input() tableTemplate: TemplateRef<any>;
+
+  // matDataSource = new MatTableDataSource<any>();
+
+  // @ViewChild(MatPaginator) paginator: MatPaginator;
+  // @ViewChild(MatSort) sort: MatSort;
+  constructor() {
+
   }
+  // ngAfterViewInit() {
+  //   this.matDataSource.paginator = this.paginator;
+  //   this.matDataSource.sort = this.sort;
+  //   this.matDataSource.data = this.GridData;
+  // }
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(this.tableData['filteredData'], 'reusableeee');
-    this.tableData = this.tableData['filteredData'];
-    console.log(this.tableData, 'reusableeee againnn');
-    console.log(this.columnHeader, 'reusableeee');
+    this.tableData=this.tableData['filteredData']
     this.dataSource = new MatTableDataSource(this.tableData);
-    console.log(this.dataSource, 'shshshs');
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
+    // this.dataSource.sort = this.sort
+    
   }
+
+  modelChangeFn(value){
+    
+    this.dataSource=value
+    console.log(this.dataSource,"zainnn")
+
+  }
+  ngOnInit() {
+
+    this.dataSource = new MatTableDataSource(this.tableData);
+  }
+  
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim();
@@ -52,5 +71,9 @@ export class ReusableTableComponent implements OnChanges {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     // this.dataSource.data = this.dataSource;
+  }
+
+  getData(data){
+    console.log(data,"from update")
   }
 }

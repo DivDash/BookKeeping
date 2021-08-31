@@ -5,13 +5,8 @@
 <mat-tab-group>
   <mat-tab *ngFor="let tab of asyncTabs | async">
     <ng-template mat-tab-label>{{ tab.label }}</ng-template>
-    <div *ngIf="tab.label === 'Profit'; else elseBlock">
-      <app-profit></app-profit>
-    </div>
-    <div>
-      <ng-template #elseBlock>
-        <app-non-profit></app-non-profit>
-      </ng-template>
-    </div>
+    <div *ngIf="tab.label==='Profit'; else elseBlock"><app-profit></app-profit></div>
+  <ng-template #elseBlock><app-non-profit></app-non-profit></ng-template>
+    <!-- <app-table></app-table> -->
   </mat-tab>
 </mat-tab-group>

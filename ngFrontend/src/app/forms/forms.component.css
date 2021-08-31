@@ -1,47 +1,60 @@
-.box {
-  font-size: 14px;
-  width: 100%;
-}
-
-.boxx {
-  font-size: 12px;
-  width: 100%;
-}
-
-.matt {
-  padding-right: 3%;
-  width: 25%;
-}
-
-.matt2 {
-  width: 45%;
-}
-.btnn {
-  padding-bottom: 40px;
-  /* padding-left: 50px; */
-}
-.btnn2 {
-  padding-bottom: 30px;
-}
-
-.mattsingle {
-  padding-top: 10%;
-  padding-right: 25%;
-  width: 25%;
-}
-
-.leftt {
-  padding-left: 2%;
-}
-
-.mattt {
-  padding-right: 2%;
-  width: 20%;
-}
-.bott {
-  padding-bottom: 1.25%;
-}
-
-.upp {
-  padding-top: 10px;
-}
+.box{
+    font-size: 14px;
+    width: 100%;
+    }
+    
+    .boxx{
+        font-size: 12px;
+        width: 100%;
+        }
+    
+    .matt{
+        padding-right:1%;
+        width: 23%;
+    }
+    
+    .matt2{
+        width: 45%;
+    }
+    .btnn{
+        padding-bottom: 40px;
+        /* padding-left: 50px; */
+    }
+    .btnn2{
+        padding-bottom: 30px;
+    }
+    
+    .mattsingle{
+        padding-top: 10%;
+        padding-right: 25%;
+        width: 25%;
+    }
+    
+    .leftt{
+        padding-left: 1%;
+    }
+    
+    .mattt{
+        padding-right:2%;
+        width: 19%;
+    }
+    .bott{
+        padding-bottom: 1.25%;
+    }
+    
+    .upp{
+        padding-top: 10px;
+    }
+    .btnn3{
+        size:1%;
+        padding-bottom: 10px;
+    }
+    .toast {
+        opacity: 1;
+    }
+    .tabUpp{
+        padding-top: 5%
+    }
+    .rightt{
+        padding-right: 5%;
+    }

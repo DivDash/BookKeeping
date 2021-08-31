@@ -10,6 +10,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './header/header.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -22,13 +23,33 @@ import { AttributesComponent } from './attributes/attributes.component';
 import { HttpClientModule } from '@angular/common/http';
 import { RegisterComponent } from './register/register.component';
 import { FooterComponent } from './footer/footer.component';
-import {
-  AccountsComponent,
-  DialogAccount,
-} from './accounts/accounts.component';
+import { AccountsComponent ,DialogAccount} from './accounts/accounts.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTabsModule } from '@angular/material/tabs';
+import {
+  DialogboxComponent,
+  DialogOverviewExampleDialog,
+} from './dialogbox/dialogbox.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+import { CostcenterComponent } from './costcenter/costcenter.component';
+import { JentryComponent } from './jentry/jentry.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsComponent } from './forms/forms.component';
+import { TabComponent } from './layouts/tab/tab.component';
+import { ReusableTableComponent } from './layouts/reusable-table/reusable-table.component';
+import { ToastrModule } from 'ngx-toastr';
+import {
+  ProfitComponent,
+  DialogProfit,
+} from './costcenter/profit/profit.component';
+import {
+  NonProfitComponent,
+  DialogNonProfit,
+} from './costcenter/non-profit/non-profit.component';
+import { ReportsComponent } from './reports/reports.component';
 
 // import { DialogboxComponent } from './dialogbox/dialogbox.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -64,17 +85,19 @@ const config: SocketIoConfig = { url: 'http://localhost:5000', options: {} };
     RegisterComponent,
     FooterComponent,
     AccountsComponent,
-    DialogAccount,
+    DialogboxComponent,
+    DialogOverviewExampleDialog,
     CostcenterComponent,
     TabComponent,
-    ReusableTableComponent,
-    JentryComponent,
     FormsComponent,
+    JentryComponent,
+    ReusableTableComponent,
     ProfitComponent,
     NonProfitComponent,
     DialogNonProfit,
     DialogProfit,
-    // FormComponent,
+    DialogAccount,
+    ReportsComponent
   ],
   imports: [
     BrowserModule,
@@ -100,11 +123,9 @@ const config: SocketIoConfig = { url: 'http://localhost:5000', options: {} };
     MatDialogModule,
     MatInputModule,
     MatTabsModule,
+    NgbModule,
     MatSelectModule,
-    CommonModule,
-    BrowserAnimationsModule,
-    ToastrModule.forRoot({ timeOut: 2000, enableHtml: true }),
-    SocketIoModule.forRoot(config),
+    ToastrModule.forRoot({ timeOut: 2000 ,enableHtml: true })
   ],
 
   providers: [],
