@@ -15,6 +15,7 @@ export class FormsComponent implements DoCheck{
   object:any
   projects:string[] = []
   clients:string[]=[]
+  clients2:string[]=[]
   entriesObject:entries[]=[{project:"",
     client:"",
     receiver:"",
@@ -153,6 +154,7 @@ export class FormsComponent implements DoCheck{
         for (let i=0;i<this.object.length;i++){
           this.clients.push(this.object[i]['name'])
         }
+        this.clients2=this.clients
         console.log(this.clients,"sas")
       },
       err =>  {
@@ -247,7 +249,7 @@ export class FormsComponent implements DoCheck{
   reason:"reason",
   method:"method",
   remarks:"remarks",
-  delete:'Delete'
+  delete:'  '
 };
 
 

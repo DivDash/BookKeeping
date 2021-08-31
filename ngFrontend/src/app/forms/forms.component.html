@@ -44,8 +44,12 @@
   <div *ngFor='let new_div of newDivs;'>
     <div class="boxx">
       <mat-form-field appearance="fill" class="mattt leftt">
-        <mat-label>Name</mat-label>
-        <input matInput type="text" class="example-right-align" placeholder="xyz" [(ngModel)]="new_div.receiver" name="receiver">
+        <mat-label>Reciever</mat-label>
+        <mat-select [(ngModel)]="new_div.receiver" name="receiver">
+          <mat-option *ngFor="let client2 of clients2" [value]="client2">
+            {{client2}}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
     
       <mat-form-field appearance="fill" floatLabel="always" class="mattt">

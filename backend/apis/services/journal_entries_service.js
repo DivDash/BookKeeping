@@ -122,5 +122,24 @@ module.exports = class JournalEntryService{
         }
     }
 
+
+    static async updateRecieverAccount(data){
+        try {    
+          console.log(data,"updateRecieverAccount")  
+
+          for(let i=0;i<data.length;i++){
+          const querry = await AccountModel.findOneAndUpdate(
+            { name:data[i].receiver }, 
+            { 
+               $inc: { Balance:data[i].amount } 
+            }, {new: true })
+          }
+        }
+        catch(error){
+            console.log(error)
+        }
+        }
+    
+
     
 }

@@ -101,8 +101,8 @@ export class AccountsComponent implements OnInit {
     Bank: 'Bank',
     Balance: 'Balance',
     Remarks: 'Remarks',
-    update:'Update',
-    delete:'Delete'
+    update:' ',
+    delete:' '
 
   };
   ngOnInit() {

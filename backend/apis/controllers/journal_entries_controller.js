@@ -26,8 +26,7 @@ module.exports = class JournalEntries{
             if(check===false){
             console.log("3")
             const accountExist = await JournalEntryService.validateAccount(req.body)
-            console.log(accountExist,"account")
-        
+      
             let sum=0
             for(let i=0;i<req.body.length;i++)
             {
@@ -43,12 +42,15 @@ module.exports = class JournalEntries{
            
         
             let bal=accountExist.Balance-sum
-            console.log(bal,"balance")
-
-
+        
             let updateAccount=await JournalEntryService.updateAccount(req.body,bal)
             
-            console.log(req.body,"from controller")
+            let awain=accountExist.Balance-69
+
+            let updateRecieverAccount=await JournalEntryService.updateRecieverAccount(req.body)
+
+            let awain2=accountExist.Balance-69
+
             const saveEntries=await JournalEntryService.createJournalEntries(req.body)
             
             res.json({message:"Entries are added"})

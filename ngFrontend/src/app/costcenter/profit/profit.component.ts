@@ -91,8 +91,8 @@ export class ProfitComponent implements OnInit {
     Expense: 'Expense',
     Date: 'Date',
     Status: 'Status',
-    update:'Update',
-    delete:'Delete'
+    update:' ',
+    delete:' '
   };
   openDialog(): void {
       
