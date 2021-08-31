@@ -3,6 +3,7 @@ import { Component, DoCheck, OnChanges, OnInit, SimpleChanges } from '@angular/c
 import { ShowHideDirective } from '@angular/flex-layout';
 import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
+import { MyserviceService } from '../services/myservice.service';
 
 @Component({
   selector: 'app-forms',
@@ -16,13 +17,6 @@ export class FormsComponent implements DoCheck{
   projects:string[] = []
   clients:string[]=[]
   clients2:string[]=[]
-  entriesObject:entries[]=[{project:"",
-    client:"",
-    receiver:"",
-    amount:"",
-    reason:"",
-    method:"",
-    remarks:""}];
     project:string=""
     client:string=""
     receiver:string=""
@@ -42,7 +36,7 @@ export class FormsComponent implements DoCheck{
   listData: MatTableDataSource<any>;
 
   addNewDiv(){
- 
+
     this.newDivs.push({
       project:this.selectedProject,
       client:this.client,
@@ -64,7 +58,7 @@ export class FormsComponent implements DoCheck{
       temp=temp + this.newDivs[i]['amount']
     }
     this.sum=temp
-    
+
   }
 
   showerror(message){
@@ -76,7 +70,7 @@ export class FormsComponent implements DoCheck{
     this.toastr.success(message, 'Success!');
   }
 
-  
+
 
   final(){
     console.log(this.newDivs)
@@ -88,10 +82,7 @@ export class FormsComponent implements DoCheck{
     if(summ===this.total){
       console.log("debit = credit")
       console.log(this.newDivs)
-      this.http
-      .post( "http://localhost:5000/Entries",this.newDivs, {
-        withCredentials: true
-      } )
+      this.myservice.createEntry(this.newDivs)
       .subscribe(
         res => {
           {
@@ -99,8 +90,8 @@ export class FormsComponent implements DoCheck{
            if(res['message']==='Entries are added'){
            this.showsuccess(res['message'])
            this.newDivs=[]
-           this.client=""
-           this.selectedProject=""
+          //  this.client=""
+          //  this.selectedProject=""
            this.total=0
            }
            else{
@@ -119,35 +110,29 @@ export class FormsComponent implements DoCheck{
       console.log("debit not equal to credit")
     }
 
-    
+
   }
 
-  constructor(private http: HttpClient,private toastr: ToastrService)
-   { 
+  constructor(private http: HttpClient,private toastr: ToastrService,private myservice:MyserviceService)
+   {
     // this.entriesObject[0].client = "dsa"
     // console.log(this.entriesObject[0]["amount"])
-    this.http
-    .get( "http://localhost:5000/ViewProfit",{
-      withCredentials:true
-    })
+    this.myservice.getLiveCollection('viewaccountprofit')
     .subscribe(
       res => {
         this.object=res
-        console.log(this.object)
+        // console.log(this.object)
         for (let i=0;i<this.object.length;i++){
           this.projects.push(this.object[i]['Project'])
         }
-        console.log(this.projects)
+        // console.log(this.projects)
       },
       err =>  {
         console.log( err )
       }
     )
 
-    this.http
-    .get( "http://localhost:5000/ViewAccount",{
-      withCredentials:true
-    })
+    this.myservice.getLiveCollection('viewaccount')
     .subscribe(
       res => {
         this.object=res
@@ -155,7 +140,7 @@ export class FormsComponent implements DoCheck{
           this.clients.push(this.object[i]['name'])
         }
         this.clients2=this.clients
-        console.log(this.clients,"sas")
+        // console.log(this.clients,"sas")
       },
       err =>  {
         console.log( err )
@@ -174,11 +159,11 @@ export class FormsComponent implements DoCheck{
       temp=temp + this.newDivs[i]['amount']
     }
     this.sum=temp
-     
+
    }
-  
-  
-  
+
+
+
  addEntry(){
   console.log(this.newDivs,"test")
  }
@@ -200,14 +185,15 @@ export class FormsComponent implements DoCheck{
       client: this.client,
       project: this.selectedProject,
     }
+    console.log(this.data,"dataa")
+
     if(this.client && this.selectedProject){
-    this.http
-    .post( "http://localhost:5000/ViewEntry",this.data,{
-      withCredentials:true
-    })
+      console.log("check")
+    this.myservice.getLiveCollectionPost('viewentryparams', this.data)
+    // this.myservice.getLiveCollection('viewentry')
     .subscribe(
       res => {
-        console.log("here at res")
+        // console.log("here at res")
         console.log(res)
         if(res['message']==='Project with This Client Dosent exist')
         {
@@ -216,17 +202,27 @@ export class FormsComponent implements DoCheck{
           this.listData = new MatTableDataSource(this.objectsEmpty)
         }
         else{
-        console.log("here at if forms")  
-        this.showsuccess('Account And Project Exist!!')
-        this.objects=res['getEntries']
+          // console.log("here at if forms")
+          this.showsuccess('Account And Project Exist!!')
+          this.objects=res
+          // console.log("resEntries",res['getEntries'])
+          // this.listData = new MatTableDataSource(this.objects)
 
-        for(let i=0;i<this.objects.length;i++){
-          this.objects[i].delete="delete"
+          if(this.objects!==undefined)
+          {
+            // for(let i=0;i<this.objects.length;i++){
+            //   this.objects[i].delete="delete"
+            // }
+            this.listData = new MatTableDataSource(this.objects)
+            console.log(this.listData)
+
+          }
+
+
         }
 
-        this.listData = new MatTableDataSource(this.objects)
-        }
-        
+
+
       },
       err =>  {
         console.log("here at error")
@@ -235,10 +231,10 @@ export class FormsComponent implements DoCheck{
     )
     }
 
-   
-   
+
+
   }
- 
+
 
 
  columnHeader2 = {

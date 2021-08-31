@@ -30,7 +30,7 @@ export class ReportsComponent implements OnInit {
   sum:number=0
 
   constructor(private http: HttpClient,private toastr: ToastrService, private myservice:MyserviceService ) {
-    this.myservice.viewProfit()
+    this.myservice.getLiveCollection('viewaccountprofit')
     .subscribe(
       res => {
         this.object=res
@@ -47,14 +47,14 @@ export class ReportsComponent implements OnInit {
 
 
 
-    this.myservice.viewAccount()
+    this.myservice.getLiveCollection('viewaccount')
     .subscribe(
       res => {
         this.object=res
         for (let i=0;i<this.object.length;i++){
           this.clients.push(this.object[i]['name'])
         }
-        console.log(this.clients,"sas")
+        console.log(this.clients,"clients")
       },
       err =>  {
         console.log( err )
@@ -101,7 +101,11 @@ export class ReportsComponent implements OnInit {
        res => {
          if(res['message']==='Project with This Client Dosent exist')
          {
+
            this.showerror(res['message'])
+           if (this.myChart)         {
+            console.log("here at destroy")
+            this.myChart.destroy();  }
          }
          else{
          this.showsuccess('Account And Project Exist!!')

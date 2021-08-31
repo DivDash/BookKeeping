@@ -11,7 +11,7 @@ changeStream.on("change", (data) => {
         error: err.message,
       });
     } else {
-      console.log("emit");
+      console.log("emit service");
       commonEmitter.emit("view-account-profit", doc);
     }
   });

@@ -5,6 +5,7 @@ const JournalEntries = require("../controllers/journal_entries_controller");
 
 router.post("/createentries", JournalEntries.createJournalEntries);
 
-router.post("/viewentry", JournalEntries.getJournalEntries);
+router.get("/viewentry", JournalEntries.getJournalEntries);
+router.get("/viewentryparams", JournalEntries.getJournalEntriesParams);
 
 module.exports = router;

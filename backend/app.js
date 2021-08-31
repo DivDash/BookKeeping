@@ -50,5 +50,11 @@ io.on("connection", (socket) => {
   commonEmitter.on("accounts", function (data) {
     socket.broadcast.emit("accounts-data", data);
   });
+  commonEmitter.on("view-entry", function (data) {
+    socket.broadcast.emit("viewentry-data", data);
+  });
+  commonEmitter.on("view-entry-params", function (data) {
+    socket.broadcast.emit("viewentryparams-data", data);
+  });
   console.log("Listener connected");
 });

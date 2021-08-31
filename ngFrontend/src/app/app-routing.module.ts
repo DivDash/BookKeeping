@@ -8,7 +8,7 @@ import { AccountsComponent } from './accounts/accounts.component';
 import { CostcenterComponent } from './costcenter/costcenter.component';
 
 import { JentryComponent } from './jentry/jentry.component';
-import { ReportComponent } from './report/report.component';
+import { ReportsComponent } from './reports/reports.component';
 // const routes: Routes = [
 //   { path: '', redirectTo: 'login', pathMatch: 'full' },
 //   { path: 'login', component: LoginComponent },
@@ -25,7 +25,7 @@ const routes: Routes = [
       { path: 'accounts', component: AccountsComponent },
       { path: 'costcenter', component: CostcenterComponent },
       {path:'journal',component:JentryComponent},
-      {path:'report',component:ReportComponent}
+      {path:'report',component:ReportsComponent}
     ],
   },
   { path: 'register', component: RegisterComponent },

@@ -1,6 +1,23 @@
 const entries=require('../models/journal_entries_model')
 const profit=require('../models/profit_model')
 const AccountModel = require("../models/account_model.js");
+const { commonEmitter } = require("../../events");
+const changeStream = entries.watch();
+changeStream.on("change", (data) => {
+  entries.find((err, doc) => {
+    if (err) {
+      console.log("error");
+
+      commonEmitter.emit("view-entry-params", {
+        error: err.message,
+      });
+    } else {
+      console.log("emit 66");
+      commonEmitter.emit("view-entry-params", doc);
+    }
+  });
+});
+
 module.exports = class JournalEntryService{
  
     
@@ -27,6 +44,7 @@ module.exports = class JournalEntryService{
         try{
             
             console.log("here at validate project")
+            console.log(data,"qqqqqqqqqqqqqqq")
             const {project,client}=data
             console.log(client,project)    
             const query = { $and: [{ "Project":project }, { "Client": client }] }
@@ -56,6 +74,7 @@ module.exports = class JournalEntryService{
 
     static async updateProfitProject(data,rev,exp){
         try{
+            console.log("helllo")
         let client=data[0].client;
         let project=data[0].project
 
@@ -68,7 +87,7 @@ module.exports = class JournalEntryService{
             rawResult: true 
           });
         }catch(error){
-            conosle.log(error)
+            conosle.log("update profit error",error)
         }
     }
 
@@ -76,6 +95,8 @@ module.exports = class JournalEntryService{
 
     static async updateAccount(data,bal){
     try {
+
+        console.log("update account")
         let client=data[0].client;
 
         const filterAccount = {name:client};
@@ -91,6 +112,7 @@ module.exports = class JournalEntryService{
         });
     }
     catch(error){
+        console.log("update account error")
         console.log(error)
     }
     }
@@ -112,6 +134,7 @@ module.exports = class JournalEntryService{
 
         try{
             
+            console.log(data, "aaaaaaaaaaaaaaaaa")
             const {project,client}=data
 
             const queryEntry = { $and: [{ "project":project }, { "client": client }] }
@@ -120,6 +143,23 @@ module.exports = class JournalEntryService{
             return entryExist
 
         }catch(eror){
+            console.log(error)
+        }
+    }
+
+    static async updateReceiverAccount(data){
+        try {    
+          console.log(data,"updateRecieverAccount")  
+
+          for(let i=0;i<data.length;i++){
+          const querry = await AccountModel.findOneAndUpdate(
+            { name:data[i].receiver }, 
+            { 
+               $inc: { Balance:data[i].amount } 
+            }, {new: true })
+          }
+        }
+        catch(error){
             console.log(error)
         }
     }

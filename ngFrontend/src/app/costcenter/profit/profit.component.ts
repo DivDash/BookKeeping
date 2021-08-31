@@ -8,6 +8,7 @@ import {
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { ProfitModel } from 'src/app/ProfitModel';
+import { MyserviceService } from 'src/app/services/myservice.service';
 
 export interface UserData {
   Client: string;
@@ -45,7 +46,7 @@ export class ProfitComponent implements OnInit {
   listData: MatTableDataSource<any>;
   clients:string[]=[]
   ProfitModel: ProfitModel;
-  
+
   displayedColumns: string[] = [
     'Client',
     'Project',
@@ -58,15 +59,13 @@ export class ProfitComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private myservice:MyserviceService
   ) {
-    
-    this.http
-    .get( "http://localhost:5000/ViewAccount",{
-      withCredentials:true
-    })
+
+    this.myservice.getLiveCollection('viewaccountprofit')
     .subscribe(
-      
+
       res => {
         console.log("resss")
         this.object=res
@@ -95,7 +94,7 @@ export class ProfitComponent implements OnInit {
     delete:' '
   };
   openDialog(): void {
-      
+
       const dialogRef = this.dialog.open(DialogProfit, {
       // width: '60%'
       panelClass: 'custom-modalbox',
@@ -112,9 +111,9 @@ export class ProfitComponent implements OnInit {
         Date: this.Date,
         Status: this.Status,
       },
-    
+
     });
-    
+
     dialogRef.afterClosed().subscribe((result) => {
       this.Client = result['Client'];
       this.Project = result['Project'];
@@ -132,19 +131,13 @@ export class ProfitComponent implements OnInit {
         Date: this.Date,
         Status: this.Status,
       };
-      this.http
-        .post('http://localhost:5000/Profit', this.ProfitModel, {
-          withCredentials: true,
-        })
+      this.myservice.createProfitModel(this.ProfitModel)
         .subscribe(
           (res) => {
             {
               console.log(res['message']);
-              this.router
-                .navigateByUrl('/accounts', { skipLocationChange: true })
-                .then(() => {
-                  this.router.navigate(['/dashboard/costcenter']);
-                });
+
+
             }
           },
           (err) => {
@@ -157,26 +150,24 @@ export class ProfitComponent implements OnInit {
   ngOnInit() {
     console.log('ithayyyyyyyyyyy');
     const users: UserData[] = [];
-    this.http
-      .get('http://localhost:5000/ViewProfit', {
-        withCredentials: true,
-      })
+
+    this.myservice.getLiveCollection('viewaccountprofit')
       .subscribe(
         (res) => {
           this.object = res;
-         
+
           for(let i=0;i<this.object.length;i++){
             this.object[i].update="update"
             this.object[i].delete="delete"
           }
-          
+
           this.listData = new MatTableDataSource(this.object);
         },
         (err) => {
           console.log(err);
         }
       );
- 
+
   }
 }
 @Component({
@@ -190,15 +181,13 @@ export class DialogProfit{
   constructor(
     public dialogRef: MatDialogRef<DialogProfit>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
-    private http: HttpClient
-  ) 
+    private http: HttpClient,
+    private myservice:MyserviceService
+  )
   {
-    this.http
-    .get( "http://localhost:5000/ViewAccount",{
-      withCredentials:true
-    })
+
+    this.myservice.getLiveCollection('viewaccount')
     .subscribe(
-      
       res => {
         console.log("resss")
         this.object=res
@@ -215,7 +204,7 @@ export class DialogProfit{
       }
     )
   }
-  
+
   onNoClick(): void {
     this.dialogRef.close();
   }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { Router, ActivatedRoute } from '@angular/router';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { Socket } from 'ngx-socket-io';
 
@@ -20,7 +20,7 @@ export class MyserviceService {
     });
   }
   createProfitModel(ProfitModel): Observable<any> {
-    return this.http.post<any>(`${baseUrl}/Profit`, ProfitModel, {
+    return this.http.post<any>(`${baseUrl}/createaccountprofit`, ProfitModel, {
       withCredentials: true,
     });
   }
@@ -30,10 +30,17 @@ export class MyserviceService {
     });
   }
   viewEntry(data): Observable<any> {
-    return this.http.post<any>(`${baseUrl}/viewProfit`, data, {
+    return this.http.post<any>(`${baseUrl}/viewentry`, data, {
       withCredentials: true,
     });
   }
+
+  createEntry(data): Observable<any> {
+    return this.http.post<any>(`${baseUrl}/createentries`,data, {
+      withCredentials: true,
+    });
+  }
+
   // viewAccount(): Observable<any> {
   //   return this.http.get<any>(`${baseUrl}/viewaccount`, {
   //     withCredentials: true,
@@ -79,7 +86,27 @@ export class MyserviceService {
       });
       collectionBehavior.next(resp as Array<any>);
     });
+    console.log("collection behaviour",collectionBehavior)
+
     return collectionBehavior;
   }
-  constructor(private http: HttpClient, private socket: Socket) {}
+  getLiveCollectionPost(name: string, data1:any): Observable<Array<any>> {
+    console.log("hhhh")
+    // Particular behavior for particular document
+    // Using Subject instead of BehaviorSubject because we don't need older values
+    const collectionBehavior = new Subject<Array<any>>();
+    // Setup get from server
+    let params = new HttpParams().set('client', data1.client);
+    params= params.append('project',data1.project)
+    this.http.get(`${baseUrl}/${name}`,{params}).subscribe((resp) => {
+      // For any further changes in server - specific to this document (name)
+      this.socket.on(`${name}-data`, (data) => {
+        collectionBehavior.next(data);
+      });
+      collectionBehavior.next(resp as Array<any>);
+    });
+    console.log("collection behaviour",collectionBehavior)
+    return collectionBehavior;
+  }
+  constructor(private http: HttpClient, private socket: Socket, private router:ActivatedRoute) {}
 }

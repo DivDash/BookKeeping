@@ -47,7 +47,7 @@ module.exports = class JournalEntries{
             
             let awain=accountExist.Balance-69
 
-            let updateRecieverAccount=await JournalEntryService.updateRecieverAccount(req.body)
+            let updateRecieverAccount=await JournalEntryService.updateReceiverAccount(req.body)
 
             let awain2=accountExist.Balance-69
 
@@ -75,7 +75,9 @@ module.exports = class JournalEntries{
         try{
             console.log("here at viewEntry")
             let check=false
-            let projectExist=await JournalEntryService.validateProject(req.body)
+            let data = {client:"Zain",project:"FinalProj"}
+
+            let projectExist=await JournalEntryService.validateProject(data)
       
             if(projectExist.length===0){
             check=true  
@@ -86,7 +88,7 @@ module.exports = class JournalEntries{
       
             console.log(projectExist)
 
-           let getEntries=await JournalEntryService.getJournalEntries(req.body)
+           let getEntries=await JournalEntryService.getJournalEntries(data)
 
 
             res.json({message:"Success",getEntries})
@@ -99,6 +101,39 @@ module.exports = class JournalEntries{
         
 
     }
+    static async getJournalEntriesParams(req,res,next){
+
+
+      try{
+          console.log("here at viewEntry")
+          let check=false
+          console.log(req.query.client,req.query.project)
+          let data = {client:req.query.client,project:req.query.project}
+          let projectExist=await JournalEntryService.validateProject(data)
+    
+          if(projectExist.length===0){
+          check=true  
+          res.json({message:"Project with This Client Dosent exist"})
+            }
+    
+         if(check===false){
+    
+          console.log(projectExist)
+
+         let getEntries=await JournalEntryService.getJournalEntries(data)
+
+
+          //  res.json({message:"Success",getEntries})
+          res.send(getEntries)
+          }
+    
+        }catch(error){
+          res.send('error')
+        }
+
+      
+
+  }
 
 
 }

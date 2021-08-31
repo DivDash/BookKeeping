@@ -54,7 +54,7 @@ import { ReportsComponent } from './reports/reports.component';
 // import { FormComponent } from './layouts/form/form.component';
 import { CommonModule } from '@angular/common';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
-import { ReportComponent } from './report/report.component';
+// import { ReportsComponent } from './report/report.component';
 import { MyserviceService } from './services/myservice.service';
 
 const config: SocketIoConfig = { url: 'http://localhost:5000', options: {} };
@@ -82,7 +82,6 @@ const config: SocketIoConfig = { url: 'http://localhost:5000', options: {} };
     DialogProfit,
     DialogAccount,
     ReportsComponent,
-    ReportComponent
   ],
   imports: [
     BrowserModule,
@@ -110,10 +109,11 @@ const config: SocketIoConfig = { url: 'http://localhost:5000', options: {} };
     MatTabsModule,
     NgbModule,
     MatSelectModule,
-    ToastrModule.forRoot({ timeOut: 2000 ,enableHtml: true })
+    ToastrModule.forRoot({ timeOut: 2000 ,enableHtml: true }),
+    SocketIoModule.forRoot(config),
   ],
 
-  providers: [MyserviceService],
+  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
