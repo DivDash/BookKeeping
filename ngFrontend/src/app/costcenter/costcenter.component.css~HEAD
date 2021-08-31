@@ -1,0 +1,22 @@
+.page {
+  color: white;
+  padding: 0 0rem;
+  background: #f1f5f9;
+}
+<<<<<<< HEAD:ngFrontend/src/app/costcenter/costcenter.component.css
+=======
+
+>>>>>>> Zain:ngFrontend/src/app/home/home.component.css
+.page__content {
+  min-height: calc(106vh - 175px);
+  border-radius: 1px;
+  margin-top: -4rem;
+  background: white;
+  color: black;
+  font-size: 1rem;
+}
+.page__content-data {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

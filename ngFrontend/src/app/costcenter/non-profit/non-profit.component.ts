@@ -8,8 +8,6 @@ import {
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { NonProfitModel } from 'src/app/NonProfitModel';
-import { ToastrService } from 'ngx-toastr';
-import { MyserviceService } from 'src/app/services/myservice.service';
 
 export interface UserData {
   Name: string;
@@ -38,9 +36,7 @@ export class NonProfitComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private http: HttpClient,
-    private router: Router,
-    private toastr: ToastrService,
-    private myservice: MyserviceService
+    private router: Router
   ) {}
   columnHeader2 = {
     Name: 'Name',
@@ -71,25 +67,18 @@ export class NonProfitComponent implements OnInit {
         Remarks: this.Remarks,
       };
       this.http
-        .post(
-          'http://localhost:5000/createaccountnonprofit',
-          this.NonProfitModel,
-          {
-            withCredentials: true,
-          }
-        )
+        .post('http://localhost:5000/accountnonprofit', this.NonProfitModel, {
+          withCredentials: true,
+        })
         .subscribe(
           (res) => {
             {
-              console.log(res['message'] + '  Mubashir');
-              if (res['message'] === 'Account Added') {
-                this.showSuccess();
-              }
-              // this.router
-              //   .navigateByUrl('/accounts', { skipLocationChange: true })
-              //   .then(() => {
-              //     this.router.navigate(['/dashboard/costcenter']);
-              //   });
+              console.log(res['message']);
+              this.router
+                .navigateByUrl('/accounts', { skipLocationChange: true })
+                .then(() => {
+                  this.router.navigate(['/dashboard/costcenter']);
+                });
             }
           },
           (err) => {
@@ -102,35 +91,32 @@ export class NonProfitComponent implements OnInit {
   ngOnInit() {
     console.log('ithayyyyyyyyyyy');
     const users: UserData[] = [];
-    // this.http
-    //   .get('http://localhost:5000/viewaccountnonprofit', {
-    //     withCredentials: true,
-    //   })
-    this.myservice.getLiveCollection('viewaccountnonprofit').subscribe(
-      (res) => {
-        // console.log(res)
-        console.log(res);
-        // console.log(res[0]['name'])
-        // res.length
-        users.push({
-          Name: res[0]['Name'],
-          Expense: res[0]['Expense'],
-          Remarks: res[0]['Remarks'],
-        });
-        this.object = res;
-        console.log(this.object, 'dsdslkd');
-        console.log(this.object.length);
-        console.log(users);
-        this.listData = new MatTableDataSource(this.object);
-      },
-      (err) => {
-        console.log(err);
-      }
-    );
+    this.http
+      .get('http://localhost:5000/ViewAccountNonProfit', {
+        withCredentials: true,
+      })
+      .subscribe(
+        (res) => {
+          // console.log(res)
+          console.log(res);
+          // console.log(res[0]['name'])
+          // res.length
+          users.push({
+            Name: res[0]['Name'],
+            Expense: res[0]['Expense'],
+            Remarks: res[0]['Remarks'],
+          });
+          this.object = res;
+          console.log(this.object, 'dsdslkd');
+          console.log(this.object.length);
+          console.log(users);
+          this.listData = new MatTableDataSource(this.object);
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
     console.log(users);
-  }
-  showSuccess() {
-    this.toastr.success('Successful!', 'Entry Added');
   }
 }
 @Component({
