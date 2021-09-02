@@ -184,6 +184,41 @@ export class ReusableTableComponent implements OnChanges {
       })
 
     }
+
+    if(data.Name){
+      console.log(data,"from nonProfits")
+
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "All the Entries associated to this Project will get delete",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#32CD32',
+        confirmButtonText: 'Yes, delete it!'
+    
+      }).then((result) => {
+        if (result.isConfirmed) {
+          
+          this.myservice.deleteNonProfit(data).subscribe(
+            res=>{
+              console.log(res)
+            },
+            error=>{
+            console.error(error);
+            }
+            
+          )
+          Swal.fire(
+            'Deleted!',
+            'Your file has been deleted.',
+            'success'
+          )
+        }
+      })
+
+
+    }
   
 
 

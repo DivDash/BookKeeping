@@ -1,10 +1,18 @@
 <div class="dialog">
   <h1 mat-dialog-title>Create Entry</h1>
   <mat-dialog-content class="content">
-    <mat-form-field appearance="fill" style="width: 100%">
-      <mat-label>Name <span class="required-asterisk">*</span></mat-label>
-      <input matInput [(ngModel)]="data.Name" />
-    </mat-form-field>
+    <
+
+    <mat-form-field appearance="fill" style="width: 100%" >
+      <mat-label>Client</mat-label>
+      <mat-select [(ngModel)]="data.Name" name="client" >
+        <mat-option *ngFor="let client of clients" [value]="client">
+          {{client}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>  
+
+
 
     <mat-form-field appearance="fill" style="width: 100%">
       <mat-label>Expense <span class="required-asterisk">*</span></mat-label>

@@ -17,6 +17,7 @@ module.exports = class AccountNonProfit{
           res.json({ message: "Fill All The Fields" });
         }
         if (check === false) {
+
           
           const response=await AccountNonProfitService.createAccountService(Name,Expense,Remarks)
     
@@ -32,12 +33,28 @@ module.exports = class AccountNonProfit{
 
     static async viewAccount(req, res, next) {
       try {
-        const data = await AccountNonProfitService.viewAccount();
+        console.log("here at non profit")
+        const data = await AccountNonProfitService.viewAccountService();
         res.send(data);
       } catch (error) {
-        res.send("there is error");
+        const data = await AccountNonProfitService.viewAccount();
+        res.send(data);
       }
     }
+
+
+    
+    static async deleteAccount(req, res, next) {
+      try {
+        console.log("here at non profit delete")
+        const { Name, Expense, Remarks } = req.body
+        const data = await AccountNonProfitService.deleteAccountService(Name,Expense,Remarks);
+        res.send(data);
+      } catch (error) {
+        res.send(error);
+      }
+    }
+
 
 
 }

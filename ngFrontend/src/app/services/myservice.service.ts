@@ -56,8 +56,22 @@ export class MyserviceService {
 
 
 
+  deleteNonProfit(data): Observable<any> {
+    console.log(data.name,"at service")
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: data
+    };
+
+    return this.http.delete<any>(`${baseUrl}/deletenonprofit`,options);
+  }
+
+
+
   createAccountNonProfit(NonProfitModel): Observable<any> {
-    return this.http.post<any>(`${baseUrl}/accountnonprofit`, NonProfitModel, {
+    return this.http.post<any>(`${baseUrl}/createaccountnonprofit`, NonProfitModel, {
       withCredentials: true,
     });
   }
@@ -85,11 +99,6 @@ export class MyserviceService {
     });
   }
 
-  // viewAccount(): Observable<any> {
-  //   return this.http.get<any>(`${baseUrl}/viewaccount`, {
-  //     withCredentials: true,
-  //   });
-  // }
 
   viewProfit(): Observable<any> {
     return this.http.get<any>(`${baseUrl}/viewaccountprofit`, {

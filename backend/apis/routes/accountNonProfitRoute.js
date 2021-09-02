@@ -13,4 +13,7 @@ router.post(
 
 router.get("/viewaccountnonprofit", AccountNonProfitController.viewAccount);
 
+router.delete("/deletenonprofit", AccountNonProfitController.deleteAccount);
+
+
 module.exports = router;

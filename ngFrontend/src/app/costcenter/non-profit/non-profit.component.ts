@@ -39,11 +39,15 @@ export class NonProfitComponent implements OnInit {
     private http: HttpClient,
     private router: Router,
     private myservice:MyserviceService
-  ) {}
+  ) {
+
+  }
   columnHeader2 = {
     Name: 'Name',
     Expense: 'Expense',
     Remarks: 'Remarks',
+    update:' ',
+    delete:' '
   };
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogNonProfit, {
@@ -76,12 +80,7 @@ export class NonProfitComponent implements OnInit {
         .subscribe(
           (res) => {
             {
-              // console.log(res['message']);
-              // this.router
-              //   .navigateByUrl('/accounts', { skipLocationChange: true })
-              //   .then(() => {
-              //     this.router.navigate(['/dashboard/costcenter']);
-              //   });
+           
             }
           },
           (err) => {
@@ -96,50 +95,22 @@ export class NonProfitComponent implements OnInit {
   ngOnInit() {
     console.log('ithayyyyyyyyyyy');
     const users: UserData[] = [];
-    // this.http
-    //   .get('http://localhost:5000/ViewAccountNonProfit', {
-    //     withCredentials: true,
-    //   })
-      // this.myservice.viewAccountNonProfit()
-      // .subscribe(
-      //   (res) => {
-      //     // console.log(res)
-      //     console.log(res);
-      //     // console.log(res[0]['name'])
-      //     // res.length
-      //     users.push({
-      //       Name: res[0]['Name'],
-      //       Expense: res[0]['Expense'],
-      //       Remarks: res[0]['Remarks'],
-      //     });
-      //     this.object = res;
-      //     console.log(this.object, 'dsdslkd');
-      //     console.log(this.object.length);
-      //     console.log(users);
-      //     this.listData = new MatTableDataSource(this.object);
-      //   },
-      //   (err) => {
-      //     console.log(err);
-      //   }
-      // );
-
-    //socket
+    
     this.myservice.getLiveCollection('viewaccountnonprofit')
     .subscribe(
       (res) => {
         // console.log(res)
         console.log(res);
-        // console.log(res[0]['name'])
-        // res.length
-        users.push({
-          Name: res[0]['Name'],
-          Expense: res[0]['Expense'],
-          Remarks: res[0]['Remarks'],
-        });
+        
+
         this.object = res;
-        console.log(this.object, 'dsdslkd');
-        console.log(this.object.length);
-        console.log(users);
+
+        
+        for(let i=0;i<this.object.length;i++){
+          this.object[i].update="update"
+          this.object[i].delete="delete"
+        }
+      
         this.listData = new MatTableDataSource(this.object);
       },
       (err) => {
@@ -154,10 +125,34 @@ export class NonProfitComponent implements OnInit {
   templateUrl: './dialog-non-profit.html',
 })
 export class DialogNonProfit {
+  clients:string[]=[]
+  object: any;
+
   constructor(
     public dialogRef: MatDialogRef<DialogNonProfit>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData
-  ) {}
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    private myservice:MyserviceService
+  ) {
+
+    this.myservice.getLiveCollection('viewaccount')
+    .subscribe(
+
+      res => {
+        console.log("resss")
+        this.object=res
+        for (let i=0;i<this.object.length;i++){
+          this.clients.push(this.object[i]['name'])
+        }
+        console.log(this.clients,"here at  non profittt")
+      },
+      err =>  {
+        console.log("resss")
+        console.log( err )
+      }
+    )
+
+
+  }
 
   onNoClick(): void {
     this.dialogRef.close();
