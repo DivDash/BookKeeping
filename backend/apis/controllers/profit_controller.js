@@ -1,8 +1,11 @@
 'use strict';
 
 const profitService=require('../services/profit_service')
+const AccountService = require("../services/account_Service.js");
+
 const express = require("express");
 const { createProfitProject } = require( '../services/profit_service' );
+const ProfitService = require( '../services/profit_service' );
 const router = express.Router();
 
 module.exports = class Profit{
@@ -46,6 +49,22 @@ module.exports = class Profit{
         catch(error){
             res.send(error)
         }
+    }
+
+
+    static async deleteProfitProject(req, res, next) {
+      try {
+        
+        console.log("delete profittt")
+
+        const updateAccounts=await AccountService.updateAccounts(req.body)
+
+        const deleteAccount=await ProfitService.deleteProject(req.body)
+  
+        res.json({message:"account deleted"});
+      } catch (error) {
+        res.send("there is error");
+      }
     }
 
 }

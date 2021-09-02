@@ -75,9 +75,9 @@ module.exports = class JournalEntries{
         try{
             console.log("here at viewEntry")
             let check=false
-            let data = {client:"Zain",project:"FinalProj"}
+            // let data = {client:"Zain",project:"FinalProj"}
 
-            let projectExist=await JournalEntryService.validateProject(data)
+            let projectExist=await JournalEntryService.validateProject(req.body)
       
             if(projectExist.length===0){
             check=true  
@@ -88,7 +88,7 @@ module.exports = class JournalEntries{
       
             console.log(projectExist)
 
-           let getEntries=await JournalEntryService.getJournalEntries(data)
+           let getEntries=await JournalEntryService.getJournalEntries(req.body)
 
 
             res.json({message:"Success",getEntries})
@@ -134,6 +134,24 @@ module.exports = class JournalEntries{
       
 
   }
+
+  
+  static async deleteJournalEntry(req, res, next) {
+    try {
+      
+      console.log("delete entryy")
+
+      const deleteEntry=await JournalEntryService.deleteEntry(req.body)
+
+      res.json({message:"Entry deleted"});
+    } catch (error) {
+      res.send("there is error");
+    }
+  }
+  
+  
+  
+  
 
 
 }

@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { Socket } from 'ngx-socket-io';
+import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 
 const baseUrl = 'http://localhost:5000';
 @Injectable({
@@ -14,6 +15,47 @@ export class MyserviceService {
       withCredentials: true,
     });
   }
+
+  deleteAccount(data): Observable<any> {
+    console.log(data.name,"at service")
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: data
+    };
+
+    return this.http.delete<any>(`${baseUrl}/deleteaccount`,options);
+  }
+
+
+  deleteProfitProject(data): Observable<any> {
+    console.log(data.name,"at service")
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: data
+    };
+
+    return this.http.delete<any>(`${baseUrl}/deleteprofit`,options);
+  }
+
+
+  deleteEntry(data): Observable<any> {
+    console.log(data.name,"at service")
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: data
+    };
+
+    return this.http.delete<any>(`${baseUrl}/deleteentry`,options);
+  }
+
+
+
   createAccountNonProfit(NonProfitModel): Observable<any> {
     return this.http.post<any>(`${baseUrl}/accountnonprofit`, NonProfitModel, {
       withCredentials: true,
@@ -29,7 +71,9 @@ export class MyserviceService {
       withCredentials: true,
     });
   }
+  
   viewEntry(data): Observable<any> {
+    console.log(data,"from service")
     return this.http.post<any>(`${baseUrl}/viewentry`, data, {
       withCredentials: true,
     });

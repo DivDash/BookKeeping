@@ -37,4 +37,24 @@ module.exports = class Account {
       res.send("there is error");
     }
   }
+
+  static async deleteAccount(req, res, next) {
+    try {
+      
+      const projects = await AccountService.getProjects(req.body);
+      console.log(projects)
+
+      for(let i=0;i<projects.length;i++){
+        const updateAccounts=await AccountService.updateAccounts(projects[i])
+      }
+
+      const deleteAccount=await AccountService.deleteAccount(req.body)
+
+      res.json({message:"account deleted"});
+    } catch (error) {
+      res.send("there is error");
+    }
+  }
+
+  
 };

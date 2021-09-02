@@ -1,6 +1,9 @@
 const entries=require('../models/journal_entries_model')
 const profit=require('../models/profit_model')
 const AccountModel = require("../models/account_model.js");
+
+
+
 const { commonEmitter } = require("../../events");
 const changeStream = entries.watch();
 changeStream.on("change", (data) => {
@@ -158,6 +161,53 @@ module.exports = class JournalEntryService{
                $inc: { Balance:data[i].amount } 
             }, {new: true })
           }
+        }
+        catch(error){
+            console.log(error)
+        }
+    }
+
+
+
+    static async deleteEntry(data){
+        try {    
+          console.log(data,"deleteEntry")  
+          
+          const querry = await AccountModel.findOneAndUpdate(
+            { name:data.receiver }, 
+            { 
+               $inc: {Balance: -data.amount } 
+            }, {new: true })
+
+            const querryClient = await AccountModel.findOneAndUpdate(
+                { name:data.client}, 
+                { 
+                   $inc: {Balance: data.amount  } 
+                }, {new: true })
+
+                const querryProfit = await profit.findOneAndUpdate(
+                    { Project:data.project}, 
+                    {  
+                       $inc:{Expense: -data.amount} 
+                    }, {new: true })    
+
+                    const querryProfitRev = await profit.findOneAndUpdate(
+                        { Project:data.project}, 
+                        { 
+                           $inc: {Revenue:data.amount} 
+                  
+                        }, {new: true })    
+
+                const deleteEntries= await entries.deleteOne({client:data.client,
+                    amount:data.amount,
+                    project:data.project,
+                    receiver:data.receiver,
+                    reason:data.reason,
+                    method:data.method,
+                    remarks:data.remarks,
+                    date:data.date});   
+                    
+                return deleteEntries
         }
         catch(error){
             console.log(error)

@@ -8,9 +8,11 @@ import {
   AfterViewInit,
   OnInit,
 } from '@angular/core';
+import Swal from 'sweetalert2'
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { MyserviceService } from 'src/app/services/myservice.service';
 
 @Component({
   selector: 'app-reusable-table',
@@ -34,7 +36,7 @@ export class ReusableTableComponent implements OnChanges {
 
   // @ViewChild(MatPaginator) paginator: MatPaginator;
   // @ViewChild(MatSort) sort: MatSort;
-  constructor() {
+  constructor(private myservice :MyserviceService) {
 
   }
   // ngAfterViewInit() {
@@ -73,7 +75,118 @@ export class ReusableTableComponent implements OnChanges {
     // this.dataSource.data = this.dataSource;
   }
 
+  
   getData(data){
-    console.log(data,"from update")
+ 
+    if(data.Bank){
+
+
+    console.log(data,"from account")
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "All the Projects associated to this account will get delete",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#32CD32',
+      confirmButtonText: 'Yes, delete it!'
+  
+    }).then((result) => {
+      if (result.isConfirmed) {
+        
+        this.myservice.deleteAccount(data).subscribe(
+          res=>{
+            console.log(res)
+          },
+          error=>{
+          console.error(error);
+          }
+          
+        )
+
+
+        Swal.fire(
+          'Deleted!',
+          'Your file has been deleted.',
+          'success'
+        )
+      }
+    })
+
+    }
+
+    if(data.Status){
+
+      console.log(data,"from profit costcenter")
+
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "All the Entries associated to this Project will get delete",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#32CD32',
+        confirmButtonText: 'Yes, delete it!'
+    
+      }).then((result) => {
+        if (result.isConfirmed) {
+          
+          this.myservice.deleteProfitProject(data).subscribe(
+            res=>{
+              console.log(res)
+            },
+            error=>{
+            console.error(error);
+            }
+            
+          )
+          Swal.fire(
+            'Deleted!',
+            'Your file has been deleted.',
+            'success'
+          )
+        }
+      })
+
+    }
+
+    if(data.receiver){
+      console.log(data,"from journal entry")
+
+      
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "All the Entries associated to this Project will get delete",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#32CD32',
+        confirmButtonText: 'Yes, delete it!'
+    
+      }).then((result) => {
+        if (result.isConfirmed) {
+          
+          this.myservice.deleteEntry(data).subscribe(
+            res=>{
+              console.log(res)
+            },
+            error=>{
+            console.error(error);
+            }
+            
+          )
+          Swal.fire(
+            'Deleted!',
+            'Your file has been deleted.',
+            'success'
+          )
+        }
+      })
+
+    }
+  
+
+
+
   }
 }

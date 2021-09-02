@@ -83,6 +83,7 @@ export class ReportsComponent implements OnInit {
 
   forReport(varr)
   {
+    console.log("here at reportss")
 
     this.validate=[]
     this.format=[]

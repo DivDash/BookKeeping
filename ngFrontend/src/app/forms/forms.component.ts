@@ -210,9 +210,9 @@ export class FormsComponent implements DoCheck{
 
           if(this.objects!==undefined)
           {
-            // for(let i=0;i<this.objects.length;i++){
-            //   this.objects[i].delete="delete"
-            // }
+            for(let i=0;i<this.objects.length;i++){
+              this.objects[i].delete="delete"
+            }
             this.listData = new MatTableDataSource(this.objects)
             console.log(this.listData)
 

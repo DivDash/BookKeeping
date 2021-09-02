@@ -1,5 +1,7 @@
 const AccountProfitModel = require("../models/profit_model");
-const bcrypt = require("bcrypt");
+const entries=require('../models/journal_entries_model')
+const profit=require('../models/profit_model')
+
 const { commonEmitter } = require("../../events");
 const changeStream = AccountProfitModel.watch();
 changeStream.on("change", (data) => {
@@ -60,4 +62,19 @@ module.exports = class ProfitService {
       console.log(error);
     }
   }
+
+
+  static async deleteProject(data) {
+    try{
+    console.log(data,"deleteee from profitt")  
+
+    const deleteEntries= await entries.deleteMany({$and: [{ "project": data.Project }, { "client":data.Client}]});
+    const deleteProject= await profit.deleteMany({Project:data.Project});    
+    return data;
+  }catch(error){
+    console.log(error)
+  }
+
+  }
+
 };

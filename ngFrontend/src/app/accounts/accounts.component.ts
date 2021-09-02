@@ -103,6 +103,8 @@ export class AccountsComponent implements OnInit {
     Bank: 'Bank',
     Balance: 'Balance',
     Remarks: 'Remarks',
+    update:' ',
+    delete:' '
   };
   ngOnInit() {
     console.log('ithayyyyyyyyyyy');
@@ -113,21 +115,12 @@ export class AccountsComponent implements OnInit {
     //   })
     this.myservice.getLiveCollection('viewaccount').subscribe(
       (res) => {
-        // console.log(res)
-        console.log('account' + res);
         console.log(res);
-        // console.log(res[0]['name'])
-        // res.length
-        users.push({
-          name: res[0]['name'],
-          Bank: res[0]['Bank'],
-          Balance: res[0]['Balance'],
-          Remarks: res[0]['Remarks'],
-        });
         this.object = res;
-        console.log(this.object, 'dsdslkd');
-        console.log(this.object.length);
-        console.log(users);
+        for(let i=0;i<this.object.length;i++){
+          this.object[i].update="update"
+          this.object[i].delete="delete"
+        }
         this.listData = new MatTableDataSource(this.object);
       },
       (err) => {

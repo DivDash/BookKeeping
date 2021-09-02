@@ -7,4 +7,6 @@ router.post("/createaccountprofit", profitController.createProfitProject);
 
 router.get("/viewaccountprofit", profitController.getProfitProject);
 
+router.delete("/deleteprofit", profitController.deleteProfitProject);
+
 module.exports = router;
