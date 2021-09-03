@@ -8,10 +8,11 @@ router.use(cookieParser());
 
 router.post("/createaccount", AccountController.createAccount);
 
+router.post("/updateaccount", AccountController.updateAccount);
+
 // router.post("/signin", AdminController.login_admin);
 router.get("/viewaccount", AccountController.viewAccount);
 
-
-router.delete("/deleteaccount",AccountController.deleteAccount)
+router.delete("/deleteaccount", AccountController.deleteAccount);
 
 module.exports = router;

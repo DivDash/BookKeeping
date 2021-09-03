@@ -9,6 +9,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { NonProfitModel } from 'src/app/NonProfitModel';
 import { MyserviceService } from 'src/app/services/myservice.service';
+import { ToastrService } from 'ngx-toastr';
 
 export interface UserData {
   Name: string;
@@ -38,16 +39,15 @@ export class NonProfitComponent implements OnInit {
     public dialog: MatDialog,
     private http: HttpClient,
     private router: Router,
-    private myservice:MyserviceService
-  ) {
-
-  }
+    private myservice: MyserviceService,
+    private toastr: ToastrService
+  ) {}
   columnHeader2 = {
     Name: 'Name',
     Expense: 'Expense',
     Remarks: 'Remarks',
-    update:' ',
-    delete:' '
+    update: ' ',
+    delete: ' ',
   };
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogNonProfit, {
@@ -76,41 +76,37 @@ export class NonProfitComponent implements OnInit {
       //   .post('http://localhost:5000/accountnonprofit', this.NonProfitModel, {
       //     withCredentials: true,
       //   })
-        this.myservice.createAccountNonProfit(this.NonProfitModel)
-        .subscribe(
-          (res) => {
-            {
-           
+      this.myservice.createAccountNonProfit(this.NonProfitModel).subscribe(
+        (res) => {
+          {
+            if (res['message'] === 'Account Added') {
+              this.showSuccess();
             }
-          },
-          (err) => {
-            console.log(err);
-            console.log(err['message']);
           }
-        );
+        },
+        (err) => {
+          console.log(err);
+          console.log(err['message']);
+        }
+      );
     });
-
-
   }
   ngOnInit() {
     console.log('ithayyyyyyyyyyy');
     const users: UserData[] = [];
-    
-    this.myservice.getLiveCollection('viewaccountnonprofit')
-    .subscribe(
+
+    this.myservice.getLiveCollection('viewaccountnonprofit').subscribe(
       (res) => {
         // console.log(res)
         console.log(res);
-        
 
         this.object = res;
 
-        
-        for(let i=0;i<this.object.length;i++){
-          this.object[i].update="update"
-          this.object[i].delete="delete"
+        for (let i = 0; i < this.object.length; i++) {
+          this.object[i].update = 'update';
+          this.object[i].delete = 'delete';
         }
-      
+
         this.listData = new MatTableDataSource(this.object);
       },
       (err) => {
@@ -119,39 +115,37 @@ export class NonProfitComponent implements OnInit {
     );
     console.log(users);
   }
+  showSuccess() {
+    this.toastr.success('Successful!', 'Entry Added');
+  }
 }
 @Component({
   selector: 'dialog-non-profit',
   templateUrl: './dialog-non-profit.html',
 })
 export class DialogNonProfit {
-  clients:string[]=[]
+  clients: string[] = [];
   object: any;
 
   constructor(
     public dialogRef: MatDialogRef<DialogNonProfit>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
-    private myservice:MyserviceService
+    private myservice: MyserviceService
   ) {
-
-    this.myservice.getLiveCollection('viewaccount')
-    .subscribe(
-
-      res => {
-        console.log("resss")
-        this.object=res
-        for (let i=0;i<this.object.length;i++){
-          this.clients.push(this.object[i]['name'])
+    this.myservice.getLiveCollection('viewaccount').subscribe(
+      (res) => {
+        console.log('resss');
+        this.object = res;
+        for (let i = 0; i < this.object.length; i++) {
+          this.clients.push(this.object[i]['name']);
         }
-        console.log(this.clients,"here at  non profittt")
+        console.log(this.clients, 'here at  non profittt');
       },
-      err =>  {
-        console.log("resss")
-        console.log( err )
+      (err) => {
+        console.log('resss');
+        console.log(err);
       }
-    )
-
-
+    );
   }
 
   onNoClick(): void {

@@ -40,21 +40,30 @@ module.exports = class Account {
 
   static async deleteAccount(req, res, next) {
     try {
-      
       const projects = await AccountService.getProjects(req.body);
-      console.log(projects)
+      console.log(projects);
 
-      for(let i=0;i<projects.length;i++){
-        const updateAccounts=await AccountService.updateAccounts(projects[i])
+      for (let i = 0; i < projects.length; i++) {
+        const updateAccounts = await AccountService.updateAccounts(projects[i]);
       }
 
-      const deleteAccount=await AccountService.deleteAccount(req.body)
+      const deleteAccount = await AccountService.deleteAccount(req.body);
 
-      res.json({message:"account deleted"});
+      res.json({ message: "account deleted" });
     } catch (error) {
       res.send("there is error");
     }
   }
 
-  
+  static async updateAccount(req, res, next) {
+    try {
+      console.log("mubashir account update:");
+      console.log(req.body);
+
+      const updateAccounts = await AccountService.update_accounts(req.body);
+      res.json({ message: "account updatedd" });
+    } catch (error) {
+      res.send("there is error");
+    }
+  }
 };

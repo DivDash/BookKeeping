@@ -1,18 +1,21 @@
 <div class="dialog">
-  <h1 mat-dialog-title>Create Entry</h1>
+  <h1 mat-dialog-title>Edit Account</h1>
   <mat-dialog-content class="content">
     <mat-form-field appearance="fill" style="width: 100%">
-      <mat-label>Client</mat-label>
-      <mat-select [(ngModel)]="data.Name" name="client">
-        <mat-option *ngFor="let client of clients" [value]="client">
-          {{client}}
-        </mat-option>
-      </mat-select>
+      <mat-label
+        >Account Holder Name <span class="required-asterisk">*</span></mat-label
+      >
+      <input matInput [(ngModel)]="data.name" />
     </mat-form-field>
 
     <mat-form-field appearance="fill" style="width: 100%">
-      <mat-label>Expense <span class="required-asterisk">*</span></mat-label>
-      <input matInput [(ngModel)]="data.Expense" />
+      <mat-label>Bank Name<span class="required-asterisk">*</span></mat-label>
+      <input matInput [(ngModel)]="data.Bank" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" style="width: 100%">
+      <mat-label>Balance <span class="required-asterisk">*</span></mat-label>
+      <input matInput [(ngModel)]="data.Balance" />
     </mat-form-field>
 
     <mat-form-field
@@ -20,7 +23,7 @@
       appearance="fill"
       style="width: 100%"
     >
-      <mat-label>Remarks</mat-label>
+      <mat-label>Remarks<span class="required-asterisk">*</span></mat-label>
       <input
         matInput
         [(ngModel)]="data.Remarks"
@@ -40,7 +43,7 @@
       [mat-dialog-close]="data"
       cdkFocusInitial
     >
-      Create
+      Update
     </button>
   </mat-dialog-actions>
 </div>

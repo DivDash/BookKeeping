@@ -103,8 +103,8 @@ export class AccountsComponent implements OnInit {
     Bank: 'Bank',
     Balance: 'Balance',
     Remarks: 'Remarks',
-    update:' ',
-    delete:' '
+    update: ' ',
+    delete: ' ',
   };
   ngOnInit() {
     console.log('ithayyyyyyyyyyy');
@@ -117,9 +117,9 @@ export class AccountsComponent implements OnInit {
       (res) => {
         console.log(res);
         this.object = res;
-        for(let i=0;i<this.object.length;i++){
-          this.object[i].update="update"
-          this.object[i].delete="delete"
+        for (let i = 0; i < this.object.length; i++) {
+          this.object[i].update = 'update';
+          this.object[i].delete = 'delete';
         }
         this.listData = new MatTableDataSource(this.object);
       },
