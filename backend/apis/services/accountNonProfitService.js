@@ -2,7 +2,6 @@ const AccountNonProfitModel = require("../models/accountNonProfitModel.js");
 const AccountProfitModel = require("../models/profit_model");
 const AccountModel = require("../models/account_model.js");
 
-
 const bcrypt = require("bcrypt");
 const { commonEmitter } = require("../../events");
 const changeStream = AccountNonProfitModel.watch();
@@ -26,10 +25,12 @@ module.exports = class AccountNonProfitService {
       console.log("create Non profit");
 
       const querryClient = await AccountModel.findOneAndUpdate(
-        { name:Name}, 
-        { 
-           $inc: {Balance: -Expense} 
-        }, {new: true })
+        { name: Name },
+        {
+          $inc: { Balance: -Expense },
+        },
+        { new: true }
+      );
 
       const saving = new AccountNonProfitModel({ Name, Expense, Remarks });
       await saving.save();
@@ -46,23 +47,43 @@ module.exports = class AccountNonProfitService {
     }
   }
 
-
   static async deleteAccountService(Name, Expense, Remarks) {
     try {
       console.log("create Non profit delete");
 
       const querryClient = await AccountModel.findOneAndUpdate(
-        { name:Name}, 
-        { 
-           $inc: {Balance: Expense} 
-        }, {new: true })
+        { name: Name },
+        {
+          $inc: { Balance: Expense },
+        },
+        { new: true }
+      );
 
-        const deleteNonProfit= await AccountNonProfitModel.deleteOne({Name:Name,Expense:Expense,Remarks:Remarks});    
-
+      const deleteNonProfit = await AccountNonProfitModel.deleteOne({
+        Name: Name,
+        Expense: Expense,
+        Remarks: Remarks,
+      });
     } catch (error) {
       console.log(error);
     }
   }
+  static async update_nonprofit_accounts(data) {
+    try {
+      let acc_id = data._id;
+      console.log("updateAccounts temp: " + acc_id);
 
-
+      const updated = await AccountNonProfitModel.findOneAndUpdate(
+        { _id: data._id },
+        {
+          Name: data.Name,
+          Expense: data.Expense,
+          Remarks: data.Remarks,
+        }
+      );
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 };

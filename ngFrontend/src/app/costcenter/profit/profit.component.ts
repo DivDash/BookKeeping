@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ProfitModel } from 'src/app/ProfitModel';
 import { MyserviceService } from 'src/app/services/myservice.service';
+import { ToastrService } from 'ngx-toastr';
 
 export interface UserData {
   Client: string;
@@ -45,7 +46,7 @@ export class ProfitComponent implements OnInit {
   Status: string;
   object: any;
   listData: MatTableDataSource<any>;
-  clients:string[]=[]
+  clients: string[] = [];
   ProfitModel: ProfitModel;
 
   displayedColumns: string[] = [
@@ -76,25 +77,22 @@ export class ProfitComponent implements OnInit {
     private myservice:MyserviceService,
     private toastr: ToastrService
   ) {
-
-    this.myservice.getLiveCollection('viewaccountprofit')
-    .subscribe(
-
-      res => {
-        console.log("resss")
-        this.object=res
-        for (let i=0;i<this.object.length;i++){
-          this.clients.push(this.object[i]['name'])
+    this.myservice.getLiveCollection('viewaccountprofit').subscribe(
+      (res) => {
+        console.log('resss');
+        this.object = res;
+        for (let i = 0; i < this.object.length; i++) {
+          this.clients.push(this.object[i]['name']);
         }
-        console.log(this.clients,"here at profittt")
-        let clients2= this.clients
-        console.log(clients2)
+        console.log(this.clients, 'here at profittt');
+        let clients2 = this.clients;
+        console.log(clients2);
       },
-      err =>  {
-        console.log("resss")
-        console.log( err )
+      (err) => {
+        console.log('resss');
+        console.log(err);
       }
-    )
+    );
   }
   columnHeader2 = {
     Client: 'Client',
@@ -104,15 +102,14 @@ export class ProfitComponent implements OnInit {
     Expense: 'Expense',
     Date: 'Date',
     Status: 'Status',
-    update:' ',
-    delete:' '
+    update: ' ',
+    delete: ' ',
   };
   openDialog(): void {
-
-      const dialogRef = this.dialog.open(DialogProfit, {
+    const dialogRef = this.dialog.open(DialogProfit, {
       // width: '60%'
       panelClass: 'custom-modalbox',
-      height: '80%',
+      height: '70%',
       width: '30%',
       disableClose: true,
       hasBackdrop: true,
@@ -125,7 +122,6 @@ export class ProfitComponent implements OnInit {
         Date: this.Date,
         Status: this.Status,
       },
-
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -159,70 +155,69 @@ export class ProfitComponent implements OnInit {
 
 
             }
-          },
-          (err) => {
-            console.log(err);
-            console.log(err['message']);
           }
-        );
+        },
+        (err) => {
+          console.log(err);
+          console.log(err['message']);
+        }
+      );
     });
   }
   ngOnInit() {
     console.log('ithayyyyyyyyyyy');
     const users: UserData[] = [];
 
-    this.myservice.getLiveCollection('viewaccountprofit')
-      .subscribe(
-        (res) => {
-          this.object = res;
+    this.myservice.getLiveCollection('viewaccountprofit').subscribe(
+      (res) => {
+        this.object = res;
 
-          for(let i=0;i<this.object.length;i++){
-            this.object[i].update="update"
-            this.object[i].delete="delete"
-          }
-
-          this.listData = new MatTableDataSource(this.object);
-        },
-        (err) => {
-          console.log(err);
+        for (let i = 0; i < this.object.length; i++) {
+          this.object[i].update = 'update';
+          this.object[i].delete = 'delete';
         }
-      );
 
+        this.listData = new MatTableDataSource(this.object);
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+  }
+  showSuccess() {
+    this.toastr.success('Successful!', 'Entry Added');
   }
 }
 @Component({
   selector: 'dialog-profit',
   templateUrl: './dialog-profit.html',
 })
-export class DialogProfit{
-  object:any
-  clients:string[]=[]
-  clients2:any
+export class DialogProfit {
+  object: any;
+  clients: string[] = [];
+  clients2: any;
   constructor(
     public dialogRef: MatDialogRef<DialogProfit>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private http: HttpClient,
-    private myservice:MyserviceService
-  )
-  {
-
-    this.myservice.getLiveCollection('viewaccount')
-    .subscribe(
-      res => {
-        console.log("resss")
-        this.object=res
-        for (let i=0;i<this.object.length;i++){
-          this.clients.push(this.object[i]['name'])
+    private myservice: MyserviceService
+  ) {
+    this.myservice.getLiveCollection('viewaccount').subscribe(
+      (res) => {
+        console.log('resss');
+        this.object = res;
+        for (let i = 0; i < this.object.length; i++) {
+          this.clients.push(this.object[i]['name']);
         }
-        console.log(this.clients,"here at profittt")
-         this.clients2= this.clients
-        console.log(this.clients2)
+        console.log(this.clients, 'here at profittt');
+        this.clients2 = this.clients;
+        console.log(this.clients2);
       },
-      err =>  {
-        console.log("resss")
-        console.log( err )
+      (err) => {
+        console.log('resss');
+        console.log(err);
       }
-    )
+    );
   }
 
   onNoClick(): void {
@@ -230,6 +225,6 @@ export class DialogProfit{
   }
 }
 
-export class clientsClass{
-  clientsMsg:string
+export class clientsClass {
+  clientsMsg: string;
 }

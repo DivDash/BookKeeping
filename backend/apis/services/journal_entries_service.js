@@ -1,5 +1,5 @@
-const entries=require('../models/journal_entries_model')
-const profit=require('../models/profit_model')
+const entries = require("../models/journal_entries_model");
+const profit = require("../models/profit_model");
 const AccountModel = require("../models/account_model.js");
 
 
@@ -24,11 +24,21 @@ changeStream.on("change", (data) => {
   });
 });
 
-module.exports = class JournalEntryService{
- 
-    
-    static async validateProfitProject(data){
-        try{
+module.exports = class JournalEntryService {
+  static async validateProfitProject(data) {
+    try {
+      console.log("here at validate project");
+      let client = data[0].client;
+      let project = data[0].project;
+      console.log(client, project);
+      const query = { $and: [{ Project: project }, { Client: client }] };
+      const projectExist = await profit.find(query);
+      console.log(projectExist);
+      return projectExist;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
             console.log("here at validate project")
             let project=data[0].project;  
@@ -41,6 +51,7 @@ module.exports = class JournalEntryService{
             console.log(error)
         }
     }
+  }
 
 
 
@@ -60,21 +71,31 @@ module.exports = class JournalEntryService{
             console.log(error)
         }
     }
+  }
 
+  static async updateProfitProject(data, rev, exp) {
+    try {
+      console.log("helllo");
+      let client = data[0].client;
+      let project = data[0].project;
 
+      const filter = { $and: [{ Project: project }, { Client: client }] };
+      const update = { Revenue: rev, Expense: exp };
 
-    static async validateAccount(data){
-        try{
-
-            let client=data[0].client;    
-            const accountExist = await AccountModel.findOne({ name:client})
-            return accountExist
-        }
-        catch(error){
-            console.log(error)
-        }
+      let doc = await profit.findOneAndUpdate(filter, update, {
+        new: true,
+        upsert: true,
+        rawResult: true,
+      });
+    } catch (error) {
+      conosle.log("update profit error", error);
     }
+  }
 
+  static async updateAccount(data, bal) {
+    try {
+      console.log("update account");
+      let client = data[0].client;
 
     static async updateProfitProject(data,exp){
         try{
@@ -92,8 +113,21 @@ module.exports = class JournalEntryService{
         }catch(error){
             conosle.log("update profit error",error)
         }
+      );
+    } catch (error) {
+      console.log("update account error");
+      console.log(error);
     }
+  }
 
+  static async createJournalEntries(data) {
+    try {
+      let saveEntries = await entries.insertMany(data);
+      return saveEntries;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
     static async updateClientProfitProject(data,rec,rev){
         try{
@@ -117,42 +151,39 @@ module.exports = class JournalEntryService{
 
     static async updateAccount(data,bal){
     try {
+      console.log(data, "aaaaaaaaaaaaaaaaa");
+      const { project, client } = data;
 
-        console.log("update account")
-        let client=data[0].client;
+      queryEntryGlobal = { $and: [{ project: project }, { client: client }] };
+      const entryExist = await entries.find(queryEntryGlobal);
 
-        const filterAccount = {name:client};
-        const updateAccount = {Balance:bal};
-    
-        let docAcc = await AccountModel.findOneAndUpdate(filterAccount, updateAccount,{
-          
-            new: true,
-            upsert: true,
-            rawResult: true 
-
-          
-        });
+      return entryExist;
+    } catch (eror) {
+      console.log(error);
     }
-    catch(error){
-        console.log("update account error")
-        console.log(error)
+  }
+
+  static async updateReceiverAccount(data) {
+    try {
+      console.log(data, "updateRecieverAccount");
+
+      for (let i = 0; i < data.length; i++) {
+        const querry = await AccountModel.findOneAndUpdate(
+          { name: data[i].receiver },
+          {
+            $inc: { Balance: data[i].amount },
+          },
+          { new: true }
+        );
+      }
+    } catch (error) {
+      console.log(error);
     }
-    }
+  }
 
-    static async createJournalEntries(data){
-
-        try{
-
-            let saveEntries=await entries.insertMany(data)
-            return saveEntries
-
-        }
-        catch(error){
-            console.log(error)
-        }
-    }
-
-    static async getJournalEntries(data){
+  static async deleteEntry(data) {
+    try {
+      console.log(data, "deleteEntry");
 
         try{
             
@@ -164,27 +195,34 @@ module.exports = class JournalEntryService{
             console.log(entryExist,"entrieeeeeessssssss")
             return entryExist
 
-        }catch(eror){
-            console.log(error)
-        }
-    }
+      const querryProfitRev = await profit.findOneAndUpdate(
+        { Project: data.project },
+        {
+          $inc: { Revenue: data.amount },
+        },
+        { new: true }
+      );
 
-    static async updateReceiverAccount(data){
-        try {    
-          console.log(data,"updateRecieverAccount")  
+      const deleteEntries = await entries.deleteOne({
+        client: data.client,
+        amount: data.amount,
+        project: data.project,
+        receiver: data.receiver,
+        reason: data.reason,
+        method: data.method,
+        remarks: data.remarks,
+        date: data.date,
+      });
 
-          for(let i=0;i<data.length;i++){
-          const querry = await AccountModel.findOneAndUpdate(
-            { name:data[i].receiver }, 
-            { 
-               $inc: { Balance:data[i].amount } 
-            }, {new: true })
-          }
-        }
-        catch(error){
-            console.log(error)
-        }
+      return deleteEntries;
+    } catch (error) {
+      console.log(error);
     }
+  }
+  static async update_journal_accounts(data) {
+    try {
+      let acc_id = data._id;
+      console.log("updateAccounts tempING: " + acc_id);
 
 
 
@@ -249,10 +287,10 @@ module.exports = class JournalEntryService{
                     
                 return deleteEntries
         }
-        catch(error){
-            console.log(error)
-        }
+      );
+      console.log(data);
+    } catch (error) {
+      console.log(error);
     }
-
-    
-}
+  }
+};

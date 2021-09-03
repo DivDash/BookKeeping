@@ -1,6 +1,6 @@
 const AccountProfitModel = require("../models/profit_model");
-const entries=require('../models/journal_entries_model')
-const profit=require('../models/profit_model')
+const entries = require("../models/journal_entries_model");
+const profit = require("../models/profit_model");
 
 const { commonEmitter } = require("../../events");
 const changeStream = AccountProfitModel.watch();
@@ -63,17 +63,35 @@ module.exports = class ProfitService {
     }
   }
 
-
   static async deleteProject(data) {
-    try{
-    console.log(data,"deleteee from profitt")  
+    try {
+      console.log(data, "deleteee from profitt");
 
     const deleteProject= await profit.deleteMany({Project:data.Project});    
     return data;
   }catch(error){
     console.log(error)
   }
+  static async update_profit_accounts(data) {
+    try {
+      let acc_id = data._id;
+      console.log("updateAccounts temp: " + acc_id);
 
+      const updated = await profit.findOneAndUpdate(
+        { _id: data._id },
+        {
+          Project: data.Project,
+          Client: data.Client,
+          Receivable: data.Receivable,
+          Revenue: data.Revenue,
+          Expense: data.Expense,
+          Date: data.Date,
+          Status: data.Status,
+        }
+      );
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
   }
-
 };

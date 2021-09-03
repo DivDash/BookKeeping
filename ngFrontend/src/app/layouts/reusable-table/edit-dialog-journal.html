@@ -1,0 +1,51 @@
+<div class="dialog">
+  <h1 mat-dialog-title>Edit Journal Entry</h1>
+  <mat-dialog-content class="content">
+    <mat-form-field appearance="fill" style="width: 100%">
+      <mat-label>Project<span class="required-asterisk">*</span></mat-label>
+      <input matInput [(ngModel)]="data.project" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="matt matt2" style="width: 100%">
+      <mat-label>Client<span class="required-asterisk">*</span></mat-label>
+      <input matInput [(ngModel)]="data.client" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" style="width: 100%">
+      <mat-label>Amount<span class="required-asterisk">*</span></mat-label>
+      <input type="number" matInput [(ngModel)]="data.amount" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" style="width: 100%">
+      <mat-label>Receive<span class="required-asterisk">*</span></mat-label>
+      <input matInput [(ngModel)]="data.receiver" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" style="width: 100%">
+      <mat-label>Reason<span class="required-asterisk">*</span></mat-label>
+      <input matInput [(ngModel)]="data.reason" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" style="width: 100%">
+      <mat-label>Method<span class="required-asterisk">*</span></mat-label>
+      <input matInput [(ngModel)]="data.method" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" style="width: 100%">
+      <mat-label>Remarks <span class="required-asterisk">*</span></mat-label>
+      <input matInput [(ngModel)]="data.remarks" />
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button mat-raised-button (click)="onNoClick()">No Thanks</button>
+    <button
+      mat-raised-button
+      color="primary"
+      [mat-dialog-close]="data"
+      cdkFocusInitial
+    >
+      Update
+    </button>
+  </mat-dialog-actions>
+</div>

@@ -11,9 +11,13 @@ router.post(
   AccountNonProfitController.createAccount
 );
 
+router.post(
+  "/updatenonprofitaccount",
+  AccountNonProfitController.updateNonProfitAccount
+);
+
 router.get("/viewaccountnonprofit", AccountNonProfitController.viewAccount);
 
 router.delete("/deletenonprofit", AccountNonProfitController.deleteAccount);
-
 
 module.exports = router;

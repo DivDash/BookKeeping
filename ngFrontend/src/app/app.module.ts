@@ -23,7 +23,10 @@ import { AttributesComponent } from './attributes/attributes.component';
 import { HttpClientModule } from '@angular/common/http';
 import { RegisterComponent } from './register/register.component';
 import { FooterComponent } from './footer/footer.component';
-import { AccountsComponent ,DialogAccount} from './accounts/accounts.component';
+import {
+  AccountsComponent,
+  DialogAccount,
+} from './accounts/accounts.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -39,7 +42,13 @@ import { JentryComponent } from './jentry/jentry.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsComponent } from './forms/forms.component';
 import { TabComponent } from './layouts/tab/tab.component';
-import { ReusableTableComponent } from './layouts/reusable-table/reusable-table.component';
+import {
+  ReusableTableComponent,
+  EditDialogAccount,
+  EditDialogProfit,
+  EditDialogNonprofit,
+  EditDialogJournal,
+} from './layouts/reusable-table/reusable-table.component';
 import { ToastrModule } from 'ngx-toastr';
 import {
   ProfitComponent,
@@ -76,6 +85,10 @@ const config: SocketIoConfig = { url: 'http://localhost:5000', options: {} };
     FormsComponent,
     JentryComponent,
     ReusableTableComponent,
+    EditDialogAccount,
+    EditDialogProfit,
+    EditDialogNonprofit,
+    EditDialogJournal,
     ProfitComponent,
     NonProfitComponent,
     DialogNonProfit,
@@ -109,7 +122,7 @@ const config: SocketIoConfig = { url: 'http://localhost:5000', options: {} };
     MatTabsModule,
     NgbModule,
     MatSelectModule,
-    ToastrModule.forRoot({ timeOut: 2000 ,enableHtml: true }),
+    ToastrModule.forRoot({ timeOut: 2000, enableHtml: true }),
     SocketIoModule.forRoot(config),
   ],
 

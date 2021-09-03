@@ -1,11 +1,30 @@
-'use strict';
-const JournalEntryService=require('../services/journal_entries_service')
+"use strict";
+const JournalEntryService = require("../services/journal_entries_service");
 const express = require("express");
 const router = express.Router();
 
+module.exports = class JournalEntries {
+  static async createJournalEntries(req, res, next) {
+    try {
+      console.log("1");
+      console.log(req.body);
+      let check = false;
+      let projectExist = await JournalEntryService.validateProfitProject(
+        req.body
+      );
+      console.log(projectExist, "hellooo");
 
+      if (projectExist.length === 0) {
+        console.log("2");
+        check = true;
+        res.json({ message: "Project with This Client Dosent exist" });
+      }
 
-module.exports = class JournalEntries{
+      if (check === false) {
+        console.log("3");
+        const accountExist = await JournalEntryService.validateAccount(
+          req.body
+        );
 
     static async createJournalEntries(req,res,next){
 //non-client
@@ -67,7 +86,7 @@ module.exports = class JournalEntries{
 
             let updateRecieverAccount=await JournalEntryService.updateReceiverAccount(data)
 
-            let awain2=accountExist.Balance-69
+        let awain = accountExist.Balance - 69;
 
             const saveEntries=await JournalEntryService.createJournalEntries(data)
             
@@ -82,14 +101,35 @@ module.exports = class JournalEntries{
             }
         
 
+        const saveEntries = await JournalEntryService.createJournalEntries(
+          req.body
+        );
 
+        res.json({ message: "Entries are added" });
+      }
+    } catch (error) {
+      console.log("4");
+      res.json({ message: "error" });
     }
+  }
 
+  static async getJournalEntries(req, res, next) {
+    try {
+      console.log("here at viewEntry");
+      let check = false;
+      // let data = {client:"Zain",project:"FinalProj"}
 
+      let projectExist = await JournalEntryService.validateProject(req.body);
 
+      if (projectExist.length === 0) {
+        check = true;
+        res.json({ message: "Project with This Client Dosent exist" });
+      }
 
-    static async getJournalEntries(req,res,next){
+      if (check === false) {
+        console.log(projectExist);
 
+        let getEntries = await JournalEntryService.getJournalEntries(req.body);
 
         try{
             console.log("here at viewEntry")
@@ -120,8 +160,19 @@ module.exports = class JournalEntries{
         
 
     }
-    static async getJournalEntriesParams(req,res,next){
+  }
+  static async getJournalEntriesParams(req, res, next) {
+    try {
+      console.log("here at viewEntry");
+      let check = false;
+      console.log(req.query.client, req.query.project);
+      let data = { client: req.query.client, project: req.query.project };
+      let projectExist = await JournalEntryService.validateProject(data);
 
+      if (projectExist.length === 0) {
+        check = true;
+        res.json({ message: "Project with This Client Dosent exist" });
+      }
 
       try{
           console.log("here at viewEntry")
@@ -159,7 +210,6 @@ module.exports = class JournalEntries{
 
   }
 
-  
   static async deleteJournalEntry(req, res, next) {
     try {
       
@@ -193,10 +243,17 @@ module.exports = class JournalEntries{
       res.send("there is error");
     }
   }
-  
-  
-  
-  
+  static async updateJournalEntries(req, res, next) {
+    try {
+      console.log("mubashir account updateING:");
+      console.log(req.body);
 
-
-}
+      const updateAccounts = await JournalEntryService.update_journal_accounts(
+        req.body
+      );
+      res.json({ message: "account updatedd" });
+    } catch (error) {
+      res.send("there is error");
+    }
+  }
+};

@@ -17,63 +17,95 @@ export class MyserviceService {
   }
 
   deleteAccount(data): Observable<any> {
-    console.log(data.name,"at service")
+    console.log(data.name, 'at service');
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
-      body: data
+      body: data,
     };
 
-    return this.http.delete<any>(`${baseUrl}/deleteaccount`,options);
+    return this.http.delete<any>(`${baseUrl}/deleteaccount`, options);
   }
-
 
   deleteProfitProject(data): Observable<any> {
-    console.log(data.name,"at service")
+    console.log(data.name, 'at service');
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
-      body: data
+      body: data,
     };
 
-    return this.http.delete<any>(`${baseUrl}/deleteprofit`,options);
+    return this.http.delete<any>(`${baseUrl}/deleteprofit`, options);
   }
-
 
   deleteEntry(data): Observable<any> {
-    console.log(data.name,"at service")
+    console.log(data.name, 'at service');
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
-      body: data
+      body: data,
     };
 
-    return this.http.delete<any>(`${baseUrl}/deleteentry`,options);
+    return this.http.delete<any>(`${baseUrl}/deleteentry`, options);
   }
-
-
 
   deleteNonProfit(data): Observable<any> {
-    console.log(data.name,"at service")
+    console.log(data.name, 'at service');
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
-      body: data
+      body: data,
     };
 
-    return this.http.delete<any>(`${baseUrl}/deletenonprofit`,options);
+    return this.http.delete<any>(`${baseUrl}/deletenonprofit`, options);
   }
 
-
-
-  createAccountNonProfit(NonProfitModel): Observable<any> {
-    return this.http.post<any>(`${baseUrl}/createaccountnonprofit`, NonProfitModel, {
+  update_account(data): Observable<any> {
+    console.log(data.name, 'at service');
+    return this.http.post<any>(`${baseUrl}/updateaccount`, data, {
       withCredentials: true,
     });
+
+    // return this.http.post<any>(`${baseUr.l}/updateacc.ount`, options);
+  }
+  update_profit_account(data): Observable<any> {
+    console.log(data.name, 'at service');
+    return this.http.post<any>(`${baseUrl}/updateprofitaccount`, data, {
+      withCredentials: true,
+    });
+
+    // return this.http.post<any>(`${baseUr.l}/updateacc.ount`, options);
+  }
+
+  update_nonprofit_account(data): Observable<any> {
+    console.log(data.name, 'at service');
+    return this.http.post<any>(`${baseUrl}/updatenonprofitaccount`, data, {
+      withCredentials: true,
+    });
+
+    // return this.http.post<any>(`${baseUr.l}/updateacc.ount`, options);
+  }
+  update_journal_account(data): Observable<any> {
+    console.log(data.name, 'at service');
+    return this.http.post<any>(`${baseUrl}/updatejournalaccount`, data, {
+      withCredentials: true,
+    });
+
+    // return this.http.post<any>(`${baseUr.l}/updateacc.ount`, options);
+  }
+
+  createAccountNonProfit(NonProfitModel): Observable<any> {
+    return this.http.post<any>(
+      `${baseUrl}/createaccountnonprofit`,
+      NonProfitModel,
+      {
+        withCredentials: true,
+      }
+    );
   }
   createProfitModel(ProfitModel): Observable<any> {
     return this.http.post<any>(`${baseUrl}/createaccountprofit`, ProfitModel, {
@@ -85,20 +117,19 @@ export class MyserviceService {
       withCredentials: true,
     });
   }
-  
+
   viewEntry(data): Observable<any> {
-    console.log(data,"from service")
+    console.log(data, 'from service');
     return this.http.post<any>(`${baseUrl}/viewentry`, data, {
       withCredentials: true,
     });
   }
 
   createEntry(data): Observable<any> {
-    return this.http.post<any>(`${baseUrl}/createentries`,data, {
+    return this.http.post<any>(`${baseUrl}/createentries`, data, {
       withCredentials: true,
     });
   }
-
 
   viewProfit(): Observable<any> {
     return this.http.get<any>(`${baseUrl}/viewaccountprofit`, {
@@ -139,12 +170,12 @@ export class MyserviceService {
       });
       collectionBehavior.next(resp as Array<any>);
     });
-    console.log("collection behaviour",collectionBehavior)
+    console.log('collection behaviour', collectionBehavior);
 
     return collectionBehavior;
   }
-  getLiveCollectionPost(name: string, data1:any): Observable<Array<any>> {
-    console.log("hhhh")
+  getLiveCollectionPost(name: string, data1: any): Observable<Array<any>> {
+    console.log('hhhh');
     // Particular behavior for particular document
     // Using Subject instead of BehaviorSubject because we don't need older values
     const collectionBehavior = new Subject<Array<any>>();
@@ -157,8 +188,12 @@ export class MyserviceService {
       });
       collectionBehavior.next(resp as Array<any>);
     });
-    console.log("collection behaviour",collectionBehavior)
+    console.log('collection behaviour', collectionBehavior);
     return collectionBehavior;
   }
-  constructor(private http: HttpClient, private socket: Socket, private router:ActivatedRoute) {}
+  constructor(
+    private http: HttpClient,
+    private socket: Socket,
+    private router: ActivatedRoute
+  ) {}
 }

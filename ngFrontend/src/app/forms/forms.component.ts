@@ -1,5 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, DoCheck, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  DoCheck,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { ShowHideDirective } from '@angular/flex-layout';
 import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
@@ -8,7 +14,7 @@ import { MyserviceService } from '../services/myservice.service';
 @Component({
   selector: 'app-forms',
   templateUrl: './forms.component.html',
-  styleUrls: ['./forms.component.css']
+  styleUrls: ['./forms.component.css'],
 })
 export class FormsComponent implements DoCheck{
   newDivs:addDivisions[]=[];
@@ -37,48 +43,45 @@ export class FormsComponent implements DoCheck{
 
   listData: MatTableDataSource<any>;
 
-  addNewDiv(){
-
+  addNewDiv() {
     this.newDivs.push({
-      project:this.selectedProject,
-      client:this.client,
-      date:this.date,
+      project: this.selectedProject,
+      client: this.client,
+      date: this.date,
       amount: 0,
-      receiver: "",
-      reason: "",
-      method:"",
-      remarks:""
+      receiver: '',
+      reason: '',
+      method: '',
+      remarks: '',
     });
   }
 
-  remove(todel){
-    let objects=this.newDivs.filter(function(obj) { return obj.receiver !==todel ; });
-    this.newDivs=objects
-    let temp:number=0
-    for(let i=0;i<this.newDivs.length;i++)
-    {
-      temp=temp + this.newDivs[i]['amount']
+  remove(todel) {
+    let objects = this.newDivs.filter(function (obj) {
+      return obj.receiver !== todel;
+    });
+    this.newDivs = objects;
+    let temp: number = 0;
+    for (let i = 0; i < this.newDivs.length; i++) {
+      temp = temp + this.newDivs[i]['amount'];
     }
-    this.sum=temp
-
+    this.sum = temp;
   }
 
-  showerror(message){
-    console.log("here")
+  showerror(message) {
+    console.log('here');
     this.toastr.error(message, 'Error!');
   }
 
-  showsuccess(message){
+  showsuccess(message) {
     this.toastr.success(message, 'Success!');
   }
 
-
-
-  final(){
-    console.log(this.newDivs)
-    let summ:number=0
-    for(let i=0;i<this.newDivs.length;i++){
-      summ=summ + this.newDivs[i]['amount']
+  final() {
+    console.log(this.newDivs);
+    let summ: number = 0;
+    for (let i = 0; i < this.newDivs.length; i++) {
+      summ = summ + this.newDivs[i]['amount'];
     }
 
     if(summ===this.total){
@@ -116,75 +119,78 @@ export class FormsComponent implements DoCheck{
            }
           }
         },
-        err => {
-          console.log( err )
-          console.log( err["message"] )
+        (err) => {
+          console.log(err);
+          console.log(err['message']);
         }
       );
       
     }
-    else{
-      this.showerror('Debit Is Not Equal To Credit')
-      console.log("debit not equal to credit")
-    }
-
-
   }
 
-  constructor(private http: HttpClient,private toastr: ToastrService,private myservice:MyserviceService)
-   {
+  constructor(
+    private http: HttpClient,
+    private toastr: ToastrService,
+    private myservice: MyserviceService
+  ) {
     // this.entriesObject[0].client = "dsa"
     // console.log(this.entriesObject[0]["amount"])
-    this.myservice.getLiveCollection('viewaccountprofit')
-    .subscribe(
-      res => {
-        this.object=res
+    this.myservice.getLiveCollection('viewaccountprofit').subscribe(
+      (res) => {
+        this.object = res;
         // console.log(this.object)
-        for (let i=0;i<this.object.length;i++){
-          this.projects.push(this.object[i]['Project'])
+        for (let i = 0; i < this.object.length; i++) {
+          this.projects.push(this.object[i]['Project']);
         }
         // console.log(this.projects)
       },
-      err =>  {
-        console.log( err )
+      (err) => {
+        console.log(err);
       }
-    )
+    );
 
-    this.myservice.getLiveCollection('viewaccount')
-    .subscribe(
-      res => {
-        this.object=res
-        for (let i=0;i<this.object.length;i++){
-          this.clients.push(this.object[i]['name'])
+    this.myservice.getLiveCollection('viewaccount').subscribe(
+      (res) => {
+        this.object = res;
+        for (let i = 0; i < this.object.length; i++) {
+          this.clients.push(this.object[i]['name']);
         }
-        this.clients2=this.clients
+        this.clients2 = this.clients;
         // console.log(this.clients,"sas")
       },
-      err =>  {
-        console.log( err )
+      (err) => {
+        console.log(err);
       }
-    )
+    );
+  }
 
-
-
-
-   }
-
-   ngDoCheck(): void {
-    let temp:number=0
-    for(let i=0;i<this.newDivs.length;i++)
-    {
-      temp=temp + this.newDivs[i]['amount']
+  ngDoCheck(): void {
+    let temp: number = 0;
+    for (let i = 0; i < this.newDivs.length; i++) {
+      temp = temp + this.newDivs[i]['amount'];
     }
-    this.sum=temp
+    this.sum = temp;
+  }
 
-   }
+  addEntry() {
+    console.log(this.newDivs, 'test');
+  }
 
+  forTable(varr) {
+    console.log(this.client, this.selectedProject, 'forTABLE');
+    console.log(this.data, 'dataa');
 
+    this.newDivs.map((obj) => {
+      if (
+        obj['client'] !== this.client ||
+        obj['project'] !== this.selectedProject
+      ) {
+        obj['client'] = this.client;
+        obj['project'] = this.selectedProject;
+      }
+    });
 
- addEntry(){
-  console.log(this.newDivs,"test")
- }
+    console.log('dataa');
 
  forTable(varr){
 
@@ -200,8 +206,8 @@ export class FormsComponent implements DoCheck{
 
     this.data = {
       project: this.selectedProject,
-    }
-    console.log(this.data,"dataa")
+    };
+    console.log(this.data, 'dataa');
 
     if(this.selectedProject){
     console.log("check")
@@ -264,41 +270,36 @@ export class FormsComponent implements DoCheck{
 
   }
 
-
-
- columnHeader2 = {
-  project:"project",
-  client:" client",
-  amount:"amount",
-  receiver:"receive",
-  reason:"reason",
-  method:"method",
-  remarks:"remarks",
-  delete:'  '
-};
-
-
-
+  columnHeader2 = {
+    project: 'Project',
+    client: ' Client',
+    amount: 'Amount',
+    receiver: 'Receive',
+    reason: 'Reason',
+    method: 'Method',
+    remarks: 'Remarks',
+    update: '  ',
+    delete: '  ',
+  };
 }
 
-
 export interface addDivisions {
-  project:string;
-  client:string;
-  date:string;
+  project: string;
+  client: string;
+  date: string;
   receiver: string;
   reason: string;
   amount: number;
-  method:string
-  remarks:string
+  method: string;
+  remarks: string;
 }
 
 export interface entries {
-  project:string;
-  client:string
-  receiver:string
-  amount:string
-  reason:string
-  method:string
-  remarks:string
+  project: string;
+  client: string;
+  receiver: string;
+  amount: string;
+  reason: string;
+  method: string;
+  remarks: string;
 }

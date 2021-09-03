@@ -20,17 +20,17 @@ td,
 th {
   width: 15%;
 }
-.btnn{
-  height: 5px !important;
-  width:5px !important;
-  font-size:5px !important;
+.btnn {
+  height: 8px !important;
+  width: 8px !important;
+  font-size: 8px !important;
 }
-.mat-icon{
-  height:15px !important;
-  width:15px !important;
-  font-size:15px !important;
+.mat-icon {
+  height: 25px !important;
+  width: 25px !important;
+  font-size: 25px !important;
 }
 
 button[mat-mini-fab] {
-  transform: scale(0.7) !important;
- }
+  transform: scale(0.8) !important;
+}

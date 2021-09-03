@@ -1,13 +1,9 @@
 <div class="dialog">
-  <h1 mat-dialog-title>Create Entry</h1>
+  <h1 mat-dialog-title>Edit Profit Entry</h1>
   <mat-dialog-content class="content">
     <mat-form-field appearance="fill" class="matt matt2" style="width: 100%">
-      <mat-label>Client</mat-label>
-      <mat-select [(ngModel)]="data.Client" name="client">
-        <mat-option *ngFor="let client of clients2" [value]="client">
-          {{client}}
-        </mat-option>
-      </mat-select>
+      <mat-label>Client<span class="required-asterisk">*</span></mat-label>
+      <input matInput [(ngModel)]="data.Client" />
     </mat-form-field>
 
     <mat-form-field appearance="fill" style="width: 100%">
@@ -16,21 +12,9 @@
     </mat-form-field>
 
     <mat-form-field appearance="fill" style="width: 100%">
-      <mat-label
-        >Receivables <span class="required-asterisk">*</span></mat-label
-      >
+      <mat-label>Receivables<span class="required-asterisk">*</span></mat-label>
       <input type="number" matInput [(ngModel)]="data.Receivable" />
     </mat-form-field>
-
-    <!-- <mat-form-field appearance="fill" style="width: 100%">
-      <mat-label>Revenue <span class="required-asterisk">*</span></mat-label>
-      <input type="number" matInput [(ngModel)]="data.Revenue" />
-    </mat-form-field>
-
-    <mat-form-field appearance="fill" style="width: 100%">
-      <mat-label>Expense <span class="required-asterisk">*</span></mat-label>
-      <input type="number" matInput [(ngModel)]="data.Expense" />
-    </mat-form-field> -->
 
     <mat-form-field appearance="fill" style="width: 100%">
       <mat-label>Date<span class="required-asterisk">*</span></mat-label>
@@ -51,7 +35,7 @@
       [mat-dialog-close]="data"
       cdkFocusInitial
     >
-      Create
+      Update
     </button>
   </mat-dialog-actions>
 </div>
