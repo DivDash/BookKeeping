@@ -36,6 +36,8 @@ module.exports = class AccountService {
     //   res.send(data);
     return data;
   }
+
+  
   static async update_accounts(data) {
     try {
       let acc_id = data._id;
