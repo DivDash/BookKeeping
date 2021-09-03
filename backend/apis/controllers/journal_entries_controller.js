@@ -128,22 +128,22 @@ module.exports = class JournalEntries{
           let check=false
           console.log(req.query.project)
           let data = {project:req.query.project}
-          let projectExist=await JournalEntryService.validateProject(data)
+          let projectExis=await JournalEntryService.validateProject(data)
     
-          if(projectExist.length===0){
+          if(projectExis.length===0){
           check=true  
           res.json({message:"Project With The Non-Client Is Selected"})
             }
     
          if(check===false){
     
-          console.log(projectExist)
+          console.log(projectExis)
 
-         let getEntries=await JournalEntryService.getJournalEntries(data)
+         let getEntrie=await JournalEntryService.getJournalEntries(data)
 
         let objectEntries={
-          getEntries:getEntries,
-          projectExist:projectExist
+          getEntries:getEntrie,
+          projectExist:projectExis
         }
 
           //  res.json({message:"Success",getEntries})

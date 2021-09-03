@@ -214,9 +214,15 @@ export class FormsComponent implements DoCheck{
           this.listData = new MatTableDataSource(this.objectsEmpty)
         }
         else{
+
           this.objects=res['getEntries']
+          if(res['getEntries']===undefined){
+            this.objects=res
+          }
+          if(res['getEntries']){
           console.log(res['projectExist'][0]['Client'],"clientttt")
           this.matchClient=res['projectExist'][0]['Client']
+          }
   
           console.log(this.matchClient,"matchClient")
 
