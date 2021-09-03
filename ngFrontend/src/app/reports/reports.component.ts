@@ -93,10 +93,9 @@ export class ReportsComponent implements OnInit {
     this.sum=0
 
      this.data = {
-       client: this.client,
        project: this.selectedProject,
      }
-     if(this.client && this.selectedProject){
+     if(this.selectedProject){
      this.myservice.viewEntry(this.data)
      .subscribe(
        res => {

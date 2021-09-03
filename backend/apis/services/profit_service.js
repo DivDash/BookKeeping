@@ -22,9 +22,9 @@ changeStream.on("change", (data) => {
 module.exports = class ProfitService {
   static async validateProfitProject(data) {
     try {
-      const { Project, Client } = data;
+      const {Project} = data;
 
-      const query = { $and: [{ Project: Project }, { Client: Client }] };
+      const query ={ Project: Project };
       const projectExist = await AccountProfitModel.find(query);
 
       return projectExist;
@@ -68,7 +68,6 @@ module.exports = class ProfitService {
     try{
     console.log(data,"deleteee from profitt")  
 
-    const deleteEntries= await entries.deleteMany({$and: [{ "project": data.Project }, { "client":data.Client}]});
     const deleteProject= await profit.deleteMany({Project:data.Project});    
     return data;
   }catch(error){

@@ -7,6 +7,7 @@ import {
 } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { ProfitModel } from 'src/app/ProfitModel';
 import { MyserviceService } from 'src/app/services/myservice.service';
 
@@ -56,11 +57,24 @@ export class ProfitComponent implements OnInit {
     'Date',
     'Status',
   ];
+
+
+  showerror(message){
+    console.log("here")
+    this.toastr.error(message, 'Error!');
+  }
+
+  showsuccess(message){
+    this.toastr.success(message, 'Success!');
+  }
+
+
   constructor(
     public dialog: MatDialog,
     private http: HttpClient,
     private router: Router,
-    private myservice:MyserviceService
+    private myservice:MyserviceService,
+    private toastr: ToastrService
   ) {
 
     this.myservice.getLiveCollection('viewaccountprofit')
@@ -135,7 +149,13 @@ export class ProfitComponent implements OnInit {
         .subscribe(
           (res) => {
             {
-              console.log(res['message']);
+              if(res['message']==='Project with Client Added'){
+                this.showsuccess(res['message'])
+
+              }
+              else{
+                this.showerror(res['message'])
+              }
 
 
             }

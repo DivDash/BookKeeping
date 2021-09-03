@@ -8,12 +8,18 @@ const router = express.Router();
 module.exports = class JournalEntries{
 
     static async createJournalEntries(req,res,next){
+//non-client
 
         try{
             console.log("1")
             console.log(req.body)
+            console.log(req.body.newDivs,"data")
+            let data=req.body.newDivs
+            console.log(req.body.option,"option")
+            let option=req.body.option
+
             let check=false
-            let projectExist=await JournalEntryService.validateProfitProject(req.body)
+            let projectExist=await JournalEntryService.validateProfitProject(data)
             console.log(projectExist,"hellooo")
 
             if(projectExist.length===0){
@@ -25,37 +31,50 @@ module.exports = class JournalEntries{
           
             if(check===false){
             console.log("3")
-            const accountExist = await JournalEntryService.validateAccount(req.body)
+            const accountExist = await JournalEntryService.validateAccount(data)
       
             let sum=0
-            for(let i=0;i<req.body.length;i++)
+            for(let i=0;i<data.length;i++)
             {
-              sum=sum + req.body[i].amount
+              sum=sum + data[i].amount
             }
             let exp=projectExist[0].Expense+sum
-            let rev=projectExist[0].Receivable-exp;
-            
-        
-            console.log(rev,exp,"revExp")
+            let rec=projectExist[0].Receivable-sum
+            let rev=projectExist[0].Revenue+sum
 
-            const updateProfit=await JournalEntryService.updateProfitProject(req.body,rev,exp)
+
+
+        
+            console.log(exp,"revExp")
+
+            if(option==="non-client"){
+            const updateProfit=await JournalEntryService.updateProfitProject(data,exp)
+            }
+
+
+            if(option==="client"){
+              const updateProfit=await JournalEntryService.updateClientProfitProject(data,rec,rev)
+              }
+  
+            
            
         
             let bal=accountExist.Balance-sum
         
-            let updateAccount=await JournalEntryService.updateAccount(req.body,bal)
+            let updateAccount=await JournalEntryService.updateAccount(data,bal)
             
             let awain=accountExist.Balance-69
 
-            let updateRecieverAccount=await JournalEntryService.updateReceiverAccount(req.body)
+            let updateRecieverAccount=await JournalEntryService.updateReceiverAccount(data)
 
             let awain2=accountExist.Balance-69
 
-            const saveEntries=await JournalEntryService.createJournalEntries(req.body)
+            const saveEntries=await JournalEntryService.createJournalEntries(data)
             
             res.json({message:"Entries are added"})
 
             }
+            
             }
             catch(error){
               console.log("4") 
@@ -81,7 +100,7 @@ module.exports = class JournalEntries{
       
             if(projectExist.length===0){
             check=true  
-            res.json({message:"Project with This Client Dosent exist"})
+            res.json({message:"Project With The Non-Client Is Selected"})
               }
       
            if(check===false){
@@ -107,13 +126,13 @@ module.exports = class JournalEntries{
       try{
           console.log("here at viewEntry")
           let check=false
-          console.log(req.query.client,req.query.project)
-          let data = {client:req.query.client,project:req.query.project}
+          console.log(req.query.project)
+          let data = {project:req.query.project}
           let projectExist=await JournalEntryService.validateProject(data)
     
           if(projectExist.length===0){
           check=true  
-          res.json({message:"Project with This Client Dosent exist"})
+          res.json({message:"Project With The Non-Client Is Selected"})
             }
     
          if(check===false){
@@ -122,9 +141,14 @@ module.exports = class JournalEntries{
 
          let getEntries=await JournalEntryService.getJournalEntries(data)
 
+        let objectEntries={
+          getEntries:getEntries,
+          projectExist:projectExist
+        }
 
           //  res.json({message:"Success",getEntries})
-          res.send(getEntries)
+          console.log(objectEntries,"objectEntries")
+          res.send(objectEntries)
           }
     
         }catch(error){
@@ -140,8 +164,29 @@ module.exports = class JournalEntries{
     try {
       
       console.log("delete entryy")
+      let data=[]
+      let option;
+      data[0]=req.body
+      const project=await JournalEntryService.validateProfitProject(data)  
+      console.log(project,"project")
+      console.log(project[0].Client,"project.Client")
+      console.log(req.body.client,"req.body.client")
+      let projClient=project[0].Client
 
-      const deleteEntry=await JournalEntryService.deleteEntry(req.body)
+      if(projClient===req.body.client){
+        option="client"
+      }
+      else{
+        option="non-client"
+      }
+      
+      let object={
+        entries:req.body,
+        option:option
+      }
+
+
+      const deleteEntry=await JournalEntryService.deleteEntry(object)
 
       res.json({message:"Entry deleted"});
     } catch (error) {

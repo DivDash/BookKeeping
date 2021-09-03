@@ -3,11 +3,14 @@ const profit=require('../models/profit_model')
 const AccountModel = require("../models/account_model.js");
 
 
-
 const { commonEmitter } = require("../../events");
+let queryEntryGlobal;
 const changeStream = entries.watch();
 changeStream.on("change", (data) => {
-  entries.find((err, doc) => {
+    // const entryExist = entries.find( queryEntryGlobal )
+
+    // console.log("on",entryExist )
+  entries.find(queryEntryGlobal,(err, doc) => {
     if (err) {
       console.log("error");
 
@@ -28,12 +31,10 @@ module.exports = class JournalEntryService{
         try{
 
             console.log("here at validate project")
-            let client=data[0].client;
-            let project=data[0].project;
-            console.log(client,project)    
-            const query = { $and: [{ "Project":project }, { "Client": client }] }
+            let project=data[0].project;  
+            const query = {"Project":project}
             const projectExist = await profit.find( query )
-            console.log(projectExist)
+            console.log(projectExist,"projService")
             return projectExist
         }
         catch(error){
@@ -48,9 +49,9 @@ module.exports = class JournalEntryService{
             
             console.log("here at validate project")
             console.log(data,"qqqqqqqqqqqqqqq")
-            const {project,client}=data
-            console.log(client,project)    
-            const query = { $and: [{ "Project":project }, { "Client": client }] }
+            const {project}=data
+            console.log(project)    
+            const query = { "Project":project }
             const projectExist = await profit.find( query )
             console.log(projectExist)
             return projectExist
@@ -75,14 +76,32 @@ module.exports = class JournalEntryService{
     }
 
 
-    static async updateProfitProject(data,rev,exp){
+    static async updateProfitProject(data,exp){
         try{
             console.log("helllo")
-        let client=data[0].client;
         let project=data[0].project
 
-        const filter ={ $and: [{ Project:project }, { Client: client }] } ;
-        const update = {Revenue:rev,Expense:exp};
+        const filter ={ Project:project }  ;
+        const update = {Expense:exp};
+
+        let doc = await profit.findOneAndUpdate(filter, update,{
+            new: true,
+            upsert: true,
+            rawResult: true 
+          });
+        }catch(error){
+            conosle.log("update profit error",error)
+        }
+    }
+
+
+    static async updateClientProfitProject(data,rec,rev){
+        try{
+            console.log("helllo")
+        let project=data[0].project
+
+        const filter ={ Project:project }  ;
+        const update = {Receivable:rec,Revenue:rev};
 
         let doc = await profit.findOneAndUpdate(filter, update,{
             new: true,
@@ -137,12 +156,12 @@ module.exports = class JournalEntryService{
 
         try{
             
-            console.log(data, "aaaaaaaaaaaaaaaaa")
-            const {project,client}=data
+            console.log(data, "aaaa")
+            const {project}=data
 
-            const queryEntry = { $and: [{ "project":project }, { "client": client }] }
-            const entryExist = await entries.find( queryEntry )
-
+            queryEntryGlobal = {"project":project}
+            const entryExist = await entries.find( queryEntryGlobal )
+            console.log(entryExist,"entrieeeeeessssssss")
             return entryExist
 
         }catch(eror){
@@ -169,9 +188,13 @@ module.exports = class JournalEntryService{
 
 
 
-    static async deleteEntry(data){
+    static async deleteEntry(object){
         try {    
-          console.log(data,"deleteEntry")  
+
+          let data=object.entries
+          let option=object.option  
+          console.log(data,"deleteEntry")
+          console.log(option,"option")  
           
           const querry = await AccountModel.findOneAndUpdate(
             { name:data.receiver }, 
@@ -185,18 +208,35 @@ module.exports = class JournalEntryService{
                    $inc: {Balance: data.amount  } 
                 }, {new: true })
 
-                const querryProfit = await profit.findOneAndUpdate(
+
+                if(option==="non-client")
+                {
+
+                    console.log("non-client service")    
+                    const querryProfit = await profit.findOneAndUpdate(
                     { Project:data.project}, 
                     {  
                        $inc:{Expense: -data.amount} 
-                    }, {new: true })    
+                    }, {new: true })  
+                }
 
+                if(option==="client"){
+                    console.log("client service")
                     const querryProfitRev = await profit.findOneAndUpdate(
                         { Project:data.project}, 
                         { 
-                           $inc: {Revenue:data.amount} 
+                           $inc: {Revenue:-data.amount} 
                   
-                        }, {new: true })    
+                        }, {new: true })   
+                        
+                        const querryProfitRec = await profit.findOneAndUpdate(
+                            { Project:data.project}, 
+                            { 
+                               $inc: {Receivable:data.amount} 
+                      
+                            }, {new: true })     
+
+                    }
 
                 const deleteEntries= await entries.deleteOne({client:data.client,
                     amount:data.amount,

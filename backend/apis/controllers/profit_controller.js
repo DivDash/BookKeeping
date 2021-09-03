@@ -2,10 +2,11 @@
 
 const profitService=require('../services/profit_service')
 const AccountService = require("../services/account_Service.js");
+const JournalEntryService=require('../services/journal_entries_service')
+
 
 const express = require("express");
 const { createProfitProject } = require( '../services/profit_service' );
-const ProfitService = require( '../services/profit_service' );
 const router = express.Router();
 
 module.exports = class Profit{
@@ -26,7 +27,7 @@ module.exports = class Profit{
 
       if(projectExist.length!==0){
         check=true
-        res.json({message:"Project With This client Already Exist"})
+        res.json({message:"Project Exist Change The Name"})
       }
 
       if(check===false){
@@ -56,10 +57,37 @@ module.exports = class Profit{
       try {
         
         console.log("delete profittt")
+        let option;
+        let projObject={
+          project:req.body.Project
+        }
+        const entries=await JournalEntryService.getJournalEntries(projObject)
+        console.log(entries,"entries")
 
-        const updateAccounts=await AccountService.updateAccounts(req.body)
+        for(let i=0;i<entries.length;i++){
+          console.log("for loop")
 
-        const deleteAccount=await ProfitService.deleteProject(req.body)
+           if(entries[i].client===req.body.Client){
+             console.log("clientt")
+              option="client"
+                      }
+              else{
+                console.log("non-clientt")
+                    option="non-client"
+                       }
+             console.log("profitttt")      
+            let object={
+                entries:entries[i],
+                option:option
+              }
+            console.log("profitttt2222")   
+            console.log(object,"objectt")  
+
+            const deleteEntry=await JournalEntryService.deleteEntry(object)
+
+        }
+
+        const deleteAccount=await profitService.deleteProject(req.body)
   
         res.json({message:"account deleted"});
       } catch (error) {

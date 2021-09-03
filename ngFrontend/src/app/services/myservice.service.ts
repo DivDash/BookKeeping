@@ -149,8 +149,7 @@ export class MyserviceService {
     // Using Subject instead of BehaviorSubject because we don't need older values
     const collectionBehavior = new Subject<Array<any>>();
     // Setup get from server
-    let params = new HttpParams().set('client', data1.client);
-    params= params.append('project',data1.project)
+    let params = new HttpParams().set('project',data1.project);
     this.http.get(`${baseUrl}/${name}`,{params}).subscribe((resp) => {
       // For any further changes in server - specific to this document (name)
       this.socket.on(`${name}-data`, (data) => {

@@ -14,6 +14,7 @@ export class FormsComponent implements DoCheck{
   newDivs:addDivisions[]=[];
   newEntries:entries[]=[]
   object:any
+  objectEntry:any
   projects:string[] = []
   clients:string[]=[]
   clients2:string[]=[]
@@ -32,6 +33,7 @@ export class FormsComponent implements DoCheck{
   data:any={}
   objects:any
   objectsEmpty:any=[]
+  matchClient:string
 
   listData: MatTableDataSource<any>;
 
@@ -82,7 +84,24 @@ export class FormsComponent implements DoCheck{
     if(summ===this.total){
       console.log("debit = credit")
       console.log(this.newDivs)
-      this.myservice.createEntry(this.newDivs)
+
+      if(this.matchClient!==this.client){
+          console.log("non client")
+          this.objectEntry={
+          newDivs:this.newDivs,
+          option:"non-client"
+        }
+      }
+
+      if(this.matchClient===this.client){
+        console.log("client")
+        this.objectEntry={
+        newDivs:this.newDivs,
+        option:"client"
+      }
+    }
+
+      this.myservice.createEntry(this.objectEntry)
       .subscribe(
         res => {
           {
@@ -90,8 +109,6 @@ export class FormsComponent implements DoCheck{
            if(res['message']==='Entries are added'){
            this.showsuccess(res['message'])
            this.newDivs=[]
-          //  this.client=""
-          //  this.selectedProject=""
            this.total=0
            }
            else{
@@ -104,6 +121,7 @@ export class FormsComponent implements DoCheck{
           console.log( err["message"] )
         }
       );
+      
     }
     else{
       this.showerror('Debit Is Not Equal To Credit')
@@ -169,8 +187,9 @@ export class FormsComponent implements DoCheck{
  }
 
  forTable(varr){
-   console.log(this.client,this.selectedProject,"forTABLE")
-   console.log(this.data,"dataa")
+
+   console.log(this.selectedProject,"forTABLE")
+
 
    this.newDivs.map((obj)=>{
     if(obj['client']!==this.client || obj['project']!==this.selectedProject){
@@ -179,34 +198,27 @@ export class FormsComponent implements DoCheck{
     }
   })
 
-    console.log("dataa")
-
     this.data = {
-      client: this.client,
       project: this.selectedProject,
     }
     console.log(this.data,"dataa")
 
-    if(this.client && this.selectedProject){
-      console.log("check")
+    if(this.selectedProject){
+    console.log("check")
     this.myservice.getLiveCollectionPost('viewentryparams', this.data)
-    // this.myservice.getLiveCollection('viewentry')
     .subscribe(
       res => {
-        // console.log("here at res")
         console.log(res)
-        if(res['message']==='Project with This Client Dosent exist')
+        if(res['message']==='Project With The Non-Client Is Selected')
         {
-          this.showerror(res['message'])
-
           this.listData = new MatTableDataSource(this.objectsEmpty)
         }
         else{
-          // console.log("here at if forms")
-          this.showsuccess('Account And Project Exist!!')
-          this.objects=res
-          // console.log("resEntries",res['getEntries'])
-          // this.listData = new MatTableDataSource(this.objects)
+          this.objects=res['getEntries']
+          console.log(res['projectExist'][0]['Client'],"clientttt")
+          this.matchClient=res['projectExist'][0]['Client']
+  
+          console.log(this.matchClient,"matchClient")
 
           if(this.objects!==undefined)
           {
@@ -214,12 +226,12 @@ export class FormsComponent implements DoCheck{
               this.objects[i].delete="delete"
             }
             this.listData = new MatTableDataSource(this.objects)
-            console.log(this.listData)
+            console.log(this.listData,"entry params")
 
           }
 
-
         }
+
 
 
 
@@ -229,6 +241,17 @@ export class FormsComponent implements DoCheck{
         console.log( err )
       }
     )
+    }
+
+    if(this.client){
+      console.log("here at if client")
+      console.log(this.matchClient)
+      if(this.matchClient===this.client){
+        this.showsuccess('Project With The Client Is Selected ')
+      }
+      else{
+        this.showerror('Project With The Non-Client Is Selected')
+      }
     }
 
 
