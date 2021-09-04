@@ -62,8 +62,8 @@ module.exports = class AccountService {
     try {
       console.log(data, "deleteee");
 
-      const deleteEntries = await entries.deleteMany({ client: data.name });
-      const deleteProjects = await profit.deleteMany({ Client: data.name });
+      // const deleteEntries = await entries.deleteMany({ client: data.name });
+      // const deleteProjects = await profit.deleteMany({ Client: data.name });
       const deleteAccount = await AccountModel.deleteMany({ name: data.name });
       return data;
     } catch (error) {
@@ -117,4 +117,40 @@ module.exports = class AccountService {
       console.log(error);
     }
   }
+
+  
+  static async getRefrences(data) {
+    try {
+      console.log("at refrence");
+      let ref=[]
+      const projects = await profit.find({ Client: data.name });
+      const entry=await entries.find( { $or: [ {client :data.name  }, { receiver:data.name} ] } )
+      
+      for(let i=0;i<projects.length;i++){
+        if(ref.includes(projects[i].Project)===false){
+          ref.push(projects[i].Project)
+        }
+
+      }
+
+      for(let i=0;i<entry.length;i++){
+        if(ref.includes(entry[i].project)===false){
+          ref.push(entry[i].project)
+        }
+        
+      }
+
+
+      return ref;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
+
+
+
+
+
 };

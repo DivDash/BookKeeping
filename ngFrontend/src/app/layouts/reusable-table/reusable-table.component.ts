@@ -61,6 +61,9 @@ export class ReusableTableComponent implements OnChanges {
   @Input() tableData;
   @Input() columnHeader;
   objectKeys = Object.keys;
+  info:string=" "
+  object:any
+
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -121,13 +124,30 @@ export class ReusableTableComponent implements OnChanges {
           this.myservice.deleteAccount(data).subscribe(
             (res) => {
               console.log(res);
+              if(res['message']==="account deleted"){
+                Swal.fire('Deleted!', 'Your Account has been deleted.', 'success');
+              }
+              else{
+                console.log(res)
+                console.log(res['getRefrences'])
+                this.object=res['getRefrences']
+              for(let i=0;i<this.object.length;i++){
+                this.info=this.info +this.object[i]+ " "
+              }
+
+              console.log(this.info)
+              Swal.fire('Information', 'Account is Reffered in following -> '+ this.info ,'info');
+              }
+
+              this.info=" "
+
             },
             (error) => {
               console.error(error);
             }
           );
 
-          Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+          
         }
       });
     }
@@ -153,7 +173,7 @@ export class ReusableTableComponent implements OnChanges {
               console.error(error);
             }
           );
-          Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+          Swal.fire('Deleted!', 'Your Project has been deleted.', 'success');
         }
       });
     }
@@ -179,7 +199,7 @@ export class ReusableTableComponent implements OnChanges {
               console.error(error);
             }
           );
-          Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+          Swal.fire('Deleted!', 'Your Enty has been deleted.', 'success');
         }
       });
     }
@@ -205,7 +225,7 @@ export class ReusableTableComponent implements OnChanges {
               console.error(error);
             }
           );
-          Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+          Swal.fire('Deleted!', 'Your Non Profit has been deleted.', 'success');
         }
       });
     }

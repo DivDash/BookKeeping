@@ -65,7 +65,7 @@ export class FormsComponent implements DoCheck{
 
   showerror(message){
     console.log("here")
-    this.toastr.error(message, 'Error!');
+    this.toastr.warning(message, 'Warning!');
   }
 
   showsuccess(message){

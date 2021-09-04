@@ -40,20 +40,34 @@ module.exports = class Account {
 
   static async deleteAccount(req, res, next) {
     try {
-      const projects = await AccountService.getProjects(req.body);
-      console.log(projects);
+      // const projects = await AccountService.getProjects(req.body);
+      // console.log(projects);
 
-      for (let i = 0; i < projects.length; i++) {
-        const updateAccounts = await AccountService.updateAccounts(projects[i]);
-      }
+      // for (let i = 0; i < projects.length; i++) {
+      //   const updateAccounts = await AccountService.updateAccounts(projects[i]);
+      // }
 
+      const getRefrences = await AccountService.getRefrences(req.body);
+
+    
+      // const deleteAccount = await AccountService.deleteAccount(req.body);
+
+      console.log(getRefrences)
+
+      if(getRefrences.length===0){
       const deleteAccount = await AccountService.deleteAccount(req.body);
-
       res.json({ message: "account deleted" });
+      }
+      else{
+        res.json({ message: "account not deleted",getRefrences:getRefrences });
+      }
     } catch (error) {
       res.send("there is error");
     }
   }
+
+
+
 
   static async updateAccount(req, res, next) {
     try {
