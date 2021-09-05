@@ -197,7 +197,7 @@ export class ProfitComponent implements OnInit {
 export class DialogProfit{
   object:any
   clients:string[]=[]
-  clients2:any
+  clients2:any 
   constructor(
     public dialogRef: MatDialogRef<DialogProfit>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,

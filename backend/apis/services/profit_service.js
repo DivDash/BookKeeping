@@ -81,6 +81,15 @@ module.exports = class ProfitService {
       let acc_id = data._id;
       console.log("updateAccounts temp: " + acc_id);
 
+      const findProject = await profit.findOne({ _id: data._id })
+      console.log(findProject,"old")
+      let oldProject=findProject.Project
+      let oldClient=findProject.client
+      console.log(oldProject,"oldName")
+
+
+
+
       const updated = await profit.findOneAndUpdate(
         { _id: data._id },
         {
@@ -93,6 +102,12 @@ module.exports = class ProfitService {
           Status: data.Status,
         }
       );
+
+      const updateEntries= await entries.updateMany(
+        {project:oldProject },
+        {project:data.Project}
+     )
+
       console.log(data);
 
       }catch(error){

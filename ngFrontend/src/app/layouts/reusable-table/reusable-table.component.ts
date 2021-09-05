@@ -63,6 +63,8 @@ export class ReusableTableComponent implements OnChanges {
   objectKeys = Object.keys;
   info:string=" "
   object:any
+  oldObject:any
+  finalObject:any
 
 
   @ViewChild(MatSort) sort: MatSort;
@@ -234,6 +236,7 @@ export class ReusableTableComponent implements OnChanges {
     console.log(data, 'from Account Dialog');
     if (data.Bank) {
       console.log(data, 'from account');
+      this.oldObject=data
       const dialogRef = this.dialog.open(EditDialogAccount, {
         panelClass: 'custom-modalbox',
         height: '60%',
@@ -256,6 +259,7 @@ export class ReusableTableComponent implements OnChanges {
         console.log('BALANCE IS : ' + data.Balance);
         console.log(data);
 
+        
         this.myservice.update_account(data).subscribe(
           (res) => {
             console.log(res);
@@ -393,7 +397,8 @@ export class ReusableTableComponent implements OnChanges {
 export class EditDialogAccount {
   constructor(
     public dialogRef: MatDialogRef<EditDialogAccount>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogDataAccount
+    @Inject(MAT_DIALOG_DATA) public data: DialogDataAccount,
+    private myservice:MyserviceService
   ) {}
 
   onNoClick(): void {
@@ -406,10 +411,32 @@ export class EditDialogAccount {
   templateUrl: './edit-dialog-profit.html',
 })
 export class EditDialogProfit {
+  object:any
+  clients:string[]=[]
+  clients2:any
   constructor(
     public dialogRef: MatDialogRef<EditDialogProfit>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogDataProfit
-  ) {}
+    @Inject(MAT_DIALOG_DATA) public data: DialogDataProfit,
+    private myservice:MyserviceService
+  ) {
+    this.myservice.getLiveCollection('viewaccount')
+    .subscribe(
+      res => {
+        console.log("resss")
+        this.object=res
+        for (let i=0;i<this.object.length;i++){
+          this.clients.push(this.object[i]['name'])
+        }
+        console.log(this.clients,"here at profittt")
+         this.clients2= this.clients
+        console.log(this.clients2)
+      },
+      err =>  {
+        console.log("resss")
+        console.log( err )
+      }
+    )
+  }
 
   onNoClick(): void {
     this.dialogRef.close();
@@ -420,10 +447,32 @@ export class EditDialogProfit {
   templateUrl: './edit-dialog-nonprofit.html',
 })
 export class EditDialogNonprofit {
-  constructor(
+  object:any
+  clients:string[]=[]
+  clients2:any 
+   constructor(
     public dialogRef: MatDialogRef<EditDialogNonprofit>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogDataNonProfit
-  ) {}
+    @Inject(MAT_DIALOG_DATA) public data: DialogDataNonProfit,
+    private myservice:MyserviceService
+  ) {
+    this.myservice.getLiveCollection('viewaccount')
+    .subscribe(
+      res => {
+        console.log("resss")
+        this.object=res
+        for (let i=0;i<this.object.length;i++){
+          this.clients.push(this.object[i]['name'])
+        }
+        console.log(this.clients,"here at profittt")
+         this.clients2= this.clients
+        console.log(this.clients2)
+      },
+      err =>  {
+        console.log("resss")
+        console.log( err )
+      }
+    )
+  }
 
   onNoClick(): void {
     this.dialogRef.close();
@@ -434,10 +483,55 @@ export class EditDialogNonprofit {
   templateUrl: './edit-dialog-journal.html',
 })
 export class EditDialogJournal {
+  object:any
+  clients:string[]=[]
+  clients2:any
+  reciever:any
+  projects:string[] = []
+
   constructor(
     public dialogRef: MatDialogRef<EditDialogJournal>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogDataJournal
-  ) {}
+    @Inject(MAT_DIALOG_DATA) public data: DialogDataJournal,
+    private myservice:MyserviceService
+  ) {
+
+    this.myservice.getLiveCollection('viewaccountprofit')
+    .subscribe(
+      res => {
+        this.object=res
+        // console.log(this.object)
+        for (let i=0;i<this.object.length;i++){
+          this.projects.push(this.object[i]['Project'])
+        }
+        // console.log(this.projects)
+      },
+      err =>  {
+        console.log( err )
+      }
+    )
+
+
+
+
+
+    this.myservice.getLiveCollection('viewaccount')
+    .subscribe(
+      res => {
+        console.log("resss")
+        this.object=res
+        for (let i=0;i<this.object.length;i++){
+          this.clients.push(this.object[i]['name'])
+        }
+        console.log(this.clients,"here at profittt")
+         this.clients2= this.clients
+        console.log(this.clients2)
+      },
+      err =>  {
+        console.log("resss")
+        console.log( err )
+      }
+    )
+  }
 
   onNoClick(): void {
     this.dialogRef.close();

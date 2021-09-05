@@ -259,7 +259,164 @@ module.exports = class JournalEntryService{
         try {
           let acc_id = data._id;
           console.log("updateAccounts tempING: " + acc_id);
-    
+          const oldEntry=await entries.findOne({ _id: data._id }) 
+          const oldProject=await profit.findOne({Project:oldEntry.project})
+
+          const diff=data.amount-oldEntry.amount
+
+     
+          
+          
+        if(oldEntry.project===data.project){
+
+            if(data.client===oldProject.Client){
+                const querryProfitRev = await profit.findOneAndUpdate(
+                    { Project:data.project}, 
+                    { 
+                       $inc: {Revenue:diff} 
+              
+                    }, {new: true })   
+                    
+                    const querryProfitRec = await profit.findOneAndUpdate(
+                        { Project:data.project}, 
+                        { 
+                           $inc: {Receivable:-diff} 
+                  
+                        }, {new: true }) 
+
+            }
+            else{
+
+                const querryProfit = await profit.findOneAndUpdate(
+                    { Project:data.project}, 
+                    {  
+                       $inc:{Expense: diff} 
+                    }, {new: true })
+
+
+            }
+        }
+        
+        
+        if(oldEntry.project!==data.project ){
+            const newProj=await profit.findOne({Project:data.project})
+
+            
+            if(newProj.Client===data.client){
+                const querryProfitRevNew = await profit.findOneAndUpdate(
+                    { Project:data.project}, 
+                    { 
+                       $inc: {Revenue:data.amount} 
+              
+                    }, {new: true })   
+                    
+                    const querryProfitRecNew = await profit.findOneAndUpdate(
+                        { Project:data.project}, 
+                        { 
+                           $inc: {Receivable:-data.amount} 
+                  
+                        }, {new: true }) 
+                
+            }
+            if(newProj.Client!==data.client){
+
+                const querryProfitNew = await profit.findOneAndUpdate(
+                    { Project:data.project}, 
+                    {  
+                       $inc:{Expense:data.amount} 
+                    }, {new: true })
+            }
+
+
+            if(oldEntry.client===oldProject.Client){
+                
+                        const querryProfitRev = await profit.findOneAndUpdate(
+                            { Project:oldProject.Project}, 
+                            { 
+                               $inc: {Revenue:-oldEntry.amount} 
+                      
+                            }, {new: true })   
+                            
+                        const querryProfitRec = await profit.findOneAndUpdate(
+                                { Project:oldProject.Project}, 
+                                { 
+                                   $inc: {Receivable:oldEntry.amount} 
+                          
+                                }, {new: true })      
+
+            }
+                if(oldEntry.client!==oldProject.Client)
+            {
+                const querryProfit = await profit.findOneAndUpdate(
+                        { Project:oldProject.Project}, 
+                        {  
+                           $inc:{Expense:-oldEntry.amount} 
+                        }, {new: true })    
+
+
+            }
+
+
+        }
+
+
+        if(oldEntry.client===data.client){
+
+            const querryClient = await AccountModel.findOneAndUpdate(
+                { name:data.client}, 
+                { 
+                   $inc: {Balance: -diff} 
+                }, {new: true })
+
+
+        } 
+
+
+        if( oldEntry.client!==data.client){
+            const querryClientNew = await AccountModel.findOneAndUpdate(
+                { name:data.client}, 
+                { 
+                   $inc: {Balance: -data.amount} 
+                }, {new: true })
+
+                const querryClient = await AccountModel.findOneAndUpdate(
+                    { name:oldEntry.client}, 
+                    { 
+                       $inc: {Balance:oldEntry.amount} 
+                    }, {new: true })
+
+
+        } 
+
+        if(oldEntry.receiver===data.receiver){
+
+
+            const querryClient = await AccountModel.findOneAndUpdate(
+                { name:data.receiver}, 
+                { 
+                   $inc: {Balance: diff} 
+                }, {new: true })
+
+        }
+
+        if(oldEntry.receiver!==data.receiver){
+
+            const querryClientNew = await AccountModel.findOneAndUpdate(
+                { name:data.receiver}, 
+                { 
+                   $inc: {Balance:data.amount} 
+                }, {new: true })
+
+                const querryClient = await AccountModel.findOneAndUpdate(
+                    { name:oldEntry.receiver}, 
+                    { 
+                       $inc: {Balance:-oldEntry.amount} 
+                    }, {new: true })    
+            
+        }
+
+
+
           const updated = await entries.findOneAndUpdate(
             { _id: data._id },
             {

@@ -43,6 +43,11 @@ module.exports = class AccountService {
       let acc_id = data._id;
       console.log("updateAccounts temp: " + acc_id);
 
+      const findAccount = await AccountModel.findOne({ _id: data._id })
+      console.log(findAccount,"old")
+      let oldName=findAccount.name
+      console.log(oldName,"oldName")
+
       const updated = await AccountModel.findOneAndUpdate(
         { _id: data._id },
         {
@@ -52,6 +57,21 @@ module.exports = class AccountService {
           Remarks: data.Remarks,
         }
       );
+      
+      const updateProfit= await profit.updateMany(
+        {Client:oldName },
+        {Client:data.name}
+     )
+
+     const updateEntries= await entries.updateMany(
+      {client:oldName },
+      {client:data.name}
+   )
+   const updateEntriesRec= await entries.updateMany(
+    {receiver:oldName },
+    {receiver:data.name}
+ )
+
       console.log(data);
     } catch (error) {
       console.log(error);

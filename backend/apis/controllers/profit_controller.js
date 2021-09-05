@@ -100,7 +100,7 @@ module.exports = class Profit{
         console.log("mubashir account update:");
         console.log(req.body);
   
-        const updateAccounts = await ProfitService.update_profit_accounts(
+        const updateAccounts = await profitService.update_profit_accounts(
           req.body
         );
         res.json({ message: "account updatedd" });
