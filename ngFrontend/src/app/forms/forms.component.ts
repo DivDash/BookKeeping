@@ -121,7 +121,7 @@ export class FormsComponent implements DoCheck{
           console.log( err["message"] )
         }
       );
-      
+
     }
     else{
       this.showerror('Debit Is Not Equal To Credit')
@@ -223,7 +223,7 @@ export class FormsComponent implements DoCheck{
           console.log(res['projectExist'][0]['Client'],"clientttt")
           this.matchClient=res['projectExist'][0]['Client']
           }
-  
+
           console.log(this.matchClient,"matchClient")
 
           if(this.objects!==undefined)
@@ -268,13 +268,13 @@ export class FormsComponent implements DoCheck{
 
 
  columnHeader2 = {
-  project:"project",
-  client:" client",
-  amount:"amount",
-  receiver:"receive",
-  reason:"reason",
-  method:"method",
-  remarks:"remarks",
+  project:"Project",
+  client:" Client",
+  amount:"Amount",
+  receiver:"Receive",
+  reason:"Reason",
+  method:"Method",
+  remarks:"Remarks",
   delete:'  ',
   update:" "
 };
