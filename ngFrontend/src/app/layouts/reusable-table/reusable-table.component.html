@@ -2,11 +2,12 @@
   <div class="search-div">
     <!-- <app-dialogbox></app-dialogbox> -->
     <mat-form-field appearance="standard">
-      <mat-label>Search</mat-label>
+      <mat-label class="Filter">Search</mat-label>
       <input
         matInput
         (keyup)="applyFilter($event)"
         placeholder="Ex. John"
+        name="Search"
         #input
       />
     </mat-form-field>
