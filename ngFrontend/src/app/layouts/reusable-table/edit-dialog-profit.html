@@ -1,7 +1,6 @@
 <div class="dialog">
   <h1 mat-dialog-title>Edit Profit Entry</h1>
   <mat-dialog-content class="content">
-
     <mat-form-field appearance="fill" class="matt matt2" style="width: 100%">
       <mat-label>Client</mat-label>
       <mat-select [(ngModel)]="data.Client" name="client">
@@ -11,7 +10,7 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field appearance="fill" style="width: 100%">
+    <mat-form-field appearance="fill" style="width: 100%" data-cy="project">
       <mat-label>Project<span class="required-asterisk">*</span></mat-label>
       <input matInput [(ngModel)]="data.Project" />
     </mat-form-field>

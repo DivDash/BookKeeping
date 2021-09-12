@@ -1,7 +1,7 @@
 <div class="dialog">
   <h1 mat-dialog-title>Create Entry</h1>
   <mat-dialog-content class="content">
-    <mat-form-field appearance="fill" style="width: 100%">
+    <mat-form-field appearance="fill" style="width: 100%" data-cy="client">
       <mat-label>Client</mat-label>
       <mat-select [(ngModel)]="data.Name" name="client">
         <mat-option *ngFor="let client of clients" [value]="client">
@@ -10,7 +10,7 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field appearance="fill" style="width: 100%">
+    <mat-form-field appearance="fill" style="width: 100%" data-cy="expense">
       <mat-label>Expense <span class="required-asterisk">*</span></mat-label>
       <input matInput [(ngModel)]="data.Expense" />
     </mat-form-field>
@@ -19,6 +19,7 @@
       hintLabel="Max 30 characters"
       appearance="fill"
       style="width: 100%"
+      data-cy="remarks"
     >
       <mat-label>Remarks</mat-label>
       <input

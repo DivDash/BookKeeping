@@ -5,5 +5,27 @@
   "screenshotsFolder": "cypress/screenshots",
   "pluginsFile": "cypress/plugins/index.ts",
   "fixturesFolder": "cypress/fixtures",
-  "baseUrl": "http://localhost:4200"
+  "baseUrl": "http://localhost:4200",
+  "env": {
+    "testname": "test",
+    "balance": "1500",
+    "profitbalance": "500",
+    "dates": "2000-12-22",
+    "testproject": "TestProject",
+    "testemail": "tester@gmail.com",
+    "testpassword": "test",
+    "testpasswordFake": "test",
+    "testnamereceiver": "testreceiver",
+    "testnamerec": "testreceiver",
+    "balancerec": "1500",
+    "expense": "200",
+    "Updatedexpense": "250",
+    "remarks": "Charitywork",
+    "amount": "50",
+    "Updatedamount": "60",
+    "amountrec": "50",
+    "reason": "testingReason",
+    "Updatedbalance": "2000",
+    "UpdatedProject": "UpdatedTestProject"
+  }
 }

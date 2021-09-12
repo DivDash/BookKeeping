@@ -24,8 +24,8 @@ const routes: Routes = [
       { path: 'attribute', component: AttributesComponent },
       { path: 'accounts', component: AccountsComponent },
       { path: 'costcenter', component: CostcenterComponent },
-      {path:'journal',component:JentryComponent},
-      {path:'report',component:ReportsComponent}
+      { path: 'journal', component: JentryComponent },
+      { path: 'report', component: ReportsComponent },
     ],
   },
   { path: 'register', component: RegisterComponent },
@@ -34,7 +34,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {onSameUrlNavigation: 'reload'})],
+  imports: [RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload' })],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

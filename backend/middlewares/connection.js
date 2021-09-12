@@ -1,4 +1,4 @@
-module.exports={
-    create: 'Create',
-    change: 'Change'
-}
+module.exports = {
+  create: "Create",
+  change: "Change",
+};

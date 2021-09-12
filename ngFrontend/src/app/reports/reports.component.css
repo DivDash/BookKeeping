@@ -1,36 +1,36 @@
 .page {
-    color: white;
-    padding: 0 0rem;
-    background: #f1f5f9;
-  }
-  .page__content {
-    min-height: calc(106vh - 175px);
-    border-radius: 1px;
-    margin-top: -4rem;
-    background: white;
-    color: black;
-    font-size: 1rem;
-  }
-  .page__content-data {
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-.graph{
-  padding-top:10% ;
+  color: white;
+  padding: 0 0rem;
+  background: #f1f5f9;
+}
+.page__content {
+  min-height: calc(106vh - 175px);
+  border-radius: 1px;
+  margin-top: -4rem;
+  background: white;
+  color: black;
+  font-size: 1rem;
+}
+.page__content-data {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.graph {
+  padding-top: 10%;
   width: 70%;
   padding-left: 2%;
-}  
+}
 
-.matt{
-  padding-right:3%;
+.matt {
+  padding-right: 3%;
   width: 25%;
 }
 
-.matt2{
+.matt2 {
   width: 45%;
 }
 
-.leftt{
+.leftt {
   padding-left: 2%;
 }

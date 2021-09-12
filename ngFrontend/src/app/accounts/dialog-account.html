@@ -1,14 +1,14 @@
 <div class="dialog">
   <h1 mat-dialog-title>Create Account</h1>
   <mat-dialog-content class="content">
-    <mat-form-field appearance="fill" style="width: 100%">
+    <mat-form-field appearance="fill" style="width: 100%" data-cy="name">
       <mat-label
         >Account Holder Name <span class="required-asterisk">*</span></mat-label
       >
-      <input matInput [(ngModel)]="data.name" />
+      <input matInput data-cy="name" [(ngModel)]="data.name" />
     </mat-form-field>
 
-    <mat-form-field appearance="fill" style="width: 100%">
+    <mat-form-field appearance="fill" style="width: 100%" data-cy="bank">
       <mat-label>Bank Name</mat-label>
       <!-- <select matNativeControl required>
         <option value="volvo">HBL</option>
@@ -20,7 +20,7 @@
       <input matInput [(ngModel)]="data.Bank" />
     </mat-form-field>
 
-    <mat-form-field appearance="fill" style="width: 100%">
+    <mat-form-field appearance="fill" style="width: 100%" data-cy="balance">
       <mat-label>Balance <span class="required-asterisk">*</span></mat-label>
       <input matInput [(ngModel)]="data.Balance" />
     </mat-form-field>
@@ -29,6 +29,7 @@
       hintLabel="Max 30 characters"
       appearance="fill"
       style="width: 100%"
+      data-cy="remarks"
     >
       <mat-label>Remarks</mat-label>
       <input

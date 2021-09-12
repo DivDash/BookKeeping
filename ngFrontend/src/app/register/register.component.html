@@ -12,6 +12,7 @@
             placeholder="Name"
             name="name"
             [(ngModel)]="name"
+            data-cy="name"
           />
         </div>
         <div class="form-group">
@@ -23,6 +24,7 @@
             placeholder="Email"
             name="email"
             [(ngModel)]="email"
+            data-cy="email"
           />
         </div>
         <div class="form-group">
@@ -34,6 +36,7 @@
             placeholder="Profession"
             name="work"
             [(ngModel)]="work"
+            data-cy="work"
           />
         </div>
         <div class="form-group">
@@ -45,6 +48,7 @@
             placeholder="Phone"
             name="phone"
             [(ngModel)]="phone"
+            data-cy="phone"
           />
         </div>
         <div class="form-group">
@@ -56,6 +60,7 @@
             placeholder="Password"
             name="password"
             [(ngModel)]="password"
+            data-cy="password"
           />
         </div>
         <div class="form-group">
@@ -67,6 +72,7 @@
             placeholder="Confirm Password"
             name="confirm"
             [(ngModel)]="confirm"
+            data-cy="confirm"
           />
         </div>
         <div class="" *ngIf="check === false; then thenBlock"></div>
