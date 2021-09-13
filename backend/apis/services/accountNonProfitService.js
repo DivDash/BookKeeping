@@ -20,7 +20,7 @@ changeStream.on("change", (data) => {
   });
 });
 module.exports = class AccountNonProfitService {
-  static async createAccountService(Name, Expense, Remarks) {
+  static async createAccountService(Name, Expense, Remarks,Reason) {
     try {
       console.log("create Non profit");
 
@@ -32,7 +32,7 @@ module.exports = class AccountNonProfitService {
         { new: true }
       );
 
-      const saving = new AccountNonProfitModel({ Name, Expense, Remarks });
+      const saving = new AccountNonProfitModel({ Name, Expense, Remarks ,Reason});
       await saving.save();
     } catch (error) {
       console.log(error);

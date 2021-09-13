@@ -44,7 +44,7 @@ export class AccountsComponent implements OnInit {
     private http: HttpClient,
     private router: Router,
     private toastr: ToastrService,
-    private myservice: MyserviceService
+    private myservice: MyserviceService 
   ) {}
 
   openDialog(): void {

@@ -35,7 +35,7 @@ module.exports = class ProfitService {
 
   static async createProfitProject(data) {
     try {
-      const { Project, Client, Receivable, Revenue, Expense, Date, Status } =
+      const { Project,idClient, Client, Receivable, Revenue, Expense, Date, Status } =
         data;
 
       let newProfitProject = {
@@ -46,6 +46,7 @@ module.exports = class ProfitService {
         Expense,
         Date,
         Status,
+        idClient
       };
       const saving = await new AccountProfitModel(newProfitProject).save();
       return saving;
@@ -94,7 +95,8 @@ module.exports = class ProfitService {
         { _id: data._id },
         {
           Project: data.Project,
-          Client: data.Client,
+          Client:data.Client,
+          idClient:data.idClient,
           Receivable: data.Receivable,
           Revenue: data.Revenue,
           Expense: data.Expense,

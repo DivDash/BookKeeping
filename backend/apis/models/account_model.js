@@ -19,7 +19,7 @@ const Account=new mongoose.Schema({
         type:String,
         required:true
 
-    },
+    }
 })
 
 const AccountModel=mongoose.model('Accounts',Account)

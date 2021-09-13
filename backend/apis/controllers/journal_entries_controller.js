@@ -173,9 +173,9 @@ module.exports = class JournalEntries{
       console.log(project,"project")
       console.log(project[0].Client,"project.Client")
       console.log(req.body.client,"req.body.client")
-      let projClient=project[0].Client
+      let projClient=project[0].idClient
 
-      if(projClient===req.body.client){
+      if(projClient===req.body.idClient){
         option="client"
       }
       else{
@@ -200,7 +200,7 @@ module.exports = class JournalEntries{
   static async updateJournalEntries(req, res, next) {
     try {
       console.log("mubashir account updateING:");
-      console.log(req.body);
+      console.log(req.body,"entryUpdate");
 
       const updateAccounts = await JournalEntryService.update_journal_accounts(
         req.body

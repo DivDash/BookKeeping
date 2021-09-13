@@ -9,8 +9,9 @@ module.exports = class AccountNonProfit {
     try {
       let check = false;
       console.log("fds");
-      const { Name, Expense, Remarks } = req.body;
-      if (!Name || !Expense || !Remarks) {
+      console.log(req.body)
+      const { Name, Expense, Remarks,Reason} = req.body;
+      if (!Name || !Expense || !Remarks|| !Reason)   {
         check = true;
         res.json({ message: "Fill All The Fields" });
       }
@@ -18,7 +19,8 @@ module.exports = class AccountNonProfit {
         const response = await AccountNonProfitService.createAccountService(
           Name,
           Expense,
-          Remarks
+          Remarks,
+          Reason
         );
 
         res.json({ message: "Account Added" });

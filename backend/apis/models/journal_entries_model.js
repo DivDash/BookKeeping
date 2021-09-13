@@ -35,7 +35,17 @@ const entry=new mongoose.Schema({
     date:{
         type:String,
         required:true
-    }
+    },
+    idClient:{
+        type:String,
+        required:true
+
+    },
+    idRec:{
+        type:String,
+        required:true
+
+    } 
 })
 
 const entries=mongoose.model('Entries',entry)

@@ -45,8 +45,8 @@ module.exports = class AccountService {
 
       const findAccount = await AccountModel.findOne({ _id: data._id })
       console.log(findAccount,"old")
-      let oldName=findAccount.name
-      console.log(oldName,"oldName")
+      let oldId=findAccount._id
+      console.log(oldId,"oldName")
 
       const updated = await AccountModel.findOneAndUpdate(
         { _id: data._id },
@@ -59,16 +59,16 @@ module.exports = class AccountService {
       );
       
       const updateProfit= await profit.updateMany(
-        {Client:oldName },
+        {idClient:data._id},
         {Client:data.name}
      )
 
      const updateEntries= await entries.updateMany(
-      {client:oldName },
+      {idClient:data._id},
       {client:data.name}
    )
    const updateEntriesRec= await entries.updateMany(
-    {receiver:oldName },
+    {idRec:data._id},
     {receiver:data.name}
  )
 
@@ -84,7 +84,7 @@ module.exports = class AccountService {
 
       // const deleteEntries = await entries.deleteMany({ client: data.name });
       // const deleteProjects = await profit.deleteMany({ Client: data.name });
-      const deleteAccount = await AccountModel.deleteMany({ name: data.name });
+      const deleteAccount = await AccountModel.deleteMany({ _id: data._id });
       return data;
     } catch (error) {
       console.log(error);
@@ -143,8 +143,8 @@ module.exports = class AccountService {
     try {
       console.log("at refrence");
       let ref=[]
-      const projects = await profit.find({ Client: data.name });
-      const entry=await entries.find( { $or: [ {client :data.name  }, { receiver:data.name} ] } )
+      const projects = await profit.find({ idClient: data._id});
+      const entry=await entries.find( { $or: [ {idClient :data._id}, { idRec:data._id} ] } )
       
       for(let i=0;i<projects.length;i++){
         if(ref.includes(projects[i].Project)===false){
@@ -168,9 +168,6 @@ module.exports = class AccountService {
   }
 
 
-
-
-
-
+  
 
 };

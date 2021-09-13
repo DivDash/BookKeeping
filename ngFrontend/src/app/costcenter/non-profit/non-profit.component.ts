@@ -15,11 +15,13 @@ export interface UserData {
   Name: string;
   Expense: number;
   Remarks: string;
+  Reason:string;
 }
 export interface DialogData {
   Name: string;
   Expense: number;
   Remarks: string;
+  Reason:string
 }
 
 @Component({
@@ -31,10 +33,11 @@ export class NonProfitComponent implements OnInit {
   Name: string;
   Expense: number;
   Remarks: string;
+  Reason:string
   object: any;
   listData: MatTableDataSource<any>;
   NonProfitModel: NonProfitModel;
-  displayedColumns: string[] = ['Name', 'Expense', 'Remarks'];
+  displayedColumns: string[] = ['Name', 'Expense', 'Reason','Remarks'];
   constructor(
     public dialog: MatDialog,
     private http: HttpClient,
@@ -45,6 +48,7 @@ export class NonProfitComponent implements OnInit {
   columnHeader2 = {
     Name: 'Name',
     Expense: 'Expense',
+    Reason:'Reason',
     Remarks: 'Remarks',
     update: ' ',
     delete: ' ',
@@ -61,16 +65,19 @@ export class NonProfitComponent implements OnInit {
         Name: this.Name,
         Expense: this.Expense,
         Remarks: this.Remarks,
+        Reason:this.Reason
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
       this.Name = result['Name'];
       this.Expense = result['Expense'];
       this.Remarks = result['Remarks'];
+      this.Reason=result['Reason']
       this.NonProfitModel = {
         Name: this.Name,
         Expense: this.Expense,
         Remarks: this.Remarks,
+        Reason:this.Reason
       };
       // this.http
       //   .post('http://localhost:5000/accountnonprofit', this.NonProfitModel, {

@@ -65,7 +65,9 @@ export class ReusableTableComponent implements OnChanges {
   object:any
   oldObject:any
   finalObject:any
-
+  clients:string[]=[]
+  clientsBank:string[]=[]
+  ids:string[]=[]
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -76,7 +78,29 @@ export class ReusableTableComponent implements OnChanges {
     public dialog: MatDialog,
     private http: HttpClient,
     private toastr: ToastrService
-  ) {}
+  ) {
+
+    this.myservice.getLiveCollection('viewaccount')
+    .subscribe(
+      res => {
+        console.log("resss")
+        this.object=res
+        for (let i=0;i<this.object.length;i++){
+
+          this.clients.push(this.object[i]['name'])
+          this.clientsBank.push(this.object[i]['name']+"-"+this.object[i]['Bank'])
+          this.ids.push(this.object[i]['_id'])
+
+        }
+
+      },
+      err =>  {
+        console.log("resss")
+        console.log( err )
+      }
+    )
+
+  }
   // ngAfterViewInit() {
   //   this.matDataSource.paginator = this.paginator;
   //   this.matDataSource.sort = this.sort;
@@ -273,6 +297,7 @@ export class ReusableTableComponent implements OnChanges {
     }
     if (data.Status) {
       console.log(data, 'from profit costcenter');
+      data.Client=this.clientsBank[this.ids.indexOf(data.idClient)]
       const dialogRef = this.dialog.open(EditDialogProfit, {
         panelClass: 'custom-modalbox',
         height: '70%',
@@ -290,7 +315,9 @@ export class ReusableTableComponent implements OnChanges {
         },
       });
       dialogRef.afterClosed().subscribe((result) => {
-        data.Client = result['Client'];
+        data.Client = result['Client']; 
+        data.idClient=this.ids[this.clientsBank.indexOf(data.Client)]
+        data.Client=data.Client.substr(0,data.Client.indexOf("-"))
         data.Project = result['Project'];
         data.Receivable = result['Receivable'];
         data.Revenue = result['Revenue'];
@@ -345,6 +372,9 @@ export class ReusableTableComponent implements OnChanges {
       });
     }
     if (data.receiver) {
+
+      data.client=this.clientsBank[this.ids.indexOf(data.idClient)]
+      data.receiver=this.clientsBank[this.ids.indexOf(data.idRec)]
       console.log(data, 'from journal entry');
       const dialogRef = this.dialog.open(EditDialogJournal, {
         panelClass: 'custom-modalbox',
@@ -363,16 +393,22 @@ export class ReusableTableComponent implements OnChanges {
         },
       });
       dialogRef.afterClosed().subscribe((result) => {
+
+
         data.project = result['project'];
         data.client = result['client'];
+        data.idClient=this.ids[this.clientsBank.indexOf(data.client)]
+        data.client=data.client.substr(0,data.client.indexOf("-"))
         data.amount = result['amount'];
         data.receiver = result['receiver'];
+        data.idRec=this.ids[this.clientsBank.indexOf(data.receiver)]
+        data.receiver=data.receiver.substr(0,data.receiver.indexOf("-"))
         data.reason = result['reason'];
         data.method = result['method'];
         data.remarks = result['remarks'];
 
         console.log('Revenue IS : ' + data.Revenue);
-        console.log(data);
+        console.log(data,"Jentry from update");
         this.myservice.update_journal_account(data).subscribe(
           (res) => {
             console.log(res);
@@ -414,6 +450,8 @@ export class EditDialogProfit {
   object:any
   clients:string[]=[]
   clients2:any
+  clientsBank:string[]=[]
+  ids:string[]=[]
   constructor(
     public dialogRef: MatDialogRef<EditDialogProfit>,
     @Inject(MAT_DIALOG_DATA) public data: DialogDataProfit,
@@ -426,6 +464,8 @@ export class EditDialogProfit {
         this.object=res
         for (let i=0;i<this.object.length;i++){
           this.clients.push(this.object[i]['name'])
+          this.clientsBank.push(this.object[i]['name']+"-"+this.object[i]['Bank'])
+          this.ids.push(this.object[i]['_id'])
         }
         console.log(this.clients,"here at profittt")
          this.clients2= this.clients
@@ -485,6 +525,8 @@ export class EditDialogNonprofit {
 export class EditDialogJournal {
   object:any
   clients:string[]=[]
+  clientsBank:string[]=[]
+  ids:string[]=[]
   clients2:any
   reciever:any
   projects:string[] = []
@@ -520,7 +562,11 @@ export class EditDialogJournal {
         console.log("resss")
         this.object=res
         for (let i=0;i<this.object.length;i++){
+
           this.clients.push(this.object[i]['name'])
+          this.clientsBank.push(this.object[i]['name']+"-"+this.object[i]['Bank'])
+          this.ids.push(this.object[i]['_id'])
+
         }
         console.log(this.clients,"here at profittt")
          this.clients2= this.clients
