@@ -1,0 +1,13 @@
+{
+  "hosting": {
+    "site": "book-keeping-b571f",
+    "public": "./dist/Book-Keeper",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

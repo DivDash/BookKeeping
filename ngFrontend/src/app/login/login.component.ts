@@ -3,6 +3,9 @@ import { Component, OnInit, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginModel } from '../LoginModel';
 import { respond } from '../respond';
+import { CookieService } from 'ngx-cookie-service';
+import { environment } from 'src/environments/environment';
+const baseUrl = environment.baseUrl;
 
 @Component({
   selector: 'app-login',
@@ -20,7 +23,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private router: Router,
     private http: HttpClient,
-    private elementRef: ElementRef
+    private elementRef: ElementRef,
+    private cookieService: CookieService
   ) {}
   Onsubmit() {
     console.log('here at submit');
@@ -31,7 +35,7 @@ export class LoginComponent implements OnInit {
 
     console.log(this.data);
     this.http
-      .post('http://localhost:5000/signin', this.data, {
+      .post(`${baseUrl}/signin`, this.data, {
         withCredentials: true,
       })
       .subscribe(
@@ -42,6 +46,10 @@ export class LoginComponent implements OnInit {
             if (res['message'] === 'loggin succesfully') {
               console.log('here at iff condition');
               console.log(res['token']);
+              // const dateNow = new Date();
+              // dateNow.setMinutes(dateNow.getMinutes() + 1);
+              // // const expires: new Date(Date.now() + 864000000),
+              // this.cookieService.set('Book', res['token'], dateNow);
               this.login();
             } else {
               this.check = false;

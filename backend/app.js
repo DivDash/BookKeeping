@@ -12,12 +12,12 @@ require("./DB/configdb");
 const cookieParser = require("cookie-parser");
 app.use(cors({ origin: true, credentials: true }));
 app.use(cookieParser());
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-// app.listen(PORT,()=>{
-//     console.log("listenig at ",PORT);
+// app.listen(PORT, () => {
+//   console.log("listenig at ", PORT);
 // });
 app.use(require("./apis/routes/adminRoute"));
 app.use(require("./apis/routes/accountNonProfitRoute"));
@@ -25,12 +25,14 @@ app.use(require("./apis/routes/profit_route"));
 app.use(require("./apis/routes/account_Route"));
 app.use(require("./apis/routes/journal_entries_routes"));
 
-const server = http.createServer(app).listen(PORT, hostname, () => {
-  console.log(`Server is running at http://localhost:${PORT}`);
+const server = http.createServer(app).listen(PORT, () => {
+  console.log("Server is running at", { PORT });
 });
+// console.log("Sadassa", server);
 const io = require("socket.io")(server, {
   cors: {
-    origin: "http://localhost:4200",
+    // origin: "http://localhost:4200",
+    origin: "https://book-keeping-b571f.web.app",
     methods: ["GET", "POST"],
   },
 });
@@ -55,6 +57,9 @@ io.on("connection", (socket) => {
   });
   commonEmitter.on("view-entry-params", function (data) {
     socket.broadcast.emit("viewentryparams-data", data);
+  });
+  commonEmitter.on("Logout-params", function (data) {
+    socket.broadcast.emit("Logout-data", data);
   });
   console.log("Listener connected");
 });

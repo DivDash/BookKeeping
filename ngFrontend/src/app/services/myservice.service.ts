@@ -5,7 +5,10 @@ import { Observable, Subject } from 'rxjs';
 import { Socket } from 'ngx-socket-io';
 import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 
-const baseUrl = 'http://localhost:5000';
+// import {baseUrl} from environments
+import { environment } from 'src/environments/environment';
+const baseUrl = environment.baseUrl;
+
 @Injectable({
   providedIn: 'root',
 })
@@ -138,7 +141,7 @@ export class MyserviceService {
   }
 
   logout(): Observable<any> {
-    return this.http.get<any>(`${baseUrl}/logout`, {
+    return this.http.get<any>(`${baseUrl}/Logout`, {
       withCredentials: true,
     });
   }
@@ -180,8 +183,8 @@ export class MyserviceService {
     // Using Subject instead of BehaviorSubject because we don't need older values
     const collectionBehavior = new Subject<Array<any>>();
     // Setup get from server
-    let params = new HttpParams().set('project',data1.project);
-    this.http.get(`${baseUrl}/${name}`,{params}).subscribe((resp) => {
+    let params = new HttpParams().set('project', data1.project);
+    this.http.get(`${baseUrl}/${name}`, { params }).subscribe((resp) => {
       // For any further changes in server - specific to this document (name)
       this.socket.on(`${name}-data`, (data) => {
         collectionBehavior.next(data);

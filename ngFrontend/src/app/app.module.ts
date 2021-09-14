@@ -66,7 +66,9 @@ import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 // import { ReportsComponent } from './report/report.component';
 import { MyserviceService } from './services/myservice.service';
 
-const config: SocketIoConfig = { url: 'http://localhost:5000', options: {} };
+import { environment } from 'src/environments/environment';
+const baseUrl = environment.baseUrl;
+const config: SocketIoConfig = { url: baseUrl, options: {} };
 @NgModule({
   declarations: [
     AppComponent,

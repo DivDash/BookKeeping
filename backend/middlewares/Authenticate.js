@@ -4,6 +4,7 @@ const cookieParser = require("cookie-parser");
 
 const Authenticate = async (req, res, next) => {
   try {
+    console.log("MUBsIR router");
     const token = req.cookies.Book;
     const infos = jwt.verify(token, "Book");
     // console.log("helllo", infos);

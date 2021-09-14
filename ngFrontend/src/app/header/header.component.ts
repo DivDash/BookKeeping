@@ -1,32 +1,38 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
+import { CookieService } from 'ngx-cookie-service';
 
+const baseUrl = environment.baseUrl;
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit {
-  name:string
+  name: string;
 
-
-  constructor(private router: Router, private http: HttpClient) {
-    console.log('here at get');
-    this.http
-      .get('http://localhost:5000/Getinfo', {
-        withCredentials: true,
-      })
-      .subscribe(
-        (res) => {
-          console.log(res);
-          this.name = res['name'];
-        },
-        (err) => {
-          console.log(err);
-          this.router.navigateByUrl('login');
-        }
-      );
+  constructor(
+    private router: Router,
+    private http: HttpClient,
+    private cookieService: CookieService
+  ) {
+    console.log('here at GETINFOOO');
+    // this.http
+    //   .get(`${baseUrl}/Getinfo`, {
+    //     withCredentials: true,
+    //   })
+    //   .subscribe(
+    //     (res) => {
+    //       console.log('EFSHAAL', res);
+    //       this.name = res['name'];
+    //     },
+    //     (err) => {
+    //       console.log(err);
+    //       this.router.navigateByUrl('login');
+    //     }
+    //   );
   }
 
   @Output() toggleSidebarForMe: EventEmitter<any> = new EventEmitter();
@@ -36,16 +42,16 @@ export class HeaderComponent implements OnInit {
     this.toggleSidebarForMe.emit();
   }
   logout() {
-    console.log("here at logout")
+    console.log('here at logout');
+    this.cookieService.deleteAll();
     this.http
-      .get( "http://localhost:5000/Logout",{
-        withCredentials:true
+      .get(`${baseUrl}/Logout`, {
+        withCredentials: true,
       })
       .subscribe(
-        res => console.log(res),
-        err =>  console.log( err )
+        (res) => console.log(res),
+        (err) => console.log(err)
       );
     this.router.navigateByUrl('login');
   }
-
 }

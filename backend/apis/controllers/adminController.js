@@ -50,7 +50,7 @@ module.exports = class Admin {
         if (match) {
           res.cookie("Book", token, {
             expires: new Date(Date.now() + 864000000),
-            httpOnly: false,
+            httpOnly: true,
           });
           console.log("here at sucess");
           res.json({ message: "loggin succesfully", token: token });

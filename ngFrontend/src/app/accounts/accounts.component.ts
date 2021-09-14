@@ -11,6 +11,9 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { MyserviceService } from 'src/app/services/myservice.service';
 
+import { environment } from 'src/environments/environment';
+const baseUrl = environment.baseUrl;
+
 export interface UserData {
   name: string;
   Bank: string;
@@ -74,7 +77,7 @@ export class AccountsComponent implements OnInit {
         Remarks: this.Remarks,
       };
       this.http
-        .post('http://localhost:5000/createaccount', this.AccountModel, {
+        .post(`${baseUrl}/createaccount`, this.AccountModel, {
           withCredentials: true,
         })
         .subscribe(

@@ -8,6 +8,9 @@ import {
 import { Router } from '@angular/router';
 import { AccountModel } from '../AccountModel';
 
+import { environment } from 'src/environments/environment';
+const baseUrl = environment.baseUrl;
+
 export interface DialogData {
   name: string;
   Bank: string;
@@ -24,11 +27,14 @@ export class DialogboxComponent {
   Bank: string;
   Balance: number;
   Remarks: string;
-  AccountModel:AccountModel
+  AccountModel: AccountModel;
   location: any;
 
-
-  constructor(public dialog: MatDialog,private http: HttpClient, private router:Router) {}
+  constructor(
+    public dialog: MatDialog,
+    private http: HttpClient,
+    private router: Router
+  ) {}
 
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
@@ -43,36 +49,37 @@ export class DialogboxComponent {
     });
     dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed');
-      console.log(result)
+      console.log(result);
       this.name = result['name'];
       this.Bank = result['Bank'];
       this.Balance = result['Balance'];
       this.Remarks = result['Remarks'];
-      this.AccountModel={
+      this.AccountModel = {
         name: this.name,
         Bank: this.Bank,
         Balance: this.Balance,
-        Remarks: this.Remarks
-      }
+        Remarks: this.Remarks,
+      };
       this.http
-      .post( "http://localhost:5000/account",this.AccountModel, {
-        withCredentials: true
-      } )
-      .subscribe(
-        res => {
-          {
-            console.log( res["message"] )
-            this.router.navigateByUrl('/accounts', { skipLocationChange: true }).then(() => {
-            this.router.navigate(['/dashboard/accounts']);
-          }); 
-          }; 
-          
-        },
-        err => {
-          console.log( err )
-          console.log( err["message"] )
-        }
-      )
+        .post(`${baseUrl}/account`, this.AccountModel, {
+          withCredentials: true,
+        })
+        .subscribe(
+          (res) => {
+            {
+              console.log(res['message']);
+              this.router
+                .navigateByUrl('/accounts', { skipLocationChange: true })
+                .then(() => {
+                  this.router.navigate(['/dashboard/accounts']);
+                });
+            }
+          },
+          (err) => {
+            console.log(err);
+            console.log(err['message']);
+          }
+        );
     });
   }
 }
