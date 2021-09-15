@@ -3,6 +3,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { CookieService } from 'ngx-cookie-service';
+import { isDefined } from '@angular/compiler/src/util';
 
 const baseUrl = environment.baseUrl;
 @Component({
@@ -19,6 +20,11 @@ export class HeaderComponent implements OnInit {
     private cookieService: CookieService
   ) {
     console.log('here at GETINFOOO');
+    let token_value = cookieService.get('Book');
+    // let token=cookieService.get('Value')
+    if (!token_value) {
+      this.router.navigateByUrl('login');
+    }
     // this.http
     //   .get(`${baseUrl}/Getinfo`, {
     //     withCredentials: true,
@@ -44,14 +50,14 @@ export class HeaderComponent implements OnInit {
   logout() {
     console.log('here at logout');
     this.cookieService.deleteAll();
-    this.http
-      .get(`${baseUrl}/Logout`, {
-        withCredentials: true,
-      })
-      .subscribe(
-        (res) => console.log(res),
-        (err) => console.log(err)
-      );
+    //   this.http
+    //     .get(`${baseUrl}/Logout`, {
+    //       withCredentials: true,
+    //     })
+    //     .subscribe(
+    //       (res) => console.log(res),
+    //       (err) => console.log(err)
+    //     );
     this.router.navigateByUrl('login');
   }
 }

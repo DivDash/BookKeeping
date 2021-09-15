@@ -46,10 +46,10 @@ export class LoginComponent implements OnInit {
             if (res['message'] === 'loggin succesfully') {
               console.log('here at iff condition');
               console.log(res['token']);
-              // const dateNow = new Date();
-              // dateNow.setMinutes(dateNow.getMinutes() + 1);
-              // // const expires: new Date(Date.now() + 864000000),
-              // this.cookieService.set('Book', res['token'], dateNow);
+              const dateNow = new Date();
+              dateNow.setMinutes(dateNow.getMinutes() + 1);
+              // const expires: new Date(Date.now() + 864000000),
+              this.cookieService.set('Book', res['token'], dateNow);
               this.login();
             } else {
               this.check = false;
