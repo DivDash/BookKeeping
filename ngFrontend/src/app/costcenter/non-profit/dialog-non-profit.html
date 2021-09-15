@@ -4,7 +4,7 @@
     <mat-form-field appearance="fill" style="width: 100%">
       <mat-label>Client</mat-label>
       <mat-select [(ngModel)]="data.Name" name="client">
-        <mat-option *ngFor="let client of clients" [value]="client">
+        <mat-option *ngFor="let client of clientsBank" [value]="client">
           {{client}}
         </mat-option>
       </mat-select>

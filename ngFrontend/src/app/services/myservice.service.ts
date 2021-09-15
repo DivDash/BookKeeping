@@ -53,7 +53,7 @@ export class MyserviceService {
   }
 
   deleteNonProfit(data): Observable<any> {
-    console.log(data.name, 'at service');
+    console.log(data, 'at service');
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',

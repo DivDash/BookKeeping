@@ -35,8 +35,13 @@ export class NonProfitComponent implements OnInit {
   Remarks: string;
   Reason:string
   object: any;
+  idClient:any
   listData: MatTableDataSource<any>;
   NonProfitModel: NonProfitModel;
+  clients: string[] = [];
+  clientsBank:string[]=[]
+  ids:string[]=[]
+
   displayedColumns: string[] = ['Name', 'Expense', 'Reason','Remarks'];
   constructor(
     public dialog: MatDialog,
@@ -44,7 +49,30 @@ export class NonProfitComponent implements OnInit {
     private router: Router,
     private myservice: MyserviceService,
     private toastr: ToastrService
-  ) {}
+  ) {
+
+
+    this.myservice.getLiveCollection('viewaccount').subscribe(
+      (res) => {
+        console.log('resss');
+        this.object = res;
+        for (let i = 0; i < this.object.length; i++) {
+
+          this.clients.push(this.object[i]['name']);
+          this.clientsBank.push(this.object[i]['name']+"-"+this.object[i]['Bank'])
+          this.ids.push(this.object[i]['_id'])
+
+        }
+        console.log(this.clients, 'here at  non profittt');
+      },
+      (err) => {
+        console.log('resss');
+        console.log(err);
+      }
+    );
+
+
+  }
   columnHeader2 = {
     Name: 'Name',
     Expense: 'Expense',
@@ -70,6 +98,8 @@ export class NonProfitComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result) => {
       this.Name = result['Name'];
+      this.idClient=this.ids[this.clientsBank.indexOf(this.Name)]
+      this.Name=this.Name.substr(0,this.Name.indexOf("-"))
       this.Expense = result['Expense'];
       this.Remarks = result['Remarks'];
       this.Reason=result['Reason']
@@ -77,12 +107,11 @@ export class NonProfitComponent implements OnInit {
         Name: this.Name,
         Expense: this.Expense,
         Remarks: this.Remarks,
-        Reason:this.Reason
+        Reason:this.Reason,
+        idClient:this.idClient
       };
-      // this.http
-      //   .post('http://localhost:5000/accountnonprofit', this.NonProfitModel, {
-      //     withCredentials: true,
-      //   })
+      
+      console.log(this.NonProfitModel,"non profit modelllll")
       this.myservice.createAccountNonProfit(this.NonProfitModel).subscribe(
         (res) => {
           {
@@ -133,7 +162,8 @@ export class NonProfitComponent implements OnInit {
 export class DialogNonProfit {
   clients: string[] = [];
   object: any;
-
+  clientsBank:string[]=[]
+  ids:string[]=[]
   constructor(
     public dialogRef: MatDialogRef<DialogNonProfit>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
@@ -144,7 +174,11 @@ export class DialogNonProfit {
         console.log('resss');
         this.object = res;
         for (let i = 0; i < this.object.length; i++) {
+
           this.clients.push(this.object[i]['name']);
+          this.clientsBank.push(this.object[i]['name']+"-"+this.object[i]['Bank'])
+          this.ids.push(this.object[i]['_id'])
+
         }
         console.log(this.clients, 'here at  non profittt');
       },

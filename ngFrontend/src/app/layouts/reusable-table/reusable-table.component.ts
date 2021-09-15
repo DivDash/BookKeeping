@@ -41,6 +41,7 @@ export interface DialogDataNonProfit {
   Name: string;
   Expense: number;
   Remarks: string;
+  Reason:string
 }
 export interface DialogDataJournal {
   project: string;
@@ -339,6 +340,7 @@ export class ReusableTableComponent implements OnChanges {
       });
     }
     if (data.Name) {
+      data.Name=this.clientsBank[this.ids.indexOf(data.idClient)]
       console.log(data, 'from nonProfits');
       const dialogRef = this.dialog.open(EditDialogNonprofit, {
         panelClass: 'custom-modalbox',
@@ -350,15 +352,19 @@ export class ReusableTableComponent implements OnChanges {
           Name: data.Name,
           Expense: data.Expense,
           Remarks: data.Remarks,
+          Reason:data.Reason
         },
       });
       dialogRef.afterClosed().subscribe((result) => {
         data.Name = result['Name'];
         data.Expense = result['Expense'];
         data.Remarks = result['Remarks'];
+        data.Reason=result['Reason']
+        data.idClient=this.ids[this.clientsBank.indexOf(data.Name)]
+        data.Name=data.Name.substr(0,data.Name.indexOf("-"))
 
         console.log('Revenue IS : ' + data.Expense);
-        console.log(data);
+        console.log(data,"data at non profittt");
 
         this.myservice.update_nonprofit_account(data).subscribe(
           (res) => {
@@ -489,6 +495,8 @@ export class EditDialogProfit {
 export class EditDialogNonprofit {
   object:any
   clients:string[]=[]
+  clientsBank:string[]=[]
+  ids:string[]=[]
   clients2:any 
    constructor(
     public dialogRef: MatDialogRef<EditDialogNonprofit>,
@@ -502,6 +510,8 @@ export class EditDialogNonprofit {
         this.object=res
         for (let i=0;i<this.object.length;i++){
           this.clients.push(this.object[i]['name'])
+          this.clientsBank.push(this.object[i]['name']+"-"+this.object[i]['Bank'])
+          this.ids.push(this.object[i]['_id'])
         }
         console.log(this.clients,"here at profittt")
          this.clients2= this.clients

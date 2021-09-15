@@ -10,8 +10,8 @@ module.exports = class AccountNonProfit {
       let check = false;
       console.log("fds");
       console.log(req.body)
-      const { Name, Expense, Remarks,Reason} = req.body;
-      if (!Name || !Expense || !Remarks|| !Reason)   {
+      const { Name, Expense, Remarks,Reason,idClient} = req.body;
+      if (!Name || !Expense || !Remarks|| !Reason || !idClient)   {
         check = true;
         res.json({ message: "Fill All The Fields" });
       }
@@ -20,7 +20,8 @@ module.exports = class AccountNonProfit {
           Name,
           Expense,
           Remarks,
-          Reason
+          Reason,
+          idClient
         );
 
         res.json({ message: "Account Added" });
@@ -45,11 +46,14 @@ module.exports = class AccountNonProfit {
   static async deleteAccount(req, res, next) {
     try {
       console.log("here at non profit delete");
-      const { Name, Expense, Remarks } = req.body;
+      const { Name, Expense, Remarks,idClient,Reason} = req.body;
+      console.log( Name, Expense, Remarks,idClient,Reason,"nonnn")
       const data = await AccountNonProfitService.deleteAccountService(
         Name,
         Expense,
-        Remarks
+        Remarks,
+        idClient,
+        Reason
       );
       res.send(data);
     } catch (error) {

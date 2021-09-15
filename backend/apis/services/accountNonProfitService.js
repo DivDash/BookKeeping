@@ -20,19 +20,19 @@ changeStream.on("change", (data) => {
   });
 });
 module.exports = class AccountNonProfitService {
-  static async createAccountService(Name, Expense, Remarks,Reason) {
+  static async createAccountService(Name, Expense, Remarks,Reason,idClient) {
     try {
       console.log("create Non profit");
 
       const querryClient = await AccountModel.findOneAndUpdate(
-        { name: Name },
+        { _id: idClient },
         {
           $inc: { Balance: -Expense },
         },
         { new: true }
       );
 
-      const saving = new AccountNonProfitModel({ Name, Expense, Remarks ,Reason});
+      const saving = new AccountNonProfitModel({ Name, Expense, Remarks ,Reason,idClient});
       await saving.save();
     } catch (error) {
       console.log(error);
@@ -47,12 +47,12 @@ module.exports = class AccountNonProfitService {
     }
   }
 
-  static async deleteAccountService(Name, Expense, Remarks) {
+  static async deleteAccountService(Name, Expense, Remarks,idClient,Reason) {
     try {
       console.log("create Non profit delete");
 
       const querryClient = await AccountModel.findOneAndUpdate(
-        { name: Name },
+        {_id:idClient},
         {
           $inc: { Balance: Expense },
         },
@@ -60,9 +60,11 @@ module.exports = class AccountNonProfitService {
       );
 
       const deleteNonProfit = await AccountNonProfitModel.deleteOne({
+        idClient:idClient,
         Name: Name,
         Expense: Expense,
         Remarks: Remarks,
+        Reason:Reason
       });
     } catch (error) {
       console.log(error);
@@ -73,12 +75,33 @@ module.exports = class AccountNonProfitService {
       let acc_id = data._id;
       console.log("updateAccounts temp: " + acc_id);
 
+      const old= await AccountNonProfitModel.findOne({_id:data._id})
+
+      const oldClient = await AccountModel.findOneAndUpdate(
+        {_id:old.idClient},
+        {
+          $inc: { Balance:old.Expense},
+        },
+        { new: true }
+      );
+
+      const querryClient = await AccountModel.findOneAndUpdate(
+        {_id:data.idClient},
+        {
+          $inc: { Balance: -data.Expense },
+        },
+        { new: true }
+      ); 
+      
+
       const updated = await AccountNonProfitModel.findOneAndUpdate(
         { _id: data._id },
         {
           Name: data.Name,
           Expense: data.Expense,
           Remarks: data.Remarks,
+          idClient:data.idClient,
+          Reason:data.Reason
         }
       );
       console.log(data);
