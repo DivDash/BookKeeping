@@ -25,6 +25,9 @@ app.use(require("./apis/routes/profit_route"));
 app.use(require("./apis/routes/account_Route"));
 app.use(require("./apis/routes/journal_entries_routes"));
 
+app.get("/", (req, res) => {
+  res.send("Hello World!");
+});
 const server = http.createServer(app).listen(PORT, () => {
   console.log("Server is running at", { PORT });
 });
@@ -63,3 +66,4 @@ io.on("connection", (socket) => {
   });
   console.log("Listener connected");
 });
+module.exports = app;
