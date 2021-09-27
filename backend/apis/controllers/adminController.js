@@ -48,9 +48,12 @@ module.exports = class Admin {
         const { match, token } = await AdminService.loginAdmin(email, password);
 
         if (match) {
+          console.log("ZAINHAIDER: ", token);
           res.cookie("Book", token, {
             expires: new Date(Date.now() + 864000000),
             httpOnly: true,
+            // samesite: "none",
+            // secure: true,
           });
           console.log("here at sucess");
           res.json({ message: "loggin succesfully", token: token });

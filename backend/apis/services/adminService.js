@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const { commonEmitter } = require("../../events");
 const changeStream = AdminModel.watch();
 changeStream.on("change", (data) => {
-  AccountProfitModel.find((err, doc) => {
+  AdminModel.find((err, doc) => {
     if (err) {
       console.log("error");
 
@@ -50,7 +50,7 @@ module.exports = class AdminService {
       if (response) {
         const match = await bcrypt.compare(Password, response.password);
         const token = await response.generateauthtoken();
-        console.log("MUBASHIR", token);
+        console.log("MUBASHIRANSARI", token);
         return { match, token };
       }
     } catch (error) {

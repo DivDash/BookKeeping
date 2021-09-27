@@ -10,6 +10,7 @@ import {
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { MyserviceService } from 'src/app/services/myservice.service';
+import { CookieService } from 'ngx-cookie-service';
 
 import { environment } from 'src/environments/environment';
 const baseUrl = environment.baseUrl;
@@ -47,8 +48,15 @@ export class AccountsComponent implements OnInit {
     private http: HttpClient,
     private router: Router,
     private toastr: ToastrService,
-    private myservice: MyserviceService 
-  ) {}
+    private myservice: MyserviceService,
+    private cookieService: CookieService
+  ) {
+    let token_value = cookieService.get('Book');
+    console.log('VALUEE:', token_value);
+    if (!token_value) {
+      this.router.navigateByUrl('login');
+    }
+  }
 
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogAccount, {
@@ -110,6 +118,11 @@ export class AccountsComponent implements OnInit {
     delete: ' ',
   };
   ngOnInit() {
+    let token_value = this.cookieService.get('Book');
+    console.log('VALUEE:', token_value);
+    if (!token_value) {
+      this.router.navigateByUrl('login');
+    }
     console.log('ithayyyyyyyyyyy');
     const users: UserData[] = [];
     // this.http

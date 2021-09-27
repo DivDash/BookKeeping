@@ -16,52 +16,51 @@ import { MyserviceService } from '../services/myservice.service';
   templateUrl: './forms.component.html',
   styleUrls: ['./forms.component.css'],
 })
-export class FormsComponent implements DoCheck{
-  newDivs:addDivisions[]=[];
-  newEntries:entries[]=[]
-  object:any
-  objectEntry:any
-  projects:string[] = []
-  clients:string[]=[]
-  clientsBank:string[]=[]
-  ids:string[]=[]
-  clients2:string[]=[]
-    project:string=""
-    client:string=""
-    receiver:string=""
-    amount:string=""
-    reason:string=""
-    method:string=""
-    remarks:string=""
-    id_c:string=""
-    id_r:string=""
-    i:number=0
-  selectedProject:string;
-  date:string
-  sum:number=0
-  total:number
-  data:any={}
-  objects:any
-  objectsEmpty:any=[]
-  matchClient:string
-  newClient:string
-  getId:string=""
-
+export class FormsComponent implements DoCheck {
+  newDivs: addDivisions[] = [];
+  newEntries: entries[] = [];
+  object: any;
+  objectEntry: any;
+  projects: string[] = [];
+  clients: string[] = [];
+  clientsBank: string[] = [];
+  ids: string[] = [];
+  clients2: string[] = [];
+  project: string = '';
+  client: string = '';
+  receiver: string = '';
+  amount: string = '';
+  reason: string = '';
+  method: string = '';
+  remarks: string = '';
+  id_c: string = '';
+  id_r: string = '';
+  i: number = 0;
+  selectedProject: string;
+  date: string;
+  sum: number = 0;
+  total: number;
+  data: any = {};
+  objects: any;
+  objectsEmpty: any = [];
+  matchClient: string;
+  newClient: string;
+  getId: string = '';
 
   listData: MatTableDataSource<any>;
 
-  addNewDiv(){
+  addNewDiv() {
     this.newDivs.push({
       project: this.selectedProject,
       client: this.client,
       date: this.date,
       amount: 0,
-      receiver: "",
-      reason: "",
-      method:"",
-      remarks:"",
-      idClient:"",
-      idRec:""
+      receiver: '',
+      reason: '',
+      method: '',
+      remarks: '',
+      idClient: '',
+      idRec: '',
     });
   }
 
@@ -77,8 +76,8 @@ export class FormsComponent implements DoCheck{
     this.sum = temp;
   }
 
-  showerror(message){
-    console.log("here")
+  showerror(message) {
+    console.log('here');
     this.toastr.warning(message, 'Warning!');
   }
 
@@ -86,43 +85,48 @@ export class FormsComponent implements DoCheck{
     this.toastr.success(message, 'Success!');
   }
 
-
-
-  final(){
-    console.log(this.newDivs)
-    for(let i=0;i<this.newDivs.length;i++){
-    this.newDivs[i]['client']=this.newDivs[i]['client'].substr(0,this.newDivs[i]['client'].indexOf("-"))
-    this.newDivs[i]['idRec']=this.ids[this.clientsBank.indexOf(this.newDivs[i]['receiver'])]
-    this.newDivs[i]['receiver']=this.newDivs[i]['receiver'].substr(0,this.newDivs[i]['receiver'].indexOf("-"))
-    this.newDivs[i]['idClient']=this.ids[this.clientsBank.indexOf(this.client)]
-  
-
+  final() {
+    console.log(this.newDivs);
+    for (let i = 0; i < this.newDivs.length; i++) {
+      this.newDivs[i]['client'] = this.newDivs[i]['client'].substr(
+        0,
+        this.newDivs[i]['client'].indexOf('-')
+      );
+      this.newDivs[i]['idRec'] =
+        this.ids[this.clientsBank.indexOf(this.newDivs[i]['receiver'])];
+      this.newDivs[i]['receiver'] = this.newDivs[i]['receiver'].substr(
+        0,
+        this.newDivs[i]['receiver'].indexOf('-')
+      );
+      this.newDivs[i]['idClient'] =
+        this.ids[this.clientsBank.indexOf(this.client)];
     }
 
-    console.log(this.newDivs,"finalDivssss")
+    console.log(this.newDivs, 'finalDivssss');
 
-    let summ:number=0
-    for(let i=0;i<this.newDivs.length;i++){
-      summ=summ + this.newDivs[i]['amount']
+    let summ: number = 0;
+    for (let i = 0; i < this.newDivs.length; i++) {
+      summ = summ + this.newDivs[i]['amount'];
     }
 
     if (summ === this.total) {
       console.log('debit = credit');
       console.log(this.newDivs);
 
-      if(this.matchClient!==this.getId){
-          console.log("non client")
-          this.objectEntry={
-          newDivs:this.newDivs,
-          option:"non-client"
-        }
+      if (this.matchClient !== this.getId) {
+        console.log('non client');
+        this.objectEntry = {
+          newDivs: this.newDivs,
+          option: 'non-client',
+        };
       }
 
-      if(this.matchClient===this.getId){
-        console.log("client")
-        this.objectEntry={
-        newDivs:this.newDivs,
-        option:"client"
+      if (this.matchClient === this.getId) {
+        console.log('client');
+        this.objectEntry = {
+          newDivs: this.newDivs,
+          option: 'client',
+        };
       }
 
       this.myservice.createEntry(this.objectEntry).subscribe(
@@ -170,20 +174,21 @@ export class FormsComponent implements DoCheck{
       }
     );
 
-    this.myservice.getLiveCollection('viewaccount')
-    .subscribe(
-      res => {
-        this.object=res
-        console.log(this.object,"accounts")
-        for (let i=0;i<this.object.length;i++){
-          this.clients.push(this.object[i]['name'])
-          this.clientsBank.push(this.object[i]['name']+"-"+this.object[i]['Bank'])
-          this.ids.push(this.object[i]['_id'])
+    this.myservice.getLiveCollection('viewaccount').subscribe(
+      (res) => {
+        this.object = res;
+        console.log(this.object, 'accounts');
+        for (let i = 0; i < this.object.length; i++) {
+          this.clients.push(this.object[i]['name']);
+          this.clientsBank.push(
+            this.object[i]['name'] + '-' + this.object[i]['Bank']
+          );
+          this.ids.push(this.object[i]['_id']);
         }
-        this.clients2=this.clients
+        this.clients2 = this.clients;
 
-        console.log(this.clientsBank)
-        console.log(this.ids)
+        console.log(this.clientsBank);
+        console.log(this.ids);
         // console.log(this.clients,"sas")
       },
       (err) => {
@@ -237,21 +242,12 @@ export class FormsComponent implements DoCheck{
                 this.objects = res;
               }
               if (res['getEntries']) {
+                console.log(res['projectExist'], 'at projecttt');
                 console.log(res['projectExist'][0]['Client'], 'clientttt');
-                this.matchClient = res['projectExist'][0]['Client'];
+                this.matchClient = res['projectExist'][0]['idClient'];
               }
 
-          this.objects=res['getEntries']
-          if(res['getEntries']===undefined){
-            this.objects=res
-          }
-          if(res['getEntries']){
-          console.log(res['projectExist'],"at projecttt")  
-          console.log(res['projectExist'][0]['Client'],"clientttt")
-          this.matchClient=res['projectExist'][0]['idClient']
-          }
-  
-          console.log(this.matchClient,"matchClient")
+              console.log(this.matchClient, 'matchClient');
 
               if (this.objects !== undefined) {
                 for (let i = 0; i < this.objects.length; i++) {
@@ -270,16 +266,18 @@ export class FormsComponent implements DoCheck{
         );
     }
 
-    if(this.client){
-      console.log("here at if client")
-      console.log(this.matchClient,"matchh")
+    if (this.client) {
+      console.log('here at if client');
+      console.log(this.matchClient, 'matchh');
 
-      this.getId=this.ids[this.clientsBank.indexOf(this.client)]
+      this.getId = this.ids[this.clientsBank.indexOf(this.client)];
 
-      console.log(this.getId,"Tomatchh")
-      
-      if(this.matchClient===this.getId){
-        this.showsuccess('Project With The Client Is Selected ')
+      console.log(this.getId, 'Tomatchh');
+
+      if (this.matchClient === this.getId) {
+        this.showsuccess('Project With The Client Is Selected ');
+      } else {
+        this.showerror('Project With The Non-Client Is Selected');
       }
     }
   }
@@ -292,8 +290,8 @@ export class FormsComponent implements DoCheck{
     reason: 'reason',
     method: 'method',
     remarks: 'remarks',
-    update: ' ',
     delete: '  ',
+    update: ' ',
   };
 }
 
@@ -304,20 +302,20 @@ export interface addDivisions {
   receiver: string;
   reason: string;
   amount: number;
-  method:string
-  remarks:string
-  idClient:string
-  idRec:string
+  method: string;
+  remarks: string;
+  idClient: string;
+  idRec: string;
 }
 
 export interface entries {
-  project:string;
-  client:string
-  receiver:string
-  amount:string
-  reason:string
-  method:string
-  remarks:string
-  idClient:string
-  idRec:string
+  project: string;
+  client: string;
+  receiver: string;
+  amount: string;
+  reason: string;
+  method: string;
+  remarks: string;
+  idClient: string;
+  idRec: string;
 }

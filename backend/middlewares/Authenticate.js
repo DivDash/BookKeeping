@@ -6,7 +6,9 @@ const Authenticate = async (req, res, next) => {
   try {
     console.log("MUBsIR router");
     const token = req.cookies.Book;
+    console.log("MUBASHIR", token);
     const infos = jwt.verify(token, "Book");
+
     // console.log("helllo", infos);
     const rootuser = await user.findOne({
       _id: infos._id,
@@ -16,6 +18,7 @@ const Authenticate = async (req, res, next) => {
     if (!rootuser) {
       res.status(422).json({ error: "error" });
     }
+    console.log(rootuser);
     req.token = token;
     req.rootuser = rootuser;
     req.userID = rootuser._id;

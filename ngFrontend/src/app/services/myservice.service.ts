@@ -13,6 +13,16 @@ const baseUrl = environment.baseUrl;
   providedIn: 'root',
 })
 export class MyserviceService {
+  headername: string;
+  setheadername(name) {
+    this.headername = name;
+    console.log('INSERVEICE: ', this.headername);
+  }
+  getheadername() {
+    console.log('INSERVEICE  GET: ', this.headername);
+    return this.headername;
+  }
+
   viewAccount(): Observable<any> {
     return this.http.get<any>(`${baseUrl}/viewaccount`, {
       withCredentials: true,

@@ -1,10 +1,19 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, ElementRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ElementRef,
+  Input,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginModel } from '../LoginModel';
 import { respond } from '../respond';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from 'src/environments/environment';
+import { MyserviceService } from 'src/app/services/myservice.service';
+
 const baseUrl = environment.baseUrl;
 
 @Component({
@@ -19,12 +28,14 @@ export class LoginComponent implements OnInit {
   check: boolean;
   altermessage: string;
   resp: respond = new respond();
-
+  settoken: string;
+  headername: string;
   constructor(
     private router: Router,
     private http: HttpClient,
     private elementRef: ElementRef,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private myservice: MyserviceService
   ) {}
   Onsubmit() {
     console.log('here at submit');
@@ -48,8 +59,8 @@ export class LoginComponent implements OnInit {
               console.log(res['token']);
               const dateNow = new Date();
               dateNow.setMinutes(dateNow.getMinutes() + 1);
-              // const expires: new Date(Date.now() + 864000000),
               this.cookieService.set('Book', res['token'], dateNow);
+              this.settoken = res['token'];
               this.login();
             } else {
               this.check = false;
