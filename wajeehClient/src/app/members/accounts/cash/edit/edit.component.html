@@ -1,0 +1,30 @@
+<form #editForm="ngForm" (ngSubmit)="updateAccount()">
+  <ion-grid>
+  <ion-row>
+  <ion-col size="12">
+    <ion-item>
+      <ion-label position="floating">Account Holder</ion-label>
+      <ion-input required type="text" [(ngModel)]="localCashAccount.accountHolder" name="accountHolder"></ion-input>
+    </ion-item>
+  </ion-col>
+  <ion-col size="12">
+    <ion-item>
+      <ion-label position="floating">Current Balance</ion-label>
+      <ion-input disabled type="text" [(ngModel)]="localCashAccount.currentBalance" name="currentBalance"></ion-input>
+    </ion-item>
+  </ion-col>
+  <ion-col size="12">
+    <ion-item>
+      <ion-label position="floating">Particular</ion-label>
+      <ion-input required type="text" [(ngModel)]="localCashAccount.particulars" name="particulars"></ion-input>
+    </ion-item>
+  </ion-col>
+  <ion-col size="6">
+    <ion-button type="submit" [disabled]="editForm.invalid || !editFormChanged()" expand="full">Update</ion-button>
+  </ion-col>
+  <ion-col size="6">
+    <ion-button  expand="full" (click)="deleteAccount()" color="danger">Delete</ion-button>
+  </ion-col>
+  </ion-row>
+  </ion-grid>
+  </form>

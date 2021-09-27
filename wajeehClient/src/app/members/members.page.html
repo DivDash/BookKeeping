@@ -1,0 +1,35 @@
+<ion-split-pane>
+  <ion-menu contentId="content">
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>
+          <ion-icon name="information-circle"></ion-icon>
+          Menu
+        </ion-title>
+      </ion-toolbar>
+    </ion-header>
+    
+    <ion-content>
+      <ion-list>
+        <ion-menu-toggle auto-hide="false" *ngFor="let page of pages">
+          <ion-item [routerLink]="page.url"
+          (click)="gotoUrl(page.url)" [class.active-item]="router.url.indexOf('/members/'+page.url) === 0">
+          <ion-icon slot="start" [name]="page.icon"></ion-icon>
+            {{ page.title }}
+          </ion-item>
+        </ion-menu-toggle>
+        
+        <ion-item (click)="logout()" >
+          <ion-icon slot="start" name="log-out"></ion-icon>
+            Sign Out
+        </ion-item>
+
+        <!-- <ion-button (click)="logout()">
+            <ion-icon slot="icon-only" name="log-out"></ion-icon>
+        </ion-button> -->
+
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+  <ion-router-outlet id="content" main></ion-router-outlet>
+</ion-split-pane>
