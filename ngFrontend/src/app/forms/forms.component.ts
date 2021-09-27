@@ -247,7 +247,21 @@ export class FormsComponent implements DoCheck {
                 this.matchClient = res['projectExist'][0]['idClient'];
               }
 
+<<<<<<< HEAD
               console.log(this.matchClient, 'matchClient');
+=======
+          this.objects=res['getEntries']
+          if(res['getEntries']===undefined){
+            this.objects=res
+          }
+          if(res['getEntries']){
+          console.log(res['projectExist'],"at projecttt")  
+          console.log(res['projectExist'][0]['Client'],"clientttt")
+          this.matchClient=res['projectExist'][0]['idClient']
+          }
+
+          console.log(this.matchClient,"matchClient")
+>>>>>>> efshal
 
               if (this.objects !== undefined) {
                 for (let i = 0; i < this.objects.length; i++) {
