@@ -66,8 +66,8 @@ module.exports = class JournalEntryService{
     static async validateAccount(data){
         try{
 
-            let client=data[0].client;    
-            const accountExist = await AccountModel.findOne({ name:client})
+            let client=data[0].idClient;    
+            const accountExist = await AccountModel.findOne({ _id:client})
             return accountExist
         }
         catch(error){
@@ -119,9 +119,9 @@ module.exports = class JournalEntryService{
     try {
 
         console.log("update account")
-        let client=data[0].client;
+        let client=data[0].idClient;
 
-        const filterAccount = {name:client};
+        const filterAccount = {_id:client};
         const updateAccount = {Balance:bal};
     
         let docAcc = await AccountModel.findOneAndUpdate(filterAccount, updateAccount,{
@@ -175,7 +175,7 @@ module.exports = class JournalEntryService{
 
           for(let i=0;i<data.length;i++){
           const querry = await AccountModel.findOneAndUpdate(
-            { name:data[i].receiver }, 
+            { _id:data[i].idRec }, 
             { 
                $inc: { Balance:data[i].amount } 
             }, {new: true })
@@ -197,13 +197,13 @@ module.exports = class JournalEntryService{
           console.log(option,"option")  
           
           const querry = await AccountModel.findOneAndUpdate(
-            { name:data.receiver }, 
+            { _id:data.idRec }, 
             { 
                $inc: {Balance: -data.amount } 
             }, {new: true })
 
             const querryClient = await AccountModel.findOneAndUpdate(
-                { name:data.client}, 
+                { _id:data.idClient}, 
                 { 
                    $inc: {Balance: data.amount  } 
                 }, {new: true })
@@ -269,7 +269,7 @@ module.exports = class JournalEntryService{
           
         if(oldEntry.project===data.project){
 
-            if(data.client===oldProject.Client){
+            if(data.idClient===oldProject.idClient){
                 const querryProfitRev = await profit.findOneAndUpdate(
                     { Project:data.project}, 
                     { 
@@ -302,7 +302,7 @@ module.exports = class JournalEntryService{
             const newProj=await profit.findOne({Project:data.project})
 
             
-            if(newProj.Client===data.client){
+            if(newProj.idClient===data.idClient){
                 const querryProfitRevNew = await profit.findOneAndUpdate(
                     { Project:data.project}, 
                     { 
@@ -318,7 +318,7 @@ module.exports = class JournalEntryService{
                         }, {new: true }) 
                 
             }
-            if(newProj.Client!==data.client){
+            if(newProj.idClient!==data.idClient){
 
                 const querryProfitNew = await profit.findOneAndUpdate(
                     { Project:data.project}, 
@@ -328,7 +328,7 @@ module.exports = class JournalEntryService{
             }
 
 
-            if(oldEntry.client===oldProject.Client){
+            if(oldEntry.idClient===oldProject.idClient){
                 
                         const querryProfitRev = await profit.findOneAndUpdate(
                             { Project:oldProject.Project}, 
@@ -345,7 +345,7 @@ module.exports = class JournalEntryService{
                                 }, {new: true })      
 
             }
-                if(oldEntry.client!==oldProject.Client)
+                if(oldEntry.idClient!==oldProject.idClient)
             {
                 const querryProfit = await profit.findOneAndUpdate(
                         { Project:oldProject.Project}, 
@@ -360,10 +360,10 @@ module.exports = class JournalEntryService{
         }
 
 
-        if(oldEntry.client===data.client){
+        if(oldEntry.idClient===data.idClient){
 
             const querryClient = await AccountModel.findOneAndUpdate(
-                { name:data.client}, 
+                { _id:data.idClient}, 
                 { 
                    $inc: {Balance: -diff} 
                 }, {new: true })
@@ -372,15 +372,15 @@ module.exports = class JournalEntryService{
         } 
 
 
-        if( oldEntry.client!==data.client){
+        if( oldEntry.idClient!==data.idClient){
             const querryClientNew = await AccountModel.findOneAndUpdate(
-                { name:data.client}, 
+                { _id:data.idClient}, 
                 { 
                    $inc: {Balance: -data.amount} 
                 }, {new: true })
 
                 const querryClient = await AccountModel.findOneAndUpdate(
-                    { name:oldEntry.client}, 
+                    { _id:oldEntry.idClient}, 
                     { 
                        $inc: {Balance:oldEntry.amount} 
                     }, {new: true })
@@ -388,27 +388,27 @@ module.exports = class JournalEntryService{
 
         } 
 
-        if(oldEntry.receiver===data.receiver){
+        if(oldEntry.idRec===data.idRec){
 
 
             const querryClient = await AccountModel.findOneAndUpdate(
-                { name:data.receiver}, 
+                { _id:data.idRec}, 
                 { 
                    $inc: {Balance: diff} 
                 }, {new: true })
 
         }
 
-        if(oldEntry.receiver!==data.receiver){
+        if(oldEntry.idRec!==data.idRec){
 
             const querryClientNew = await AccountModel.findOneAndUpdate(
-                { name:data.receiver}, 
+                { _id:data.idRec}, 
                 { 
                    $inc: {Balance:data.amount} 
                 }, {new: true })
 
                 const querryClient = await AccountModel.findOneAndUpdate(
-                    { name:oldEntry.receiver}, 
+                    { _id:oldEntry.idRec}, 
                     { 
                        $inc: {Balance:-oldEntry.amount} 
                     }, {new: true })    
@@ -428,6 +428,8 @@ module.exports = class JournalEntryService{
               method: data.method,
               remarks: data.remarks,
               date: data.date,
+              idClient:data.idClient,
+              idRec:data.idRec
             }
          
      );

@@ -37,6 +37,7 @@ export interface DialogData {
 })
 export class ProfitComponent implements OnInit {
   Client: string;
+  idClient:string
   Project: string;
   Receivable: number;
   Revenue: number;
@@ -46,6 +47,8 @@ export class ProfitComponent implements OnInit {
   object: any;
   listData: MatTableDataSource<any>;
   clients:string[]=[]
+  clientsBank:string[]=[]
+  ids:string[]=[]
   ProfitModel: ProfitModel;
 
   displayedColumns: string[] = [
@@ -75,26 +78,30 @@ export class ProfitComponent implements OnInit {
     private router: Router,
     private myservice:MyserviceService,
     private toastr: ToastrService
-  ) {
+  ) 
+  {
 
-    this.myservice.getLiveCollection('viewaccountprofit')
+    
+    this.myservice.getLiveCollection('viewaccount')
     .subscribe(
-
       res => {
-        console.log("resss")
         this.object=res
+        console.log(this.object,"accounts")
         for (let i=0;i<this.object.length;i++){
           this.clients.push(this.object[i]['name'])
+          this.clientsBank.push(this.object[i]['name']+"-"+this.object[i]['Bank'])
+          this.ids.push(this.object[i]['_id'])
         }
-        console.log(this.clients,"here at profittt")
-        let clients2= this.clients
-        console.log(clients2)
+       
+        console.log(this.clientsBank,"bankkk")
+        console.log(this.ids,"idsss")
+        // console.log(this.clients,"sas")
       },
       err =>  {
-        console.log("resss")
         console.log( err )
       }
     )
+    
   }
   columnHeader2 = {
     Client: 'Client',
@@ -130,14 +137,21 @@ export class ProfitComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       this.Client = result['Client'];
+      console.log(this.Client,"clienttttt")
+      this.idClient=this.ids[this.clientsBank.indexOf(this.Client)]
+      console.log(this.idClient,"idddd")
+      this.Client=this.Client.substr(0,this.Client.indexOf("-"))
       this.Project = result['Project'];
       this.Receivable = result['Receivable'];
       this.Revenue = result['Revenue'];
       this.Expense = result['Expense'];
       this.Date = result['Date'];
       this.Status = result['Status'];
+
+
       this.ProfitModel = {
         Client: this.Client,
+        idClient:this.idClient,
         Project: this.Project,
         Receivable: this.Receivable,
         Revenue: 0,
@@ -198,6 +212,9 @@ export class DialogProfit{
   object:any
   clients:string[]=[]
   clients2:any 
+  clientsBank:string[]=[]
+  ids:string[]=[]
+
   constructor(
     public dialogRef: MatDialogRef<DialogProfit>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
@@ -213,7 +230,15 @@ export class DialogProfit{
         this.object=res
         for (let i=0;i<this.object.length;i++){
           this.clients.push(this.object[i]['name'])
+          this.clientsBank.push(this.object[i]['name']+"-"+this.object[i]['Bank'])
+          this.ids.push(this.object[i]['_id'])
         }
+
+      console.log(this.clients,"clientssss")
+      console.log(this.clientsBank,"clientssssBankkk")
+      console.log(this.ids,"idddd")
+
+
         console.log(this.clients,"here at profittt")
          this.clients2= this.clients
         console.log(this.clients2)

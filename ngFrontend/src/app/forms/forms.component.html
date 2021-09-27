@@ -13,13 +13,13 @@
   </mat-form-field>
 
   <mat-form-field appearance="fill" class="matt leftt" data-cy="client">
-    <mat-label>Client</mat-label>
+    <mat-label>Account</mat-label>
     <mat-select
       [(ngModel)]="client"
       name="client"
       (ngModelChange)="forTable($event)"
     >
-      <mat-option *ngFor="let client of clients" [value]="client">
+      <mat-option *ngFor="let client of clientsBank" [value]="client">
         {{ client }}
       </mat-option>
     </mat-select>
@@ -72,7 +72,7 @@
     <mat-form-field appearance="fill" class="mattt leftt" data-cy="receiver">
       <mat-label>Reciever</mat-label>
       <mat-select [(ngModel)]="new_div.receiver" name="receiver">
-        <mat-option *ngFor="let client2 of clients2" [value]="client2">
+        <mat-option *ngFor="let client2 of clientsBank" [value]="client2">
           {{ client2 }}
         </mat-option>
       </mat-select>
@@ -148,10 +148,10 @@
 <div class="box leftt">
   <h4 [ngStyle]="{ color: '#2c3344' }"><strong> Voucher: 1212 </strong></h4>
   <h4 [ngStyle]="{ color: '#2c3344' }">
-    <strong> Credit:{{ sum }}</strong>
+    <strong> Debit:{{ sum }}</strong>
   </h4>
   <h4 [ngStyle]="{ color: '#2c3344' }">
-    <strong> Debit:{{ total }}</strong>
+    <strong> Credit:{{ total }}</strong>
   </h4>
 
   <button

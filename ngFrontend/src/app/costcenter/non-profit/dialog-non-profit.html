@@ -4,7 +4,7 @@
     <mat-form-field appearance="fill" style="width: 100%" data-cy="client">
       <mat-label>Client</mat-label>
       <mat-select [(ngModel)]="data.Name" name="client">
-        <mat-option *ngFor="let client of clients" [value]="client">
+        <mat-option *ngFor="let client of clientsBank" [value]="client">
           {{client}}
         </mat-option>
       </mat-select>
@@ -13,6 +13,11 @@
     <mat-form-field appearance="fill" style="width: 100%" data-cy="expense">
       <mat-label>Expense <span class="required-asterisk">*</span></mat-label>
       <input matInput [(ngModel)]="data.Expense" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" style="width: 100%">
+      <mat-label>Name </mat-label>
+      <input matInput matInput [(ngModel)]="data.Reason"  />
     </mat-form-field>
 
     <mat-form-field

@@ -49,7 +49,7 @@ module.exports = class Account {
 
       const getRefrences = await AccountService.getRefrences(req.body);
 
-    
+      console.log(req.body,"delete")
       // const deleteAccount = await AccountService.deleteAccount(req.body);
 
       console.log(getRefrences)

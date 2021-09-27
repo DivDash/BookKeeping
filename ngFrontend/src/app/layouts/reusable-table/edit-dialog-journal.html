@@ -12,7 +12,7 @@
     <mat-form-field appearance="fill" class="matt matt2" style="width: 100%">
       <mat-label>Client</mat-label>
       <mat-select [(ngModel)]="data.client" name="client">
-        <mat-option *ngFor="let client of clients2" [value]="client">
+        <mat-option *ngFor="let client of clientsBank" [value]="client">
           {{client}}
         </mat-option>
       </mat-select>
@@ -26,7 +26,7 @@
     <mat-form-field appearance="fill" class="matt matt2" style="width: 100%">
       <mat-label>Receiver</mat-label>
       <mat-select [(ngModel)]="data.receiver" name="receiver">
-        <mat-option *ngFor="let clientt of clients" [value]="clientt">
+        <mat-option *ngFor="let clientt of clientsBank" [value]="clientt">
           {{clientt}}
         </mat-option>
       </mat-select>

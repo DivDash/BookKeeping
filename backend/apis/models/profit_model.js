@@ -31,7 +31,12 @@ const Profit=new mongoose.Schema({
     Status:{
         type:String,
         required:true
+    },
+    idClient:{
+        type:String,
+        required:true
     }
+
 })
 
 const profit=mongoose.model('Profit',Profit)

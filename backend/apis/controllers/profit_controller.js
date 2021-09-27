@@ -15,16 +15,16 @@ module.exports = class Profit{
     try{
       console.log("here at profitt")  
       let check=false;
-      const{Project,Client,Receivable,Revenue,Expense,Date,Status}=req.body
-      console.log(Project,Client,Receivable,Revenue,Expense,Date,Status)
+      const{Project,idClient,Client,Receivable,Revenue,Expense,Date,Status}=req.body
+      console.log(Project,idClient,Client,Receivable,Revenue,Expense,Date,Status,"projecttt")
 
-      if (!Project || !Client || !Receivable || !Date || !Status) {
+      if (!Project || !Client || !Receivable || !Date || !Status || !idClient) {
         check=true
         res.json({ message: "Fill The Full Form" });
       }
 
       const projectExist=await profitService.validateProfitProject(req.body)
-
+      console.log(projectExist,"nestttt")
       if(projectExist.length!==0){
         check=true
         res.json({message:"Project Exist Change The Name"})

@@ -12,6 +12,14 @@ const AccountNonProfit = new mongoose.Schema({
     type: String,
     required: true,
   },
+  Reason: {
+    type: String,
+    required: true,
+  },
+  idClient:{
+    type:String,
+    required:true,
+  }
 });
 
 const AccountNonProfitModel = mongoose.model("AccountsNonProfit", AccountNonProfit);
