@@ -28,21 +28,21 @@ describe('Delete An Account linked with other Functions', () => {
     cy.get('.swal2-confirm').should('contain', 'OK').click();
     cy.wait(1000);
   });
-  it('Test to Delete From an Account', () => {
-    cy.wait(1000);
-    cy.get('[data-cy=account]').click();
-    cy.url().should('include', 'dashboard/accounts');
-    cy.get('input[name="Search"]')
-      .should('be.visible')
-      .type(Cypress.env('testnamereceiver'));
-    cy.get('.btn').eq(1).should('be.visible').click();
-    cy.get('.swal2-confirm').should('be.visible').click();
-    cy.get('.swal2-confirm').should('contain', 'OK').click();
-    cy.get('input[name="Search"]')
-      .should('be.visible')
-      .type(Cypress.env('testnamereceiver'));
-    cy.wait(1000);
-  });
+  // it('Test to Delete From an Account', () => {
+  //   cy.wait(1000);
+  //   cy.get('[data-cy=account]').click();
+  //   cy.url().should('include', 'dashboard/accounts');
+  //   cy.get('input[name="Search"]')
+  //     .should('be.visible')
+  //     .type(Cypress.env('testnamereceiver'));
+  //   cy.get('.btn').eq(1).should('be.visible').click();
+  //   cy.get('.swal2-confirm').should('be.visible').click();
+  //   cy.get('.swal2-confirm').should('contain', 'OK').click();
+  //   cy.get('input[name="Search"]')
+  //     .should('be.visible')
+  //     .type(Cypress.env('testnamereceiver'));
+  //   cy.wait(1000);
+  // });
   it('Test to Delete From an Cost Center Profit', () => {
     cy.wait(1000);
     cy.get('[data-cy=costcenter]').click();

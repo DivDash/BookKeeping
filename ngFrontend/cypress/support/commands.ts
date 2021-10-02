@@ -124,6 +124,7 @@ function add_profit(
   cy.wait(1000);
   cy.contains('Add').click();
   cy.get('[data-cy=client]').type(testname);
+
   // .first()
   // .click()
   // .get('mat-option')

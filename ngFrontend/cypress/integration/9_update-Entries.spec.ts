@@ -1,4 +1,4 @@
-describe('Delete An Account linked with other Functions', () => {
+describe('Update An Account', () => {
   it('It should login if the form is Valid', () => {
     cy.login(Cypress.env('testemail'), Cypress.env('testpassword'));
     // cy.bypass_login(Cypress.env('testemail'), Cypress.env('testpassword'));

@@ -22,7 +22,7 @@ describe('Login', () => {
   });
   it('It should logout', () => {
     // cy.url().should('include', 'dashboard');
-    cy.contains('Mr').click();
-    cy.contains('Logout').click();
+    cy.get('li > .mat-focus-indicator > .mat-button-wrapper').click();
+    cy.get('.mat-menu-content > .mat-focus-indicator').click();
   });
 });
