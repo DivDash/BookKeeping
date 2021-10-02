@@ -17,11 +17,11 @@ describe('Login', () => {
     // custom command
     cy.login(Cypress.env('testemail'), Cypress.env('testpassword'));
     cy.wait(1000);
-    // cy.url().should('include', 'dashboard');
+    cy.url().should('include', 'dashboard');
     // cy.wait(1000);
   });
   it('It should logout', () => {
-    // cy.url().should('include', 'dashboard');
+    cy.url().should('include', 'dashboard');
     cy.get('li > .mat-focus-indicator > .mat-button-wrapper').click();
     cy.get('.mat-menu-content > .mat-focus-indicator').click();
   });

@@ -88,9 +88,9 @@ function register(
 }
 
 function check_reports(testproject: string): void {
-  cy.get('[data-cy=report').click();
+  cy.get('[data-cy=report] > .mat-list-item-content').click();
   cy.url().should('include', 'dashboard/report');
-  cy.get('.mat-form-field-infix').should('be.visible').type(testproject);
+  cy.get('.mat-form-field-infix').type(testproject);
   // .first()
   // .click()
   // .get('mat-option')
@@ -123,12 +123,12 @@ function add_profit(
   cy.contains('Profit').should('be.visible');
   cy.wait(1000);
   cy.contains('Add').click();
-  cy.get('[data-cy=client]')
-    .first()
-    .click()
-    .get('mat-option')
-    .contains(testname)
-    .click();
+  // cy.get('[data-cy=client]')
+  //   .first()
+  //   .click()
+  //   .get('mat-option')
+  //   .contains(testname)
+  //   .click();
   cy.get('[data-cy=client]').type(testname);
   cy.get('[data-cy=project]').should('be.visible').type(testproject);
   cy.get('[data-cy=receivable]').should('be.visible').type(profitbalance);
@@ -136,9 +136,9 @@ function add_profit(
   cy.get('[data-cy=status]').should('be.visible').type(testname);
   cy.get(':button').should('be.visible').contains('Create').click();
   // cy.get(':button').contains('No Thanks').click();
-  // cy.get('#toast-container > .ng-trigger')
-  //   .should('be.visible')
-  //   .contains('Success!');
+  cy.get('#toast-container > .ng-trigger')
+    .should('be.visible')
+    .contains('Success!');
   cy.get('input[name="Search"]').should('be.visible').type(testname).click();
 }
 function add_nonprofit(
