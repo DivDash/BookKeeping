@@ -120,7 +120,7 @@ function add_profit(
 ): void {
   cy.get('[data-cy=costcenter').click();
   cy.url().should('include', 'dashboard/costcenter');
-  cy.contains('Profit').should('be.visible');
+  // cy.contains('Profit').should('be.visible');
   cy.wait(1000);
   cy.contains('Add').click();
   cy.get('[data-cy=client]').type(testname);
@@ -147,7 +147,7 @@ function add_nonprofit(
 ): void {
   cy.get('[data-cy=costcenter] > .mat-list-item-content').click();
   cy.url().should('include', 'dashboard/costcenter');
-  cy.contains('Non-Profit').should('be.visible').click();
+  cy.contains('Non-Profit').click();
   cy.wait(1000);
   cy.contains('Add').click();
   cy.get('[data-cy=client]').type(testname);
