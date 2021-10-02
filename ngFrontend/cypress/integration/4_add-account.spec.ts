@@ -9,6 +9,8 @@ describe('Add an Account Information', () => {
   });
   it('Test to Add an Account', () => {
     cy.wait(1000);
+    cy.get('[data-cy=account] > .mat-list-item-content').click();
+    cy.url().should('include', 'dashboard/accounts');
     // custom command
     cy.add_account(Cypress.env('testname'), Cypress.env('balance'));
   });

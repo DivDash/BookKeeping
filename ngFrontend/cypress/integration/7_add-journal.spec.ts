@@ -22,6 +22,8 @@ describe('Add A Jounral Entry', () => {
   it('Test to Add Journal Entry', () => {
     cy.wait(1000);
     // custom command
+    cy.get('[data-cy=journal] > .mat-list-item-content').click();
+    cy.url().should('include', 'dashboard/journal');
     cy.add_journal(
       Cypress.env('testproject'),
       Cypress.env('testname'),

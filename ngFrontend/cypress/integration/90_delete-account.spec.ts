@@ -2,7 +2,8 @@ describe('Delete An Account linked with other Functions', () => {
   it('It should login if the form is Valid', () => {
     cy.login(Cypress.env('testemail'), Cypress.env('testpassword'));
     // cy.bypass_login(Cypress.env('testemail'), Cypress.env('testpassword'));
-    cy.url().should('include', 'dashboard');
+    cy.get('[data-cy=journal]').click();
+    cy.url().should('include', 'dashboard/journal');
     cy.wait(1000);
   });
   it('Test to Delete From A Journal Entry', () => {
@@ -27,6 +28,8 @@ describe('Delete An Account linked with other Functions', () => {
     cy.get('.swal2-confirm').should('be.visible').click();
     cy.get('.swal2-confirm').should('contain', 'OK').click();
     cy.wait(1000);
+    cy.get('[data-cy=costcenter]').click();
+    cy.url().should('include', 'dashboard/costcenter');
   });
   // it('Test to Delete From an Account', () => {
   //   cy.wait(1000);
@@ -75,6 +78,8 @@ describe('Delete An Account linked with other Functions', () => {
       .should('be.visible')
       .type(Cypress.env('testname'));
     cy.wait(1000);
+    cy.get('[data-cy=account]').click();
+    cy.url().should('include', 'dashboard/accounts');
   });
   it('Test to Delete Reciever dummy Acc From an Account', () => {
     cy.wait(1000);
@@ -96,6 +101,8 @@ describe('Delete An Account linked with other Functions', () => {
     //   .clear()
     //   .type('testreceiver');
     cy.wait(1000);
+    cy.get('[data-cy=account]').click();
+    cy.url().should('include', 'dashboard/accounts');
   });
   it('Test to Delete From an Account', () => {
     cy.wait(1000);

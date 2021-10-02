@@ -11,6 +11,8 @@ describe('Add a Profit Entry ', () => {
   it('Test to Add A Profitable project in cost center', () => {
     cy.wait(1000);
     // custom command
+    cy.get('[data-cy=costcenter] > .mat-list-item-content').click();
+    cy.url().should('include', 'dashboard/costcenter');
     cy.add_profit(
       Cypress.env('testname'),
       Cypress.env('testproject'),

@@ -9,6 +9,8 @@ describe('Check Reports for Specific Project', () => {
   });
   it('Test to Check the Report of Test Account', () => {
     cy.wait(1000);
+    cy.get('[data-cy=report] > .mat-list-item-content').click();
+    cy.url().should('include', 'dashboard/report');
     // custom command
     cy.check_reports(Cypress.env('testproject'));
   });
