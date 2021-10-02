@@ -120,7 +120,7 @@ function add_profit(
 ): void {
   cy.get('[data-cy=costcenter').click();
   cy.url().should('include', 'dashboard/costcenter');
-  cy.contains('Profit').should('be.visible');
+  cy.contains('Profit').click();
   cy.wait(1000);
   cy.contains('Add').click();
   // cy.get('[data-cy=client]')
@@ -157,11 +157,7 @@ function add_nonprofit(
   // .contains(testname)
   // .click();
   cy.get('[data-cy=expense]').should('be.visible').type(expense);
-  cy.get(
-    '.mat-form-field.ng-tns-c54-15 > .mat-form-field-wrapper > .mat-form-field-flex > .mat-form-field-infix'
-  )
-    .should('be.visible')
-    .type('testname');
+  cy.get('[data-cy=Name]').should('be.visible').type('testname');
   cy.get('[data-cy=remarks]').should('be.visible').type(remarks);
 
   cy.get(':button').should('be.visible').contains('Create').click();
