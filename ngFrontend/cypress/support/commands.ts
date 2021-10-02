@@ -55,7 +55,7 @@ function login(email: string, password: string): void {
 }
 function bypass_login(testemail: string, testpassword: string): void {
   cy.request({
-    url: 'http://localhost:5000/signin',
+    url: 'https://book-keeping-b571f.web.app/signin',
     method: 'POST',
     body: {
       email: testemail,
@@ -90,17 +90,16 @@ function register(
 function check_reports(testproject: string): void {
   cy.get('[data-cy=report').click();
   cy.url().should('include', 'dashboard/report');
-  cy.get('.mat-form-field-infix')
-    .should('be.visible')
-    .first()
-    .click()
-    .get('mat-option')
-    .contains(testproject)
-    .click();
+  cy.get('.mat-form-field-infix').should('be.visible').type(testproject);
+  // .first()
+  // .click()
+  // .get('mat-option')
+  // .contains(testproject)
+  // .click();
   cy.get('#testChart').should('be.visible');
 }
 function add_account(testname: string, balance: string): void {
-  cy.get('[data-cy=account').click();
+  cy.get('[data-cy=account] > .mat-list-item-content').click();
   cy.url().should('include', 'dashboard/accounts');
   cy.contains('Add An Account').click();
   cy.get('[data-cy=name]').eq(0).should('be.visible').type(testname);
@@ -124,14 +123,12 @@ function add_profit(
   cy.contains('Profit').should('be.visible');
   cy.wait(1000);
   cy.contains('Add').click();
-  cy.get(
-    '[data-cy=client] > .mat-form-field-wrapper > .mat-form-field-flex > .mat-form-field-infix'
-  )
-    .first()
-    .click()
-    .get('mat-option')
-    .contains(testname)
-    .click();
+  cy.get('[data-cy=client]').type(testname);
+  // .first()
+  // .click()
+  // .get('mat-option')
+  // .contains(testname)
+  // .click();
   cy.get('[data-cy=project]').should('be.visible').type(testproject);
   cy.get('[data-cy=receivable]').should('be.visible').type(profitbalance);
   cy.get('[data-cy=date]').should('be.visible').type(Cypress.env('dates'));
@@ -148,17 +145,22 @@ function add_nonprofit(
   expense: string,
   remarks: string
 ): void {
-  cy.get('[data-cy=costcenter').click();
+  cy.get('[data-cy=costcenter] > .mat-list-item-content').click();
   cy.url().should('include', 'dashboard/costcenter');
   cy.contains('Non-Profit').should('be.visible').click();
   cy.wait(1000);
   cy.contains('Add').click();
-  cy.get('[data-cy=client]')
-    .click()
-    .get('mat-option')
-    .contains(testname)
-    .click();
+  cy.get('[data-cy=client]').type(testname);
+  // .click()
+  // .get('mat-option')
+  // .contains(testname)
+  // .click();
   cy.get('[data-cy=expense]').should('be.visible').type(expense);
+  cy.get(
+    '.mat-form-field.ng-tns-c54-15 > .mat-form-field-wrapper > .mat-form-field-flex > .mat-form-field-infix'
+  )
+    .should('be.visible')
+    .type('testname');
   cy.get('[data-cy=remarks]').should('be.visible').type(remarks);
 
   cy.get(':button').should('be.visible').contains('Create').click();

@@ -23,9 +23,9 @@ export class HeaderComponent implements OnInit {
     console.log('here at GETINFOOO');
     let token_value = cookieService.get('Book');
     console.log('VALUEE:', token_value);
-    if (!token_value) {
-      this.router.navigateByUrl('login');
-    }
+    // if (!token_value) {
+    //   this.router.navigateByUrl('login');
+    // }
     const data = { token: token_value };
 
     this.http

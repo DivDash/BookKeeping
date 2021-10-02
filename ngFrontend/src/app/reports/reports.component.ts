@@ -53,9 +53,9 @@ export class ReportsComponent implements OnInit {
   ) {
     let token_value = cookieService.get('Book');
     console.log('VALUEE:', token_value);
-    if (!token_value) {
-      this.router.navigateByUrl('login');
-    }
+    // if (!token_value) {
+    //   this.router.navigateByUrl('login');
+    // }
     this.myservice.getLiveCollection('viewaccountprofit').subscribe(
       (res) => {
         this.object = res;
@@ -87,9 +87,9 @@ export class ReportsComponent implements OnInit {
   ngOnInit() {
     let token_value = this.cookieService.get('Book');
     console.log('VALUEE:', token_value);
-    if (!token_value) {
-      this.router.navigateByUrl('login');
-    }
+    // if (!token_value) {
+    //   this.router.navigateByUrl('login');
+    // }
   }
 
   showerror(message) {

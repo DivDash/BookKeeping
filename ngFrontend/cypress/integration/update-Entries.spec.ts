@@ -1,8 +1,10 @@
 describe('Delete An Account linked with other Functions', () => {
   it('It should login if the form is Valid', () => {
-    // cy.login(Cypress.env('testemail'), Cypress.env('testpassword'));
-    cy.bypass_login(Cypress.env('testemail'), Cypress.env('testpassword'));
-    cy.url().should('include', 'dashboard');
+    cy.login(Cypress.env('testemail'), Cypress.env('testpassword'));
+    // cy.bypass_login(Cypress.env('testemail'), Cypress.env('testpassword'));
+    // cy.url().should('include', 'dashboard');
+    cy.get('[data-cy=account]').click();
+    cy.url().should('include', 'dashboard/accounts');
     cy.wait(1000);
   });
   it('Test to Update Balance Value From An Account', () => {
@@ -28,6 +30,8 @@ describe('Delete An Account linked with other Functions', () => {
     cy.get('input[name="Search"]')
       .should('be.visible')
       .type(Cypress.env('testname'));
+    cy.get('[data-cy=costcenter]').click();
+    cy.url().should('include', 'dashboard/costcenter');
   });
   it('Test to Update From an Cost Center Profit', () => {
     cy.wait(1000);
@@ -52,6 +56,8 @@ describe('Delete An Account linked with other Functions', () => {
     cy.get('input[name="Search"]')
       .should('be.visible')
       .type(Cypress.env('UpdatedProject'));
+    cy.get('[data-cy=costcenter]').click();
+    cy.url().should('include', 'dashboard/costcenter');
   });
   it('Test to Update From an Cost Center Non-Profit', () => {
     cy.wait(1000);
@@ -77,6 +83,8 @@ describe('Delete An Account linked with other Functions', () => {
     cy.get('input[name="Search"]')
       .should('be.visible')
       .type(Cypress.env('testname'));
+    cy.get('[data-cy=journal]').click();
+    cy.url().should('include', 'dashboard/journal');
   });
   it('Test to Update From Journal Entry Page', () => {
     cy.wait(1000);
@@ -95,8 +103,8 @@ describe('Delete An Account linked with other Functions', () => {
       .contains(Cypress.env('UpdatedProject'))
       .click();
     cy.get('input[name="Search"]').type(Cypress.env('UpdatedProject'));
-    cy.get('.btn').eq(0).should('be.visible').click();
-    cy.get('#mat-dialog-title-3').contains('Edit Journal Entry');
+    cy.get('.btn').eq(1).should('be.visible').click();
+    cy.contains('Edit Journal Entry');
     cy.get('[data-cy=amounts]')
       .should('be.visible')
       .clear()

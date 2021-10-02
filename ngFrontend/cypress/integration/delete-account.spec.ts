@@ -1,7 +1,7 @@
 describe('Delete An Account linked with other Functions', () => {
   it('It should login if the form is Valid', () => {
-    // cy.login(Cypress.env('testemail'), Cypress.env('testpassword'));
-    cy.bypass_login(Cypress.env('testemail'), Cypress.env('testpassword'));
+    cy.login(Cypress.env('testemail'), Cypress.env('testpassword'));
+    // cy.bypass_login(Cypress.env('testemail'), Cypress.env('testpassword'));
     cy.url().should('include', 'dashboard');
     cy.wait(1000);
   });
@@ -22,7 +22,7 @@ describe('Delete An Account linked with other Functions', () => {
       .contains(Cypress.env('testproject'))
       .click();
     cy.get('input[name="Search"]').type(Cypress.env('testnamereceiver'));
-    cy.get('.btn').eq(1).click();
+    cy.get('.btn').eq(0).click();
     // cy.get('button').contains('Yes, delete it!').click();
     cy.get('.swal2-confirm').should('be.visible').click();
     cy.get('.swal2-confirm').should('contain', 'OK').click();
@@ -76,18 +76,38 @@ describe('Delete An Account linked with other Functions', () => {
       .type(Cypress.env('testname'));
     cy.wait(1000);
   });
+  it('Test to Delete Reciever dummy Acc From an Account', () => {
+    cy.wait(1000);
+    cy.get('[data-cy=account]').click();
+    cy.url().should('include', 'dashboard/accounts');
+    cy.get('input[name="Search"]')
+      .should('be.visible')
+      .clear()
+      .type('testreceiver');
+    cy.get('.btn').eq(1).should('be.visible').click();
+    cy.get('.swal2-confirm').should('be.visible').click();
+    cy.get('.swal2-confirm').should('contain', 'OK').click();
+    cy.get('input[name="Search"]')
+      .should('be.visible')
+      .clear()
+      .type('testreceiver');
+    cy.wait(1000);
+  });
   it('Test to Delete From an Account', () => {
     cy.wait(1000);
     cy.get('[data-cy=account]').click();
     cy.url().should('include', 'dashboard/accounts');
     cy.get('input[name="Search"]')
       .should('be.visible')
+      .clear()
       .type(Cypress.env('testname'));
+    cy.get('input[name="Search"]').should('be.visible').clear().type('1500');
     cy.get('.btn').eq(1).should('be.visible').click();
     cy.get('.swal2-confirm').should('be.visible').click();
     cy.get('.swal2-confirm').should('contain', 'OK').click();
     cy.get('input[name="Search"]')
       .should('be.visible')
+      .clear()
       .type(Cypress.env('testname'));
     cy.wait(1000);
   });

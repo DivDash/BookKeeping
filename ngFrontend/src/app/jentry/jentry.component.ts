@@ -12,15 +12,15 @@ export class JentryComponent implements OnInit {
   constructor(private cookieService: CookieService, private router: Router) {
     let token_value = cookieService.get('Book');
     console.log('VALUEE:', token_value);
-    if (!token_value) {
-      this.router.navigateByUrl('login');
-    }
+    // if (!token_value) {
+    //   this.router.navigateByUrl('login');
+    // }
   }
   ngOnInit() {
     let token_value = this.cookieService.get('Book');
     console.log('VALUEE:', token_value);
-    if (!token_value) {
-      this.router.navigateByUrl('login');
-    }
+    // if (!token_value) {
+    //   this.router.navigateByUrl('login');
+    // }
   }
 }

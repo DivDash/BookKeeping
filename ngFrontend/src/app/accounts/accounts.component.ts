@@ -53,9 +53,9 @@ export class AccountsComponent implements OnInit {
   ) {
     let token_value = cookieService.get('Book');
     console.log('VALUEE:', token_value);
-    if (!token_value) {
-      this.router.navigateByUrl('login');
-    }
+    // if (!token_value) {
+    //   this.router.navigateByUrl('login');
+    // }
   }
 
   openDialog(): void {
@@ -120,9 +120,9 @@ export class AccountsComponent implements OnInit {
   ngOnInit() {
     let token_value = this.cookieService.get('Book');
     console.log('VALUEE:', token_value);
-    if (!token_value) {
-      this.router.navigateByUrl('login');
-    }
+    // if (!token_value) {
+    //   this.router.navigateByUrl('login');
+    // }
     console.log('ithayyyyyyyyyyy');
     const users: UserData[] = [];
     // this.http

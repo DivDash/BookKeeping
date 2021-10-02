@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  baseUrl: 'https://book-keeping-telic.herokuapp.com/',
+  baseUrl: 'http://localhost:5000',
 };
 
 /*
