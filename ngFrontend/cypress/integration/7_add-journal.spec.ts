@@ -16,8 +16,8 @@ describe('Add A Jounral Entry', () => {
       Cypress.env('testnamerec'),
       Cypress.env('balancerec')
     );
-    // cy.get('[data-cy=journal] > .mat-list-item-content').click();
-    // cy.url().should('include', 'dashboard/journal');
+    cy.get('[data-cy=journal] > .mat-list-item-content').click();
+    cy.url().should('include', 'dashboard/journal');
   });
   it('Test to Add Journal Entry', () => {
     cy.wait(1000);
@@ -32,6 +32,8 @@ describe('Add A Jounral Entry', () => {
       Cypress.env('testnamereceiver'),
       Cypress.env('reason')
     );
+    cy.get('[data-cy=journal]').click();
+    cy.url().should('include', 'dashboard/journal');
   });
   it('Test to check (+) and (-) option while adding Journal Entry', () => {
     cy.wait(1000);

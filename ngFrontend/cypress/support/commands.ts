@@ -120,16 +120,16 @@ function add_profit(
 ): void {
   cy.get('[data-cy=costcenter').click();
   cy.url().should('include', 'dashboard/costcenter');
-  // cy.contains('Profit').should('be.visible');
+  cy.contains('Profit').should('be.visible');
   cy.wait(1000);
   cy.contains('Add').click();
+  cy.get('[data-cy=client]')
+    .first()
+    .click()
+    .get('mat-option')
+    .contains(testname)
+    .click();
   cy.get('[data-cy=client]').type(testname);
-
-  // .first()
-  // .click()
-  // .get('mat-option')
-  // .contains(testname)
-  // .click();
   cy.get('[data-cy=project]').should('be.visible').type(testproject);
   cy.get('[data-cy=receivable]').should('be.visible').type(profitbalance);
   cy.get('[data-cy=date]').should('be.visible').type(Cypress.env('dates'));
