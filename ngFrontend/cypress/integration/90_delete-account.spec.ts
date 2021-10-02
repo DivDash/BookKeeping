@@ -5,7 +5,7 @@ describe('Delete An Account linked with other Functions', () => {
     cy.url().should('include', 'dashboard');
     cy.wait(1000);
   });
-  it('Test to Delete From A Journal Entry', () => {
+  xit('Test to Delete From A Journal Entry', () => {
     cy.wait(1000);
     cy.get('[data-cy=journal]').click();
     cy.url().should('include', 'dashboard/journal');
@@ -28,7 +28,7 @@ describe('Delete An Account linked with other Functions', () => {
     cy.get('.swal2-confirm').should('contain', 'OK').click();
     cy.wait(1000);
   });
-  it('Test to Delete From an Account', () => {
+  xit('Test to Delete From an Account', () => {
     cy.wait(1000);
     cy.get('[data-cy=account]').click();
     cy.url().should('include', 'dashboard/accounts');
@@ -43,7 +43,7 @@ describe('Delete An Account linked with other Functions', () => {
       .type(Cypress.env('testnamereceiver'));
     cy.wait(1000);
   });
-  it('Test to Delete From an Cost Center Profit', () => {
+  xit('Test to Delete From an Cost Center Profit', () => {
     cy.wait(1000);
     cy.get('[data-cy=costcenter]').click();
     cy.url().should('include', 'dashboard/costcenter');
@@ -59,7 +59,7 @@ describe('Delete An Account linked with other Functions', () => {
       .type(Cypress.env('testname'));
     cy.wait(1000);
   });
-  it('Test to Delete From an Cost Center Non-Profit', () => {
+  xit('Test to Delete From an Cost Center Non-Profit', () => {
     cy.wait(1000);
     cy.get('[data-cy=costcenter]').click();
     cy.url().should('include', 'dashboard/costcenter');
@@ -76,7 +76,7 @@ describe('Delete An Account linked with other Functions', () => {
       .type(Cypress.env('testname'));
     cy.wait(1000);
   });
-  it('Test to Delete Reciever dummy Acc From an Account', () => {
+  xit('Test to Delete Reciever dummy Acc From an Account', () => {
     cy.wait(1000);
     cy.get('[data-cy=account]').click();
     cy.url().should('include', 'dashboard/accounts');
@@ -84,13 +84,17 @@ describe('Delete An Account linked with other Functions', () => {
       .should('be.visible')
       .clear()
       .type('testreceiver');
-    cy.get('.btn').eq(1).should('be.visible').click();
-    cy.get('.swal2-confirm').should('be.visible').click();
-    cy.get('.swal2-confirm').should('contain', 'OK').click();
     cy.get('input[name="Search"]')
       .should('be.visible')
       .clear()
       .type('testreceiver');
+    cy.get('.btn').eq(1).should('be.visible').click();
+    cy.get('.swal2-confirm').should('be.visible').click();
+    cy.get('.swal2-confirm').should('contain', 'OK').click();
+    // cy.get('input[name="Search"]')
+    //   .should('be.visible')
+    //   .clear()
+    //   .type('testreceiver');
     cy.wait(1000);
   });
   it('Test to Delete From an Account', () => {
@@ -102,13 +106,14 @@ describe('Delete An Account linked with other Functions', () => {
       .clear()
       .type(Cypress.env('testname'));
     cy.get('input[name="Search"]').should('be.visible').clear().type('1500');
+    cy.get('input[name="Search"]').should('be.visible').clear().type('1500');
     cy.get('.btn').eq(1).should('be.visible').click();
     cy.get('.swal2-confirm').should('be.visible').click();
     cy.get('.swal2-confirm').should('contain', 'OK').click();
-    cy.get('input[name="Search"]')
-      .should('be.visible')
-      .clear()
-      .type(Cypress.env('testname'));
+    // cy.get('input[name="Search"]')
+    //   .should('be.visible')
+    //   .clear()
+    //   .type(Cypress.env('testname'));
     cy.wait(1000);
   });
 });

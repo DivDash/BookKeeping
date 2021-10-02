@@ -4,8 +4,8 @@ describe('Add a Profit Entry ', () => {
     // cy.bypass_login(Cypress.env('testemail'), Cypress.env('testpassword'));
     // cy.url().should('include', 'dashboard');
     cy.wait(1000);
-    cy.get('[data-cy=costcenter] > .mat-list-item-content').click();
-    cy.url().should('include', 'dashboard/costcenter');
+    // cy.get('[data-cy=costcenter] > .mat-list-item-content').click();
+    // cy.url().should('include', 'dashboard/costcenter');
   });
 
   it('Test to Add A Profitable project in cost center', () => {

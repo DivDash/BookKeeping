@@ -20,7 +20,7 @@ describe('Login', () => {
     cy.url().should('include', 'dashboard');
     cy.wait(1000);
   });
-  xit('It should logout', () => {
+  it('It should logout', () => {
     cy.url().should('include', 'dashboard');
     cy.contains('Mr').click();
     cy.contains('Logout').click();

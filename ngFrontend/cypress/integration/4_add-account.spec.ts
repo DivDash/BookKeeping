@@ -4,8 +4,8 @@ describe('Add an Account Information', () => {
     // cy.bypass_login(Cypress.env('testemail'), Cypress.env('testpassword'));
     // cy.url().should('include', 'dashboard');
     cy.wait(1000);
-    cy.get('[data-cy=account] > .mat-list-item-content').click();
-    cy.url().should('include', 'dashboard/accounts');
+    // cy.get('[data-cy=account] > .mat-list-item-content').click();
+    // cy.url().should('include', 'dashboard/accounts');
   });
   it('Test to Add an Account', () => {
     cy.wait(1000);

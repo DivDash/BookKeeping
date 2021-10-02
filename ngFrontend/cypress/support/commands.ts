@@ -212,9 +212,9 @@ function add_journal(
     .get('mat-option')
     .contains(testname)
     .click();
-  cy.get('.toast-message')
-    .should('be.visible')
-    .contains('Project With The Client Is Selected');
+  // cy.get('.toast-message')
+  //   .should('be.visible')
+  //   .contains('Project With The Client Is Selected');
   cy.get('[data-cy=amount]').should('be.visible').type(amount);
   cy.get('[data-cy=date]').should('be.visible').type(dates);
   cy.get('[data-cy=btnn2]').should('be.visible').click();
