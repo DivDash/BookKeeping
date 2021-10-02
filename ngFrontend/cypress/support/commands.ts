@@ -108,9 +108,9 @@ function add_account(testname: string, balance: string): void {
   cy.get('[data-cy=remarks]').should('be.visible').type(testname);
   cy.get(':button').should('be.visible').contains('Create').click();
   // cy.get(':button').contains('No Thanks').click();
-  cy.get('#toast-container > .ng-trigger')
-    .should('be.visible')
-    .contains('Account Added');
+  // cy.get('#toast-container > .ng-trigger')
+  //   .should('be.visible')
+  //   .contains('Account Added');
   cy.get('input[name="Search"]').should('be.visible').type(testname);
 }
 function add_profit(
@@ -135,9 +135,9 @@ function add_profit(
   cy.get('[data-cy=status]').should('be.visible').type(testname);
   cy.get(':button').should('be.visible').contains('Create').click();
   // cy.get(':button').contains('No Thanks').click();
-  cy.get('#toast-container > .ng-trigger')
-    .should('be.visible')
-    .contains('Success!');
+  // cy.get('#toast-container > .ng-trigger')
+  //   .should('be.visible')
+  //   .contains('Success!');
   cy.get('input[name="Search"]').should('be.visible').type(testname).click();
 }
 function add_nonprofit(
@@ -165,9 +165,9 @@ function add_nonprofit(
 
   cy.get(':button').should('be.visible').contains('Create').click();
   // cy.get(':button').contains('No Thanks').click();
-  cy.get('#toast-container > .ng-trigger')
-    .should('be.visible')
-    .contains('Entry Added');
+  // cy.get('#toast-container > .ng-trigger')
+  //   .should('be.visible')
+  //   .contains('Entry Added');
   cy.get('input[name="Search"]').should('be.visible').type(testname).click();
 }
 function add_receiver_acc(

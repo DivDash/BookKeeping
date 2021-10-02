@@ -5,7 +5,7 @@ describe('Delete An Account linked with other Functions', () => {
     cy.url().should('include', 'dashboard');
     cy.wait(1000);
   });
-  xit('Test to Delete From A Journal Entry', () => {
+  it('Test to Delete From A Journal Entry', () => {
     cy.wait(1000);
     cy.get('[data-cy=journal]').click();
     cy.url().should('include', 'dashboard/journal');
@@ -28,7 +28,7 @@ describe('Delete An Account linked with other Functions', () => {
     cy.get('.swal2-confirm').should('contain', 'OK').click();
     cy.wait(1000);
   });
-  xit('Test to Delete From an Account', () => {
+  it('Test to Delete From an Account', () => {
     cy.wait(1000);
     cy.get('[data-cy=account]').click();
     cy.url().should('include', 'dashboard/accounts');
@@ -43,7 +43,7 @@ describe('Delete An Account linked with other Functions', () => {
       .type(Cypress.env('testnamereceiver'));
     cy.wait(1000);
   });
-  xit('Test to Delete From an Cost Center Profit', () => {
+  it('Test to Delete From an Cost Center Profit', () => {
     cy.wait(1000);
     cy.get('[data-cy=costcenter]').click();
     cy.url().should('include', 'dashboard/costcenter');
@@ -59,7 +59,7 @@ describe('Delete An Account linked with other Functions', () => {
       .type(Cypress.env('testname'));
     cy.wait(1000);
   });
-  xit('Test to Delete From an Cost Center Non-Profit', () => {
+  it('Test to Delete From an Cost Center Non-Profit', () => {
     cy.wait(1000);
     cy.get('[data-cy=costcenter]').click();
     cy.url().should('include', 'dashboard/costcenter');
@@ -76,7 +76,7 @@ describe('Delete An Account linked with other Functions', () => {
       .type(Cypress.env('testname'));
     cy.wait(1000);
   });
-  xit('Test to Delete Reciever dummy Acc From an Account', () => {
+  it('Test to Delete Reciever dummy Acc From an Account', () => {
     cy.wait(1000);
     cy.get('[data-cy=account]').click();
     cy.url().should('include', 'dashboard/accounts');
