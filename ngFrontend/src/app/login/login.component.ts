@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit {
               console.log('here at iff condition');
               console.log(res['token']);
               const dateNow = new Date();
-              dateNow.setMinutes(dateNow.getMinutes() + 1);
+              dateNow.setMinutes(dateNow.getMinutes() + 10);
               this.cookieService.set('Book', res['token'], dateNow);
               this.settoken = res['token'];
               this.login();

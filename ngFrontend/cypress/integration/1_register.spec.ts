@@ -34,10 +34,12 @@ describe('Register An Account', () => {
       .should('be.visible')
       .contains('Email Already Exist')
       .visit('/login');
+
     cy.url().should('include', 'login');
   });
 
   it('It should now Login with same registered account', () => {
+    cy.visit('/login');
     cy.contains('Login');
     cy.url().should('include', 'login');
     // custom command
