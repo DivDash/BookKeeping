@@ -30,3 +30,4 @@ jobs:
           config: baseUrl=https://book-keeping-b571f.web.app
           install: false # We test a live preview URL, no need to install packages
           working-directory: ./ngFrontend
+#
