@@ -16,13 +16,13 @@ jobs:
         run: npm install
       - name: Build Using npm
         run: node_modules/.bin/ng build
-      - name: Deploy to Firebase
-        uses: w9jds/firebase-action@master
-        with:
-           args: deploy --only hosting
-        env:
-           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-           PROJECT_PATH: "./ngFrontend"
+#       - name: Deploy to Firebase
+#         uses: w9jds/firebase-action@master
+#         with:
+#            args: deploy --only hosting
+#         env:
+#            FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+#            PROJECT_PATH: "./ngFrontend"
       - name: Cypress run on Chrome
         uses: cypress-io/github-action@v2
         with:
