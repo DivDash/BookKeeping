@@ -1,0 +1,32 @@
+name: Test and Deploy
+
+on:
+  push:
+    branches: [ master ]
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./ngFrontend
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Setup npm package
+        run: npm install
+      - name: Build Using npm
+        run: node_modules/.bin/ng build
+#       - name: Deploy to Firebase
+#         uses: w9jds/firebase-action@master
+#         with:
+#            args: deploy --only hosting
+#         env:
+#            FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+#            PROJECT_PATH: "./ngFrontend"
+      - name: Cypress run on Chrome
+        uses: cypress-io/github-action@v2
+        with:
+          build: npm i -D cypress
+          config: baseUrl=https://book-keeping-b571f.web.app
+          install: false # We test a live preview URL, no need to install packages
+          working-directory: ./ngFrontend
